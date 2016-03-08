@@ -20,6 +20,7 @@ import com.sun.jersey.api.json.JSONConfiguration;
 
 import br.com.sistema.redAmber.basicas.Aluno;
 import br.com.sistema.redAmber.util.Mensagens;
+import br.com.sistema.redAmber.util.URLUtil;
 
 @ManagedBean
 @SessionScoped
@@ -38,7 +39,7 @@ public class AlunoMB {
 	        clientConfig.getFeatures().put(JSONConfiguration.FEATURE_POJO_MAPPING, Boolean.TRUE);
 	        Client client = Client.create(clientConfig);
 	       
-	        WebResource webResourcePost = client.resource("http://localhost:8080/redAmber-Service/redamberws/aluno/salvar");
+	        WebResource webResourcePost = client.resource(URLUtil.SALVAR_ALUNO);
 	        ClientResponse response = webResourcePost.type("application/json").post(ClientResponse.class, this.getAluno());
 	        
 	        if (response.getStatus() == 200) {
@@ -96,7 +97,7 @@ public class AlunoMB {
 	public List<Aluno> getListaAlunos() {
 		
 		Client c = new Client();
-	    WebResource wr = c.resource("http://localhost:8080/redAmber-Service/redamberws/aluno/listar");
+	    WebResource wr = c.resource(URLUtil.LISTAR_ALUNOS);
 	    String jsonResult = wr.get(String.class);
 	    if (!jsonResult.equalsIgnoreCase("null")) {
 			Gson gson = new Gson();

@@ -11,12 +11,17 @@ import org.primefaces.context.RequestContext;
 
 import com.google.gson.Gson;
 import com.sun.jersey.api.client.Client;
+import com.sun.jersey.api.client.ClientResponse;
 import com.sun.jersey.api.client.WebResource;
+import com.sun.jersey.api.client.config.ClientConfig;
+import com.sun.jersey.api.client.config.DefaultClientConfig;
+import com.sun.jersey.api.json.JSONConfiguration;
 
 import br.com.sistema.redAmber.basicas.Funcionario;
 import br.com.sistema.redAmber.basicas.GeralUsuario;
 import br.com.sistema.redAmber.basicas.http.LoginHTTP;
 import br.com.sistema.redAmber.util.Mensagens;
+import br.com.sistema.redAmber.util.URLUtil;
 
 @ManagedBean
 @SessionScoped
@@ -34,31 +39,31 @@ public class LoginMB implements Serializable{
 	public void autenticar() {
 		if ((this.getLogin().getLogin() != null && this.getLogin().getSenha() != null)
 				&& (!this.getLogin().getLogin().equals("") && !this.getLogin().getSenha().equals(""))) {
-			/*
-			 */
-			Client c = new Client();
-		    WebResource wr = c.resource("http://localhost:8080/redAmber-Service/redamberws/funcionario-login/"
-					+ this.getLogin().getLogin() + "/" + this.getLogin().getSenha() + "");
-		    String jsonResult = wr.get(String.class);
-			/*
-			 */
-			if (!jsonResult.equalsIgnoreCase("null")) {
-				Gson gson = new Gson();
 			
-				this.setUsuarioLogado(gson.fromJson(jsonResult, Funcionario.class));
-				
-				//falta verificar se o usuário está ativo
+			// Create Jersey client
+	        ClientConfig clientConfig = new DefaultClientConfig();
+	        clientConfig.getFeatures().put(JSONConfiguration.FEATURE_POJO_MAPPING, Boolean.TRUE);
+	        Client client = Client.create(clientConfig);
+	       
+	        WebResource webResourcePost = client.resource(URLUtil.LOGIN_FUNCIONARIO);
+	        ClientResponse response = webResourcePost.type("application/json").post(ClientResponse.class, this.getLogin());
+	        
+	        if (response.getStatus() == 200) {
+	        	
+	        	WebResource wr = client.resource(URLUtil.BUSCAR_ALUNO_POR_LOGIN + this.getLogin().getLogin());
+				String jsonResult = wr.get(String.class);
+				Gson gson = new Gson();
+				Funcionario f = gson.fromJson(jsonResult, Funcionario.class);
+				this.setUsuarioLogado(f);
 				
 				RequestContext.getCurrentInstance().execute("loginSucess('" + Mensagens.m1 + "');");
 				
-				// logou
-			} else {
+			}else{
 				
 				RequestContext.getCurrentInstance().execute("loginError('" + Mensagens.m2 + "');");
-				// não logou
+				
 			}
-			/*
-			 */
+			
 		}
 	}
 	
