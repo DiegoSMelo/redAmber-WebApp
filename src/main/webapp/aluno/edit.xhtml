@@ -36,8 +36,12 @@
 				<h:outputLabel value="RG" for="inputRG"
 					styleClass="col-sm-2 control-label"></h:outputLabel>
 				<div class="col-sm-10">
-					<h:inputText styleClass="form-control" tabindex="6" requiredMessage="Digite o seu rg"
-						id="inputRG" value="#{alunoMB.aluno.rg}"></h:inputText>
+					<h:inputText styleClass="form-control" tabindex="6" required="true" requiredMessage="Digite o seu rg"
+						converterMessage="RG inválido" id="inputRG" value="#{alunoMB.aluno.rg}">
+						
+						<f:convertNumber integerOnly="true" minIntegerDigits="1"  />
+						
+						</h:inputText>
 					<h:message styleClass="text-danger" for="inputRG"></h:message>
 				</div>
 			</div>
@@ -46,7 +50,7 @@
 				<h:outputLabel value="Data de nascimento" for="inputDataNascimento"
 					styleClass="col-sm-2 control-label"></h:outputLabel>
 				<div class="col-sm-10">
-					<h:inputText styleClass="form-control" tabindex="6" requiredMessage="Digite a data de nascimento"
+					<h:inputText styleClass="form-control data" tabindex="6" required="true" requiredMessage="Digite a data de nascimento"
 					converter="dataConverter" id="inputDataNascimento" value="#{alunoMB.aluno.dataNascimento}"></h:inputText>
 					<h:message styleClass="text-danger" for="inputDataNascimento"></h:message>
 				</div>
@@ -56,7 +60,7 @@
 				<h:outputLabel value="Telefone" for="inputTel"
 					styleClass="col-sm-2 control-label"></h:outputLabel>
 				<div class="col-sm-10">
-					<h:inputText styleClass="form-control" tabindex="6" requiredMessage="Digite o seu telefone"
+					<h:inputText styleClass="form-control telefone" tabindex="6" required="true" requiredMessage="Digite o seu telefone"
 						id="inputTel" value="#{alunoMB.aluno.telefone}"></h:inputText>
 					<h:message styleClass="text-danger" for="inputTel"></h:message>
 				</div>
@@ -66,8 +70,12 @@
 				<h:outputLabel value="E-mail" for="inputEmail"
 					styleClass="col-sm-2 control-label"></h:outputLabel>
 				<div class="col-sm-10">
-					<h:inputText styleClass="form-control" tabindex="10" requiredMessage="Digite o seu e-mail"
-						id="inputEmail" value="#{alunoMB.aluno.email}"></h:inputText>
+						<h:inputText styleClass="form-control" tabindex="10" required="true" requiredMessage="Digite o seu e-mail"
+								validatorMessage="E-mail inválido"	id="inputEmail" value="#{alunoMB.aluno.email}">
+						
+							<f:validateRegex pattern="^[_A-Za-z0-9-\+]+(\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\.[A-Za-z0-9]+)*(\.[A-Za-z]{2,})$" />
+						
+						</h:inputText>
 					<h:message styleClass="text-danger" for="inputEmail"></h:message>
 				</div>
 			</div>
