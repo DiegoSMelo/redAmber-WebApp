@@ -87,7 +87,10 @@
 			<div class="form-group">
 				<div class="col-sm-offset-2 col-sm-10">
 					<h:commandButton styleClass="btn btn-default"
-						actionListener="#{alunoMB.salvar}" value="Salvar"></h:commandButton>
+						actionListener="#{alunoMB.salvar}" value="Salvar">
+						
+							<f:ajax execute="inputNome inputRG inputDataNascimento inputTel inputEmail" />
+						</h:commandButton>
 				</div>
 			</div>
 

@@ -47,4 +47,6 @@ public abstract class URLUtil {
 	 * param LOGIN
 	 */
 	public static final String BUSCAR_ALUNO_POR_LOGIN = BASE + prop.getProperty("url.buscar.aluno.por.login");
+	
+	public static final String BUSCAR_ALUNO_POR_RG = BASE + prop.getProperty("url.buscar.aluno.por.rg");
 }
