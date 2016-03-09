@@ -33,21 +33,37 @@ public class AlunoMB {
 	
 	public void salvar(){
 		try {
-	        
-			// Create Jersey client
-	        ClientConfig clientConfig = new DefaultClientConfig();
-	        clientConfig.getFeatures().put(JSONConfiguration.FEATURE_POJO_MAPPING, Boolean.TRUE);
-	        Client client = Client.create(clientConfig);
-	       
-	        WebResource webResourcePost = client.resource(URLUtil.SALVAR_ALUNO);
-	        ClientResponse response = webResourcePost.type("application/json").post(ClientResponse.class, this.getAluno());
-	        
-	        if (response.getStatus() == 200) {
-	        	FacesContext.getCurrentInstance().getExternalContext().redirect("/redAmber-WebApp/aluno/index.xhtml");
-			}else{
-				RequestContext.getCurrentInstance().execute("alert('" + Mensagens.m3 + "');");
+			Aluno alunoJaExiste = null;
+			Client c = new Client();
+		    WebResource wr = c.resource(URLUtil.BUSCAR_ALUNO_POR_RG + this.getAluno().getRg());
+		    String jsonResult = wr.get(String.class);
+		    if (!jsonResult.equalsIgnoreCase("null")) {
+				Gson gson = new Gson();
+				alunoJaExiste = gson.fromJson(jsonResult, Aluno.class);
 			}
-	        
+		    
+			if (alunoJaExiste == null) {
+
+				// Create Jersey client
+				ClientConfig clientConfig = new DefaultClientConfig();
+				clientConfig.getFeatures().put(JSONConfiguration.FEATURE_POJO_MAPPING, Boolean.TRUE);
+				Client client = Client.create(clientConfig);
+
+				WebResource webResourcePost = client.resource(URLUtil.SALVAR_ALUNO);
+				ClientResponse response = webResourcePost.type("application/json").post(ClientResponse.class,
+						this.getAluno());
+
+				if (response.getStatus() == 200) {
+					FacesContext.getCurrentInstance().getExternalContext()
+							.redirect("/redAmber-WebApp/aluno/index.xhtml");
+				} else {
+					RequestContext.getCurrentInstance().execute("alert('" + Mensagens.m3 + "');");
+				}
+				
+			}else{
+				
+				RequestContext.getCurrentInstance().execute("alert('" + Mensagens.m4 + "');");
+			}
 			
 		} catch (Exception e) {
 			RequestContext.getCurrentInstance().execute("alert('" + Mensagens.m3 + "');");

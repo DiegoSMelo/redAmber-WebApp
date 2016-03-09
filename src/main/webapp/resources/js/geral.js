@@ -26,6 +26,7 @@ $(document).ready(function() {
 	
 });
 
+
 function validarEmail(email) {
 	var emailReg = /^([\w-\.]+@([\w-]+\.)+[\w-]{2,4})?$/;
 	console.log(emailReg.test(email));
