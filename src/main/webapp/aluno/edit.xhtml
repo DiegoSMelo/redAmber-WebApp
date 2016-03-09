@@ -1,0 +1,91 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui" template="#{beanGeral.template}">
+	<ui:define name="body">
+
+
+
+
+
+		<ol class="breadcrumb">
+			<li><h:outputLink value="/redAmber-WebApp/home/index.xhtml">Página Inicial</h:outputLink></li>
+			<li><h:outputLink
+					value="/redAmber-WebApp/aluno/index.xhtml">Alunos</h:outputLink></li>
+			<li class="active">Editar Aluno</li>
+		</ol>
+
+
+
+
+		<h:form styleClass="form-horizontal" prependId="false">
+			
+			<div class="form-group">
+				<h:outputLabel value="Nome" for="inputNome"
+					styleClass="col-sm-2 control-label"></h:outputLabel>
+				<div class="col-sm-10">
+					<h:inputText required="true" tabindex="2"
+						requiredMessage="Digite seu nome" styleClass="form-control"
+						id="inputNome" value="#{alunoMB.aluno.nome}"></h:inputText>
+					<h:message styleClass="text-danger" for="inputNome"></h:message>
+				</div>
+			</div>
+			
+			<div class="form-group">
+				<h:outputLabel value="RG" for="inputRG"
+					styleClass="col-sm-2 control-label"></h:outputLabel>
+				<div class="col-sm-10">
+					<h:inputText styleClass="form-control" tabindex="6" requiredMessage="Digite o seu rg"
+						id="inputRG" value="#{alunoMB.aluno.rg}"></h:inputText>
+					<h:message styleClass="text-danger" for="inputRG"></h:message>
+				</div>
+			</div>
+			
+			<div class="form-group">
+				<h:outputLabel value="Data de nascimento" for="inputDataNascimento"
+					styleClass="col-sm-2 control-label"></h:outputLabel>
+				<div class="col-sm-10">
+					<h:inputText styleClass="form-control" tabindex="6" requiredMessage="Digite a data de nascimento"
+					converter="dataConverter" id="inputDataNascimento" value="#{alunoMB.aluno.dataNascimento}"></h:inputText>
+					<h:message styleClass="text-danger" for="inputDataNascimento"></h:message>
+				</div>
+			</div>
+			
+			<div class="form-group">
+				<h:outputLabel value="Telefone" for="inputTel"
+					styleClass="col-sm-2 control-label"></h:outputLabel>
+				<div class="col-sm-10">
+					<h:inputText styleClass="form-control" tabindex="6" requiredMessage="Digite o seu telefone"
+						id="inputTel" value="#{alunoMB.aluno.telefone}"></h:inputText>
+					<h:message styleClass="text-danger" for="inputTel"></h:message>
+				</div>
+			</div>
+			
+			<div class="form-group">
+				<h:outputLabel value="E-mail" for="inputEmail"
+					styleClass="col-sm-2 control-label"></h:outputLabel>
+				<div class="col-sm-10">
+					<h:inputText styleClass="form-control" tabindex="10" requiredMessage="Digite o seu e-mail"
+						id="inputEmail" value="#{alunoMB.aluno.email}"></h:inputText>
+					<h:message styleClass="text-danger" for="inputEmail"></h:message>
+				</div>
+			</div>
+			
+			
+			
+
+
+			<div class="form-group">
+				<div class="col-sm-offset-2 col-sm-10">
+					<h:commandButton styleClass="btn btn-default"
+						actionListener="#{alunoMB.salvar}" value="Salvar"></h:commandButton>
+				</div>
+			</div>
+
+
+		</h:form>
+
+
+	</ui:define>
+</ui:composition>

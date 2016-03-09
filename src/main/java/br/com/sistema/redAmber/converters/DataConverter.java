@@ -1,5 +1,6 @@
 package br.com.sistema.redAmber.converters;
 
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
@@ -28,8 +29,13 @@ public class DataConverter implements Converter{
 
 	@Override
 	public String getAsString(FacesContext arg0, UIComponent arg1, Object arg2) {
-		// TODO Auto-generated method stub
-		return null;
+		if(arg2 == null)
+		{
+			return null;
+		}
+		Calendar data = (Calendar) arg2;
+		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+		return sdf.format(data.getTime());
 	}
 
 }

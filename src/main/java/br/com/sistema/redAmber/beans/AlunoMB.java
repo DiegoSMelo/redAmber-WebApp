@@ -72,7 +72,7 @@ public class AlunoMB {
 	 */
 	public void redirectEdit(){
 		try {
-			FacesContext.getCurrentInstance().getExternalContext().redirect("/redAmber-WebService/aluno/edit.xhtml");	
+			FacesContext.getCurrentInstance().getExternalContext().redirect("/redAmber-WebApp/aluno/edit.xhtml");	
 
 		} catch (IOException e) {
 			RequestContext.getCurrentInstance().execute("alert('"+e.getMessage()+"');");
@@ -87,10 +87,12 @@ public class AlunoMB {
 	}
 	
 	public Aluno getAluno() {
+		
 		return aluno;
 	}
 
 	public void setAluno(Aluno aluno) {
+		
 		this.aluno = aluno;
 	}
 
