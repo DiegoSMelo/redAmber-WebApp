@@ -2,6 +2,9 @@ package br.com.sistema.redAmber.beans;
 
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
+import javax.faces.context.ExternalContext;
+import javax.faces.context.FacesContext;
+import javax.servlet.http.HttpSession;
 
 @ManagedBean
 @SessionScoped
@@ -11,37 +14,33 @@ public class BeanGeral {
 	private String template;
 
 	public String getTemplate() {
-		template = "../WEB-INF/templates/baseAdm.xhtml";
-	/*	switch (Cookies.retornaNivelUsuarioLogado()) {
-		case 1:
-			template = "../WEB-INF/templates/baseCliente.xhtml";
-			break;
-		case 2:
-			template = "../WEB-INF/templates/baseAdm.xhtml";
-			break;
-		case 3:
-			template = "../WEB-INF/templates/baseTecnico.xhtml";
-			break;
+		
+		ExternalContext externalContext = FacesContext.getCurrentInstance().getExternalContext();  
+		HttpSession session = (HttpSession) externalContext.getSession(true);  
+		LoginMB loginMB = (LoginMB)session.getAttribute("loginMB");
+		
+		switch (loginMB.getUsuarioLogado().getTipoFuncionario().toString()) {
+
+			case "Coordenador":
+
+				template = "../WEB-INF/templates/baseCoordenador.xhtml";
+				break;
+
+			case "Secretário":
+
+				template = "../WEB-INF/templates/baseSecretario.xhtml";
+				break;
 
 		}
-*/
+
 		return template;
+		
 	}
 
 	public String getTitle() {
+		
 		title = "Red Amber";
-		/*switch (Cookies.retornaNivelUsuarioLogado()) {
-		case 1:
-			title = "Módulo Logística - Cliente";
-			break;
-		case 2:
-			title = "Módulo Logística - Administrador";
-			break;
-		case 3:
-			title = "Módulo Logística - Técnico";
-			break;
-
-		}*/
+		
 		return title;
 
 	}

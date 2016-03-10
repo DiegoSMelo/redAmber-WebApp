@@ -18,7 +18,6 @@ import com.sun.jersey.api.client.config.DefaultClientConfig;
 import com.sun.jersey.api.json.JSONConfiguration;
 
 import br.com.sistema.redAmber.basicas.Funcionario;
-import br.com.sistema.redAmber.basicas.GeralUsuario;
 import br.com.sistema.redAmber.basicas.http.LoginHTTP;
 import br.com.sistema.redAmber.util.Mensagens;
 import br.com.sistema.redAmber.util.URLUtil;
@@ -30,7 +29,7 @@ public class LoginMB implements Serializable{
 
 	
 	private LoginHTTP login;
-	private GeralUsuario usuarioLogado;
+	private Funcionario usuarioLogado;
 	
 	public void init(){
 		usuarioLogado = null;
@@ -83,7 +82,8 @@ public class LoginMB implements Serializable{
 	public boolean isLogado(){
 		return this.usuarioLogado != null;
 	}
-
+	
+	
 	public LoginHTTP getLogin() {
 		if (this.login == null) {
 			this.login = new LoginHTTP();
@@ -95,12 +95,12 @@ public class LoginMB implements Serializable{
 		this.login = login;
 	}
 
-	public GeralUsuario getUsuarioLogado() {
+	public Funcionario getUsuarioLogado() {
 		
 		return usuarioLogado;
 	}
 
-	public void setUsuarioLogado(GeralUsuario usuarioLogado) {
+	public void setUsuarioLogado(Funcionario usuarioLogado) {
 		this.usuarioLogado = usuarioLogado;
 	}
 
