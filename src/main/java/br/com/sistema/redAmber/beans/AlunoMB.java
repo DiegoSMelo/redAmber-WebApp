@@ -28,7 +28,7 @@ public class AlunoMB {
 	
 	private Aluno aluno;
 	private List<Aluno> listaAlunos;
-	
+	private boolean isPagAdd;
 	
 	
 	public void salvar(){
@@ -42,7 +42,7 @@ public class AlunoMB {
 				alunoJaExiste = gson.fromJson(jsonResult, Aluno.class);
 			}
 		    
-			if (alunoJaExiste == null) {
+			if ((this.isPagAdd() && alunoJaExiste == null) || !this.isPagAdd()) {
 
 				// Create Jersey client
 				ClientConfig clientConfig = new DefaultClientConfig();
@@ -75,6 +75,7 @@ public class AlunoMB {
 	 */
 	public void redirectAdd(){
 		try {
+			this.setPagAdd(true);
 			this.setAluno(new Aluno());
 			FacesContext.getCurrentInstance().getExternalContext().redirect("/redAmber-WebApp/aluno/add.xhtml");
 
@@ -88,6 +89,7 @@ public class AlunoMB {
 	 */
 	public void redirectEdit(){
 		try {
+			this.setPagAdd(false);
 			FacesContext.getCurrentInstance().getExternalContext().redirect("/redAmber-WebApp/aluno/edit.xhtml");	
 
 		} catch (IOException e) {
@@ -130,9 +132,14 @@ public class AlunoMB {
 	public void setListaAlunos(List<Aluno> listaAlunos) {
 		this.listaAlunos = listaAlunos;
 	}
-	
-	
-	
+
+	public boolean isPagAdd() {
+		return isPagAdd;
+	}
+
+	public void setPagAdd(boolean isPagAdd) {
+		this.isPagAdd = isPagAdd;
+	}
 	
 	
 }
