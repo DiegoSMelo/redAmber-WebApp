@@ -41,6 +41,17 @@ public class MatriculaMB {
 	}
 	
 	
+	public void redirectAdd(){
+		try {
+			
+			this.matricula.setAluno(this.getAluno());
+			FacesContext.getCurrentInstance().getExternalContext().redirect("/redAmber-WebApp/matricula/add.xhtml");
+
+		} catch (IOException e) {
+			RequestContext.getCurrentInstance().execute("alert('"+e.getMessage()+"');");
+		}
+	}
+	
 	public Aluno getAluno() {
 		return aluno;
 	}

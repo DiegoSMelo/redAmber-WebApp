@@ -49,7 +49,7 @@ public class LoginMB implements Serializable{
 	        
 	        if (response.getStatus() == 200) {
 	        	
-	        	WebResource wr = client.resource(URLUtil.BUSCAR_ALUNO_POR_LOGIN + this.getLogin().getLogin());
+	        	WebResource wr = client.resource(URLUtil.BUSCAR_FUNCIONARIO_POR_LOGIN + this.getLogin().getLogin());
 				String jsonResult = wr.get(String.class);
 				Gson gson = new Gson();
 				Funcionario f = gson.fromJson(jsonResult, Funcionario.class);
