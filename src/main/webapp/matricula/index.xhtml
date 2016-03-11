@@ -12,37 +12,38 @@ template="#{beanGeral.template}">
 
 <ol class="breadcrumb">
   <li><h:outputLink value="/redAmber-WebApp/home/index.xhtml">Página Inicial</h:outputLink></li>
-  <li class="active">Alunos</li>
+   <li><h:outputLink value="/redAmber-WebApp/aluno/index.xhtml">Alunos</h:outputLink></li>
+  <li class="active">Matrícula - <h:outputText value="#{matriculaMB.aluno.nome}"></h:outputText> </li>
 </ol>
 
 
 
 <div class="areaPlus">
-	<h:commandLink actionListener="#{alunoMB.redirectAdd}" styleClass="btn btn-success">Adicionar</h:commandLink>
+	<h:commandLink actionListener="#{alunoMB.redirectAdd}" styleClass="btn btn-success">Gerar matrícula</h:commandLink>
 </div>
 
 
 
-<h:dataTable id="table-operadores" styleClass="table table-hover table-bordered" value="#{alunoMB.listaAlunos}" var="aluno" emptyMessage="Não há alunos cadastrados">
+<h:dataTable id="table-operadores" styleClass="table table-hover table-bordered" value="#{matriculaMB.listaMatriculas}" var="matricula" emptyMessage="Não há matrículas cadastradas">
 
 	<h:column>	
-		<f:facet name="header">Nome</f:facet>
-		<h:outputText value="#{aluno.nome}"></h:outputText>
+		<f:facet name="header">Código da Matrícula</f:facet>
+		<h:outputText value="#{matricula.codigoMatricula}"></h:outputText>
 	</h:column>
 
 	<h:column>	
-		<f:facet name="header">E-mail</f:facet>
-		<h:outputText value="#{aluno.email}"></h:outputText>
+		<f:facet name="header">Curso</f:facet>
+		<h:outputText value="falta implementar"></h:outputText>
 	</h:column>
 
 	<h:column>	
-		<f:facet name="header">Telefone</f:facet>
-		<h:outputText value="#{aluno.telefone}"></h:outputText>
+		<f:facet name="header">Data de matrícula</f:facet>
+		<h:outputText converter="dataConverter" value="#{matricula.dataMatricula}"></h:outputText>
 	</h:column>
 	
 	<h:column>	
 		<f:facet name="header">Status</f:facet>
-		<h:outputText value="#{aluno.status}"></h:outputText>
+		<h:outputText value="#{matricula.status}"></h:outputText>
 	</h:column>
 	
 	
@@ -55,10 +56,9 @@ template="#{beanGeral.template}">
 		</h:commandLink>
 		
 
-		<h:commandLink styleClass="btn btn-info btn-acoes"  actionListener="#{matriculaMB.redirectIndex}"> Matrículas
-			<f:setPropertyActionListener value="#{aluno}" target="#{matriculaMB.aluno}"></f:setPropertyActionListener>
-		</h:commandLink>
+
 		
+	
 		
 	</h:column>
 	

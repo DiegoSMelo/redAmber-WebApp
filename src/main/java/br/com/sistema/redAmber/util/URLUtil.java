@@ -49,4 +49,6 @@ public abstract class URLUtil {
 	public static final String BUSCAR_ALUNO_POR_LOGIN = BASE + prop.getProperty("url.buscar.aluno.por.login");
 	
 	public static final String BUSCAR_ALUNO_POR_RG = BASE + prop.getProperty("url.buscar.aluno.por.rg");
+	
+	public static final String BUSCAR_MATRICULAS_POR_ALUNO = BASE + prop.getProperty("url.buscar.matriculas.por.aluno");
 }

@@ -71,7 +71,7 @@ public class AlunoMB {
 	}
 	
 	/**
-	 * Cria um novo objeto para o operador e redireciona para a página de cadastro.
+	 * Cria um novo objeto para o Aluno e redireciona para a página de cadastro.
 	 */
 	public void redirectAdd(){
 		try {
