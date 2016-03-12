@@ -20,7 +20,7 @@
 
 
 	
-		<h:form styleClass="form-horizontal" prependId="false">
+	<h:form styleClass="form-horizontal" prependId="false">
 			
 			<div class="form-group">
 				<h:outputLabel value="Nome" for="inputNome"
@@ -29,7 +29,7 @@
 					<h:inputText required="true" tabindex="2"
 						requiredMessage="Digite seu nome" styleClass="form-control"
 						id="inputNome" value="#{professorMB.professor.nome}"></h:inputText>
-					<h:message styleClass="text-danger" for="inputNome"></h:message>
+					<h:message styleClass="text-danger" for="inputNome" id="inputNomeMSG"></h:message>
 				</div>
 			</div>
 			
@@ -43,7 +43,7 @@
 						<f:convertNumber integerOnly="true" minIntegerDigits="1"  />
 						
 						</h:inputText>
-					<h:message styleClass="text-danger" for="inputRG"></h:message>
+					<h:message styleClass="text-danger" for="inputRG" id="inputRGMSG"></h:message>
 				</div>
 			</div>
 			
@@ -57,7 +57,7 @@
 					
 					
 					</h:inputText>
-					<h:message styleClass="text-danger" for="inputDataNascimento"></h:message>
+					<h:message styleClass="text-danger" for="inputDataNascimento" id="inputDataNascimentoMSG"></h:message>
 				</div>
 			</div>
 			
@@ -67,7 +67,7 @@
 				<div class="col-sm-10">
 					<h:inputText styleClass="form-control telefone" tabindex="6" required="true" requiredMessage="Digite o seu telefone"
 						id="inputTel" value="#{professorMB.professor.telefone}"></h:inputText>
-					<h:message styleClass="text-danger" for="inputTel"></h:message>
+					<h:message styleClass="text-danger" for="inputTel" id="inputTelMSG"></h:message>
 				</div>
 			</div>
 			
@@ -81,7 +81,7 @@
 						<f:validateRegex pattern="^[_A-Za-z0-9-\+]+(\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\.[A-Za-z0-9]+)*(\.[A-Za-z]{2,})$" />
 		
 					</h:inputText>
-					<h:message styleClass="text-danger" for="inputEmail"></h:message>
+					<h:message styleClass="text-danger" for="inputEmail" id="inputEmailMSG"></h:message>
 				</div>
 			</div>
 			
@@ -89,6 +89,9 @@
 			
 			
 			
+			
+			
+		
 
 
 			<div class="form-group">
@@ -96,7 +99,8 @@
 					<h:commandButton styleClass="btn btn-default"
 						actionListener="#{professorMB.salvar}" value="Salvar">
 						
-							<f:ajax execute="inputNome inputRG inputDataNascimento inputTel inputEmail" />
+							<f:ajax execute="inputNome inputRG inputDataNascimento inputTel inputEmail" 
+							render="inputNomeMSG inputRGMSG inputDataNascimentoMSG inputTelMSG inputEmailMSG"/>
 						</h:commandButton>
 				</div>
 			</div>
