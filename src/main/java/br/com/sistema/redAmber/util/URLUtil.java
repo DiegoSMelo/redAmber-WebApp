@@ -48,6 +48,9 @@ public abstract class URLUtil {
 	 */
 	public static final String BUSCAR_FUNCIONARIO_POR_LOGIN = BASE + prop.getProperty("url.buscar.funcionario.por.login");
 	
+	/*
+	 * PARAM RG ALUNO
+	 */
 	public static final String BUSCAR_ALUNO_POR_RG = BASE + prop.getProperty("url.buscar.aluno.por.rg");
 	
 	/*
@@ -56,4 +59,13 @@ public abstract class URLUtil {
 	public static final String BUSCAR_MATRICULAS_POR_ALUNO = BASE + prop.getProperty("url.buscar.matriculas.por.aluno");
 	
 	public static final String SALVAR_MATRICULA = BASE + prop.getProperty("url.matricula.cadastrar");
+	
+	public static final String LISTAR_PROFESSORES = BASE + prop.getProperty("url.listar.professores");
+
+	public static final String SALVAR_PROFESSOR = BASE + prop.getProperty("url.salvar.professor");
+	
+	/*
+	 * param RG PROFESSOR
+	 */
+	public static final String BUSCAR_PROFESSOR_POR_RG = BASE + prop.getProperty("url.buscar.professor.por.rg");
 }

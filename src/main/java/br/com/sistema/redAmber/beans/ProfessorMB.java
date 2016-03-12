@@ -18,51 +18,53 @@ import com.sun.jersey.api.client.config.ClientConfig;
 import com.sun.jersey.api.client.config.DefaultClientConfig;
 import com.sun.jersey.api.json.JSONConfiguration;
 
-import br.com.sistema.redAmber.basicas.Aluno;
+import br.com.sistema.redAmber.basicas.Professor;
 import br.com.sistema.redAmber.util.Mensagens;
 import br.com.sistema.redAmber.util.URLUtil;
 
 @ManagedBean
 @SessionScoped
-public class AlunoMB {
+public class ProfessorMB {
 	
-	private Aluno aluno;
-	private List<Aluno> listaAlunos;
+	private Professor professor;
+	private List<Professor> listaProfessores;
 	private boolean isPagAdd;
+	
+	
 	
 	
 	public void salvar(){
 		try {
-			Aluno alunoJaExiste = null;
+			Professor professorJaExiste = null;
 			Client c = new Client();
-		    WebResource wr = c.resource(URLUtil.BUSCAR_ALUNO_POR_RG + this.getAluno().getRg());
+		    WebResource wr = c.resource(URLUtil.BUSCAR_PROFESSOR_POR_RG + this.getProfessor().getRg());
 		    String jsonResult = wr.get(String.class);
 		    if (!jsonResult.equalsIgnoreCase("null")) {
 				Gson gson = new Gson();
-				alunoJaExiste = gson.fromJson(jsonResult, Aluno.class);
+				professorJaExiste = gson.fromJson(jsonResult, Professor.class);
 			}
 		    
-			if ((this.isPagAdd() && alunoJaExiste == null) || !this.isPagAdd()) {
+			if ((this.isPagAdd() && professorJaExiste == null) || !this.isPagAdd()) {
 
 				// Create Jersey client
 				ClientConfig clientConfig = new DefaultClientConfig();
 				clientConfig.getFeatures().put(JSONConfiguration.FEATURE_POJO_MAPPING, Boolean.TRUE);
 				Client client = Client.create(clientConfig);
 
-				WebResource webResourcePost = client.resource(URLUtil.SALVAR_ALUNO);
+				WebResource webResourcePost = client.resource(URLUtil.SALVAR_PROFESSOR);
 				ClientResponse response = webResourcePost.type("application/json").post(ClientResponse.class,
-						this.getAluno());
+						this.getProfessor());
 
 				if (response.getStatus() == 200) {
 					FacesContext.getCurrentInstance().getExternalContext()
-							.redirect("/redAmber-WebApp/aluno/index.xhtml");
+							.redirect("/redAmber-WebApp/professor/index.xhtml");
 				} else {
 					RequestContext.getCurrentInstance().execute("alert('" + Mensagens.m3 + "');");
 				}
 				
 			}else{
 				
-				RequestContext.getCurrentInstance().execute("alert('" + Mensagens.m4 + "');");
+				RequestContext.getCurrentInstance().execute("alert('" + Mensagens.m5 + "');");
 			}
 			
 		} catch (Exception e) {
@@ -70,14 +72,16 @@ public class AlunoMB {
 		} 
 	}
 	
+	
+	
 	/**
-	 * Cria um novo objeto para o Aluno e redireciona para a página de cadastro.
+	 * Cria um novo objeto para o Professor e redireciona para a página de cadastro.
 	 */
 	public void redirectAdd(){
 		try {
 			this.setPagAdd(true);
-			this.setAluno(new Aluno());
-			FacesContext.getCurrentInstance().getExternalContext().redirect("/redAmber-WebApp/aluno/add.xhtml");
+			this.setProfessor(new Professor());
+			FacesContext.getCurrentInstance().getExternalContext().redirect("/redAmber-WebApp/professor/add.xhtml");
 
 		} catch (IOException e) {
 			RequestContext.getCurrentInstance().execute("alert('"+e.getMessage()+"');");
@@ -90,7 +94,7 @@ public class AlunoMB {
 	public void redirectEdit(){
 		try {
 			this.setPagAdd(false);
-			FacesContext.getCurrentInstance().getExternalContext().redirect("/redAmber-WebApp/aluno/edit.xhtml");	
+			FacesContext.getCurrentInstance().getExternalContext().redirect("/redAmber-WebApp/professor/edit.xhtml");	
 
 		} catch (IOException e) {
 			RequestContext.getCurrentInstance().execute("alert('"+e.getMessage()+"');");
@@ -98,42 +102,31 @@ public class AlunoMB {
 	}
 	
 	
-	
-	
-	
-	public Aluno getAluno() {
-		
-		return aluno;
+	public Professor getProfessor() {
+		return professor;
 	}
-
-	public void setAluno(Aluno aluno) {
-		
-		this.aluno = aluno;
+	public void setProfessor(Professor professor) {
+		this.professor = professor;
 	}
-
-	public List<Aluno> getListaAlunos() {
-		
+	public List<Professor> getListaProfessores() {
 		Client c = new Client();
-	    WebResource wr = c.resource(URLUtil.LISTAR_ALUNOS);
+	    WebResource wr = c.resource(URLUtil.LISTAR_PROFESSORES);
 	    String jsonResult = wr.get(String.class);
 	    if (!jsonResult.equalsIgnoreCase("null")) {
 			Gson gson = new Gson();
 			
-			Aluno[] lista = gson.fromJson(jsonResult, Aluno[].class);
-			this.listaAlunos = Arrays.asList(lista);
+			Professor[] lista = gson.fromJson(jsonResult, Professor[].class);
+			this.listaProfessores = Arrays.asList(lista);
 		}
-	    
-		return listaAlunos;
+		
+		return listaProfessores;
 	}
-
-	public void setListaAlunos(List<Aluno> listaAlunos) {
-		this.listaAlunos = listaAlunos;
+	public void setListaProfessores(List<Professor> listaProfessores) {
+		this.listaProfessores = listaProfessores;
 	}
-
 	public boolean isPagAdd() {
 		return isPagAdd;
 	}
-
 	public void setPagAdd(boolean isPagAdd) {
 		this.isPagAdd = isPagAdd;
 	}
