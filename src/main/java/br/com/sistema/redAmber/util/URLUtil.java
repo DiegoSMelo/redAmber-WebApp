@@ -75,4 +75,10 @@ public abstract class URLUtil {
 
 	public static final String SALVAR_FUNCIONARIO = BASE + prop.getProperty("url.salvar.funcionario");
 	
+	
+	public static final String LISTAR_DISCIPLINAS = BASE + prop.getProperty("url.lista.disciplinas");
+	
+	public static final String SALVAR_DISCIPLINA = BASE + prop.getProperty("url.salvar.disciplina");
+	
+	public static final String BUSCAR_DISCIPLINA_POR_TITULO = BASE + prop.getProperty("url.buscar.disciplina.por.titulo");
 }
