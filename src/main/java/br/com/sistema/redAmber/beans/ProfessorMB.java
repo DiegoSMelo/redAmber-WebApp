@@ -18,6 +18,7 @@ import com.sun.jersey.api.client.config.ClientConfig;
 import com.sun.jersey.api.client.config.DefaultClientConfig;
 import com.sun.jersey.api.json.JSONConfiguration;
 
+import br.com.sistema.redAmber.basicas.Disciplina;
 import br.com.sistema.redAmber.basicas.Professor;
 import br.com.sistema.redAmber.util.Mensagens;
 import br.com.sistema.redAmber.util.URLUtil;
@@ -29,6 +30,7 @@ public class ProfessorMB {
 	private Professor professor;
 	private List<Professor> listaProfessores;
 	private boolean isPagAdd;
+	private List<Disciplina> listaDisciplinas;
 	
 	
 	
@@ -101,6 +103,20 @@ public class ProfessorMB {
 		}
 	}
 	
+	/**
+	 * Cria um novo objeto para o Professor e redireciona para a página de cadastro de disciplinas para professor.
+	 */
+	public void redirectDisciplinas(){
+		try {
+			
+			this.setPagAdd(false);
+			FacesContext.getCurrentInstance().getExternalContext().redirect("/redAmber-WebApp/professor/disciplinas.xhtml");
+
+		} catch (IOException e) {
+			RequestContext.getCurrentInstance().execute("alert('"+e.getMessage()+"');");
+		}
+	}
+	
 	
 	public Professor getProfessor() {
 		return professor;
@@ -108,6 +124,8 @@ public class ProfessorMB {
 	public void setProfessor(Professor professor) {
 		this.professor = professor;
 	}
+	
+	
 	public List<Professor> getListaProfessores() {
 		Client c = new Client();
 	    WebResource wr = c.resource(URLUtil.LISTAR_PROFESSORES);
@@ -129,6 +147,18 @@ public class ProfessorMB {
 	}
 	public void setPagAdd(boolean isPagAdd) {
 		this.isPagAdd = isPagAdd;
+	}
+
+
+
+	public List<Disciplina> getListaDisciplinas() {
+		return listaDisciplinas;
+	}
+
+
+
+	public void setListaDisciplinas(List<Disciplina> listaDisciplinas) {
+		this.listaDisciplinas = listaDisciplinas;
 	}
 	
 	

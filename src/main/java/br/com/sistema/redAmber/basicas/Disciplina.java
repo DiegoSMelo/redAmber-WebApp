@@ -1,7 +1,5 @@
 package br.com.sistema.redAmber.basicas;
 
-import java.util.List;
-
 import br.com.sistema.redAmber.basicas.enums.StatusDisciplina;
 
 public class Disciplina {
@@ -10,7 +8,6 @@ public class Disciplina {
 	
 	private String titulo;
 	
-	private List<Professor> listaProfessores;
 	
 	private String descricao;
 	
@@ -33,13 +30,6 @@ public class Disciplina {
 		this.titulo = titulo;
 	}
 
-	public List<Professor> getListaProfessores() {
-		return listaProfessores;
-	}
-
-	public void setListaProfessores(List<Professor> listaProfessores) {
-		this.listaProfessores = listaProfessores;
-	}
 
 	public String getDescricao() {
 		return descricao;

@@ -1,0 +1,57 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+xmlns:ui="http://java.sun.com/jsf/facelets"
+xmlns:h="http://java.sun.com/jsf/html"
+xmlns:f="http://java.sun.com/jsf/core"
+xmlns:p="http://primefaces.org/ui"
+template="#{beanGeral.template}">
+	<ui:define name="body">
+
+<h:form>
+
+
+
+<ol class="breadcrumb">
+  <li><h:outputLink value="/redAmber-WebApp/home/index.xhtml">Página Inicial</h:outputLink></li>
+  <li><h:outputLink value="/redAmber-WebApp/professor/index.xhtml">Professores</h:outputLink></li>
+  <li><h:outputText value="#{professorMB.professor.nome}"></h:outputText></li>
+  <li class="active">Disciplinas</li>
+</ol>
+
+
+
+
+
+<h:dataTable id="table-operadores" styleClass="table table-hover table-bordered" value="#{disciplinaMB.listaDisciplinas}" var="disciplina" emptyMessage="Não há disciplinas cadastradas">
+
+	<h:column>	
+		<f:facet name="header">Título</f:facet>
+		<h:outputText value="#{disciplina.titulo}"></h:outputText>
+	</h:column>
+	
+	<h:column>	
+		<f:facet name="header">Descrição</f:facet>
+		<h:outputText value="#{disciplina.descricao}"></h:outputText>
+	</h:column>
+
+	
+	<h:column>	
+		<f:facet name="header">Selecionar</f:facet>
+
+
+		<h:commandLink styleClass="btn btn-success btn-acoes" actionListener="#{professorMB.redirectDisciplinas}">Adicionar
+			<f:setPropertyActionListener value="#{professor}" target="#{professorMB.professor}"></f:setPropertyActionListener>
+		</h:commandLink>
+		
+		<h:commandLink styleClass="btn btn-danger btn-acoes" actionListener="#{professorMB.redirectDisciplinas}">Remover
+			<f:setPropertyActionListener value="#{professor}" target="#{professorMB.professor}"></f:setPropertyActionListener>
+		</h:commandLink>
+
+	</h:column>
+	
+	
+</h:dataTable>
+		
+</h:form>
+    		
+	</ui:define>
+</ui:composition>
