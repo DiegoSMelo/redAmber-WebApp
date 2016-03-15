@@ -117,19 +117,17 @@ public class DisciplinaMB {
 	
 	
 	public List<Disciplina> getListaDisciplinas() {
-		
-		if (this.listaDisciplinas == null) {
-			Client c = new Client();
-			WebResource wr = c.resource(URLUtil.LISTAR_DISCIPLINAS);
-			String jsonResult = wr.get(String.class);
-			if (!jsonResult.equalsIgnoreCase("null")) {
-				Gson gson = new Gson();
 
-				Disciplina[] lista = gson.fromJson(jsonResult, Disciplina[].class);
-				this.listaDisciplinas = Arrays.asList(lista);
-			} 
+		Client c = new Client();
+		WebResource wr = c.resource(URLUtil.LISTAR_DISCIPLINAS);
+		String jsonResult = wr.get(String.class);
+		if (!jsonResult.equalsIgnoreCase("null")) {
+			Gson gson = new Gson();
+
+			Disciplina[] lista = gson.fromJson(jsonResult, Disciplina[].class);
+			this.listaDisciplinas = Arrays.asList(lista);
 		}
-		
+
 		return listaDisciplinas;
 	}
 	

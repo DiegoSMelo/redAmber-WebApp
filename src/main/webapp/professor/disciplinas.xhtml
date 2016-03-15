@@ -35,18 +35,20 @@ template="#{beanGeral.template}">
 		
 		
 		<h:commandLink id="btnAdd" styleClass="btn btn-success btn-acoes"  rendered="#{professorMB.isDisciplinaJaAdd(disciplina.id) == false}"   
-				actionListener="#{professorMB.addDisciplina}" immediate="true">Adicionar
-				 <f:ajax render="@this"></f:ajax>
+				actionListener="#{professorMB.addDisciplina}">Adicionar
+				 
 			 <f:param value="#{disciplina.id}" name="idDisciplinaParam"/>
 			
+			<!-- <f:ajax render="table-disciplinas" immediate="true" event="click"></f:ajax> -->
 		</h:commandLink>
 		
 		<h:commandLink id="btnRemove" styleClass="btn btn-danger btn-acoes" rendered="#{professorMB.isDisciplinaJaAdd(disciplina.id) == true}" 
-				actionListener="#{professorMB.removeDisciplina}" immediate="true">Remover
+				actionListener="#{professorMB.removeDisciplina}">Remover
 				
-				 <f:ajax render="@this"></f:ajax>
+				
 			<f:param value="#{disciplina.id}" name="idDisciplinaParam"/>
-			
+			 
+		   <!-- <f:ajax render="table-disciplinas" immediate="true" event="click"></f:ajax> -->
 		</h:commandLink>
 		
 		
