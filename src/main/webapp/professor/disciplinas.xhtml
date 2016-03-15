@@ -13,15 +13,11 @@ template="#{beanGeral.template}">
 <ol class="breadcrumb">
   <li><h:outputLink value="/redAmber-WebApp/home/index.xhtml">Página Inicial</h:outputLink></li>
   <li><h:outputLink value="/redAmber-WebApp/professor/index.xhtml">Professores</h:outputLink></li>
-  <li><h:outputText value="#{professorMB.professor.nome}"></h:outputText></li>
-  <li class="active">Disciplinas</li>
+  <li class="active">Disciplinas lecionadas por <h:outputText value="#{professorMB.professor.nome}"></h:outputText></li>
 </ol>
 
 
-
-
-
-<h:dataTable id="table-operadores" styleClass="table table-hover table-bordered" value="#{disciplinaMB.listaDisciplinas}" var="disciplina" emptyMessage="Não há disciplinas cadastradas">
+<h:dataTable id="table-disciplinas" styleClass="table table-hover table-bordered" value="#{disciplinaMB.listaDisciplinas}" var="disciplina" emptyMessage="Não há disciplinas cadastradas para este professor">
 
 	<h:column>	
 		<f:facet name="header">Título</f:facet>
@@ -32,22 +28,31 @@ template="#{beanGeral.template}">
 		<f:facet name="header">Descrição</f:facet>
 		<h:outputText value="#{disciplina.descricao}"></h:outputText>
 	</h:column>
-
 	
 	<h:column>	
-		<f:facet name="header">Selecionar</f:facet>
-
-
-		<h:commandLink styleClass="btn btn-success btn-acoes" actionListener="#{professorMB.redirectDisciplinas}">Adicionar
-			<f:setPropertyActionListener value="#{professor}" target="#{professorMB.professor}"></f:setPropertyActionListener>
+		<f:facet name="header">Ações</f:facet>
+		
+		
+		
+		<h:commandLink id="btnAdd" styleClass="btn btn-success btn-acoes"  rendered="#{professorMB.isDisciplinaJaAdd(disciplina.id) == false}"   
+				actionListener="#{professorMB.addDisciplina}" immediate="true">Adicionar
+				 <f:ajax render="@this"></f:ajax>
+			 <f:param value="#{disciplina.id}" name="idDisciplinaParam"/>
+			
 		</h:commandLink>
 		
-		<h:commandLink styleClass="btn btn-danger btn-acoes" actionListener="#{professorMB.redirectDisciplinas}">Remover
-			<f:setPropertyActionListener value="#{professor}" target="#{professorMB.professor}"></f:setPropertyActionListener>
+		<h:commandLink id="btnRemove" styleClass="btn btn-danger btn-acoes" rendered="#{professorMB.isDisciplinaJaAdd(disciplina.id) == true}" 
+				actionListener="#{professorMB.removeDisciplina}" immediate="true">Remover
+				
+				 <f:ajax render="@this"></f:ajax>
+			<f:param value="#{disciplina.id}" name="idDisciplinaParam"/>
+			
 		</h:commandLink>
-
+		
+		
+		
+		
 	</h:column>
-	
 	
 </h:dataTable>
 		

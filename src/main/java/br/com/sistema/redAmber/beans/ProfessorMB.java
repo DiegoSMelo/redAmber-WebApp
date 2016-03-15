@@ -1,6 +1,7 @@
 package br.com.sistema.redAmber.beans;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -30,8 +31,8 @@ public class ProfessorMB {
 	private Professor professor;
 	private List<Professor> listaProfessores;
 	private boolean isPagAdd;
-	private List<Disciplina> listaDisciplinas;
 	
+	private Disciplina disciplina;
 	
 	
 	
@@ -41,6 +42,7 @@ public class ProfessorMB {
 			Client c = new Client();
 		    WebResource wr = c.resource(URLUtil.BUSCAR_PROFESSOR_POR_RG + this.getProfessor().getRg());
 		    String jsonResult = wr.get(String.class);
+		    
 		    if (!jsonResult.equalsIgnoreCase("null")) {
 				Gson gson = new Gson();
 				professorJaExiste = gson.fromJson(jsonResult, Professor.class);
@@ -58,8 +60,12 @@ public class ProfessorMB {
 						this.getProfessor());
 
 				if (response.getStatus() == 200) {
-					FacesContext.getCurrentInstance().getExternalContext()
-							.redirect("/redAmber-WebApp/professor/index.xhtml");
+					
+					if (this.isPagAdd()) {
+						FacesContext.getCurrentInstance().getExternalContext()
+								.redirect("/redAmber-WebApp/professor/index.xhtml");
+					}
+					
 				} else {
 					RequestContext.getCurrentInstance().execute("alert('" + Mensagens.m3 + "');");
 				}
@@ -74,6 +80,65 @@ public class ProfessorMB {
 		} 
 	}
 	
+	
+	public boolean isDisciplinaJaAdd(Long id){
+		
+		int gat = 0;
+		
+		for (Disciplina discipl : this.getProfessor().getListDisciplinas()) {
+			
+			if (discipl.getId() == id) {
+				
+				gat = 1;
+				
+			}
+			
+		}
+		
+		return gat == 1;
+		
+	}
+	
+	
+	public void addDisciplina(){
+		
+		Disciplina dsp = null;
+		
+		Client c = new Client();
+	    WebResource wr = c.resource(URLUtil.BUSCAR_DISCIPLINA_POR_ID + 
+	    		FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("idDisciplinaParam"));
+	 
+	    String jsonResult = wr.get(String.class);
+	    if (!jsonResult.equalsIgnoreCase("null")) {
+			Gson gson = new Gson();
+			dsp = gson.fromJson(jsonResult, Disciplina.class);
+		}
+		
+		if (!this.isDisciplinaJaAdd(dsp.getId())) {
+			
+			this.getProfessor().getListDisciplinas().add(dsp);
+			this.salvar();
+			
+		}
+		
+	}
+	
+	public void removeDisciplina(){
+		
+		Long idRetorno = Long.parseLong(FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("idDisciplinaParam"));
+		
+		List<Disciplina> listaDisciplinas = this.getProfessor().getListDisciplinas();
+		
+		for (int i = 0; i < listaDisciplinas.size(); i++) {
+			if (idRetorno == listaDisciplinas.get(i).getId()) {
+				listaDisciplinas.remove(listaDisciplinas.get(i));
+			}
+		}
+		
+		this.getProfessor().setListDisciplinas(listaDisciplinas);
+		this.salvar();
+		
+	}
 	
 	
 	/**
@@ -108,7 +173,6 @@ public class ProfessorMB {
 	 */
 	public void redirectDisciplinas(){
 		try {
-			
 			this.setPagAdd(false);
 			FacesContext.getCurrentInstance().getExternalContext().redirect("/redAmber-WebApp/professor/disciplinas.xhtml");
 
@@ -119,8 +183,12 @@ public class ProfessorMB {
 	
 	
 	public Professor getProfessor() {
+		if (this.professor.getListDisciplinas() == null) {
+			this.professor.setListDisciplinas(new ArrayList<Disciplina>());
+		}
 		return professor;
 	}
+	
 	public void setProfessor(Professor professor) {
 		this.professor = professor;
 	}
@@ -139,27 +207,25 @@ public class ProfessorMB {
 		
 		return listaProfessores;
 	}
+	
 	public void setListaProfessores(List<Professor> listaProfessores) {
 		this.listaProfessores = listaProfessores;
 	}
+	
 	public boolean isPagAdd() {
 		return isPagAdd;
 	}
+	
 	public void setPagAdd(boolean isPagAdd) {
 		this.isPagAdd = isPagAdd;
 	}
 
-
-
-	public List<Disciplina> getListaDisciplinas() {
-		return listaDisciplinas;
+	public Disciplina getDisciplina() {
+		return disciplina;
 	}
 
-
-
-	public void setListaDisciplinas(List<Disciplina> listaDisciplinas) {
-		this.listaDisciplinas = listaDisciplinas;
+	public void setDisciplina(Disciplina disciplina) {
+		this.disciplina = disciplina;
 	}
-	
 	
 }

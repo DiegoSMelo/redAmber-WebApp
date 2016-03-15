@@ -81,4 +81,6 @@ public abstract class URLUtil {
 	public static final String SALVAR_DISCIPLINA = BASE + prop.getProperty("url.salvar.disciplina");
 	
 	public static final String BUSCAR_DISCIPLINA_POR_TITULO = BASE + prop.getProperty("url.buscar.disciplina.por.titulo");
+	
+	public static final String BUSCAR_DISCIPLINA_POR_ID = BASE + prop.getProperty("url.buscar.disciplina.por.id");
 }
