@@ -12,7 +12,7 @@ public abstract class URLUtil {
 		try {
 			
 			prop = new Properties();			
-			prop.load(new FileInputStream("C:/Users/Diego/workspace/redAmber-WebApp/src/main/resources/url.properties"));
+			prop.load(new FileInputStream("C:/Users/Diego Melo/workspace/redAmber-WebApp/src/main/resources/url.properties"));
 			
 		} catch (FileNotFoundException e) {
 			
@@ -83,4 +83,14 @@ public abstract class URLUtil {
 	public static final String BUSCAR_DISCIPLINA_POR_TITULO = BASE + prop.getProperty("url.buscar.disciplina.por.titulo");
 	
 	public static final String BUSCAR_DISCIPLINA_POR_ID = BASE + prop.getProperty("url.buscar.disciplina.por.id");
+	
+	
+	public static final String LISTAR_CURSOS = BASE + prop.getProperty("url.listar.cursos");
+	
+	public static final String SALVAR_CURSO = BASE + prop.getProperty("url.salvar.curso");
+	
+	/*
+	 * PARAM NOME E SIGLA DO CURSO
+	 */
+	public static final String BUSCAR_CURSO_POR_NOME_E_SIGLA = BASE + prop.getProperty("url.buscar.curso.por.nome.e.sigla");
 }
