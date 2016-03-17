@@ -73,6 +73,19 @@ xmlns:f="http://java.sun.com/jsf/core">
         </li>
       </ul>
       
+      <ul class="nav navbar-nav">
+        
+        <li class="dropdown">
+        
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Curso<span class="caret"></span></a>
+          <ul class="dropdown-menu" role="menu">
+            <li><h:outputLink value="/redAmber-WebApp/curso/index.xhtml">Cursos</h:outputLink> </li>
+            <li class="divider"></li>
+            <li><h:commandLink actionListener="#{cursoMB.redirectAdd}">Adicionar</h:commandLink></li>
+          </ul>
+        </li>
+      </ul>
+      
       
       
      
