@@ -12,6 +12,6 @@ public class Mensagens {
 	public static String m5 = "Professor já cadastrado";
 	public static String m6 = "Funcionário já cadastrado";
 	public static String m7 = "Disciplina já cadastrada";
-	
+	public static String m8 = "Curso já cadastrado";
 
 }

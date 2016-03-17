@@ -1,0 +1,148 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui" template="#{beanGeral.template}">
+	<ui:define name="body">
+	
+
+
+		<ol class="breadcrumb">
+			<li><h:outputLink value="/redAmber-WebApp/home/index.xhtml">Página Inicial</h:outputLink></li>
+			<li><h:outputLink
+					value="/redAmber-WebApp/curso/index.xhtml">Cursos</h:outputLink></li>
+			<li class="active">Editar Curso</li>
+		</ol>
+
+
+
+<h:form styleClass="form-horizontal" prependId="false">
+			
+			<div class="form-group">
+				<h:outputLabel value="Nome"
+					for="inputNome"
+					styleClass="col-sm-2 control-label">
+				</h:outputLabel>
+				
+				<div class="col-sm-10">
+					<h:inputText 
+					styleClass="form-control"
+					required="true" 
+					tabindex="1"
+					requiredMessage="Digite o nome do Curso" 
+					id="inputNome" 
+					value="#{cursoMB.curso.nome}">
+					</h:inputText>
+					
+					<h:message styleClass="text-danger" for="inputNome"></h:message>
+					
+				</div>
+			</div>
+			
+			<div class="form-group">
+				<h:outputLabel value="Sigla"
+					for="inputSiglaCurso"
+					styleClass="col-sm-2 control-label">
+				</h:outputLabel>
+				
+				<div class="col-sm-10">
+					<h:inputText 
+					styleClass="form-control"
+					required="true" 
+					tabindex="2"
+					requiredMessage="Digite a Sigla do Curso" 
+					id="inputSiglaCurso" 
+					value="#{cursoMB.curso.sigla}">
+					</h:inputText>
+					
+					<h:message styleClass="text-danger" for="inputSiglaCurso"></h:message>
+					
+				</div>
+			</div>
+			
+			<div class="form-group">
+				<h:outputLabel value="Data de início do Curso"
+					for="inputDataInicioCurso"
+					styleClass="col-sm-2 control-label">
+				</h:outputLabel>
+				
+				<div class="col-sm-10">
+					<h:inputText
+					styleClass="form-control data" 
+					required="true" 
+					tabindex="3" 
+					requiredMessage="Digite a data de Inicio do Curso"
+					converter="dataConverter"
+					id="inputDataInicioCurso"
+					value="#{cursoMB.curso.dataInicio}">
+					</h:inputText>
+					
+					<h:message styleClass="text-danger" for="inputDataInicioCurso"></h:message>
+				</div>
+			</div>
+			
+			<div class="form-group">
+				<h:outputLabel value="Data Final do Curso"
+					for="inputDataFimCurso"
+					styleClass="col-sm-2 control-label">
+				</h:outputLabel>
+				
+				<div class="col-sm-10">
+					<h:inputText
+					styleClass="form-control data" 
+					required="true" 
+					tabindex="4" 
+					requiredMessage="Digite a data de Fim do Curso"
+					converter="dataConverter"
+					id="inputDataFimCurso"
+					value="#{cursoMB.curso.dataFim}">
+					</h:inputText>
+					
+					<h:message styleClass="text-danger" for="inputDataFimCurso"></h:message>
+				</div>
+			</div>
+			
+
+			<div class="form-group">
+				<h:outputLabel value="Carga Horária"
+					for="inputCargaHorariaTotalCurso"
+					styleClass="col-sm-2 control-label">
+				</h:outputLabel>
+				
+				<div class="col-sm-10">
+					<h:inputText
+					 styleClass="form-control" 
+					 required="true" 
+					 tabindex="5" 
+					 requiredMessage="Digite a carga Horária Total do Curso"
+					 converterMessage="Carga Horária inválido" 
+					 id="inputCargaHorariaTotalCurso" 
+					 value="#{cursoMB.curso.cargaHorariaTotal}">
+						
+						<f:convertNumber integerOnly="true" minIntegerDigits="1"  />
+						
+						</h:inputText>
+					<h:message styleClass="text-danger" for="inputCargaHorariaTotalCurso"></h:message>
+				</div>
+			</div>
+			
+			
+			
+			
+			
+			<div class="form-group">
+				<div class="col-sm-offset-2 col-sm-10">
+					<h:commandButton 
+					styleClass="btn btn-default"
+					actionListener="#{cursoMB.salvar}" value="Salvar">
+						
+							<f:ajax execute="inputNome inputSiglaCurso inputDataInicioCurso inputDataFimCurso inputCargaHorariaTotalCurso" />
+					</h:commandButton>
+				</div>
+			</div>
+
+
+		</h:form>
+
+	</ui:define>
+</ui:composition>
