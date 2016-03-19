@@ -87,6 +87,18 @@ xmlns:f="http://java.sun.com/jsf/core">
       </ul>
       
       
+      <ul class="nav navbar-nav">
+        
+        <li class="dropdown">
+        
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Turma<span class="caret"></span></a>
+          <ul class="dropdown-menu" role="menu">
+            <li><h:outputLink value="/redAmber-WebApp/turma/index.xhtml">Turmas</h:outputLink> </li>
+            <li class="divider"></li>
+            <li><h:commandLink actionListener="#{turmaMB.redirectAdd}">Adicionar</h:commandLink></li>
+          </ul>
+        </li>
+      </ul>
       
      
      
