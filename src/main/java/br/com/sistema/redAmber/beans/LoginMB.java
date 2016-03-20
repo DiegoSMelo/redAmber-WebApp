@@ -18,6 +18,7 @@ import com.sun.jersey.api.client.config.DefaultClientConfig;
 import com.sun.jersey.api.json.JSONConfiguration;
 
 import br.com.sistema.redAmber.basicas.Funcionario;
+import br.com.sistema.redAmber.basicas.enums.StatusUsuario;
 import br.com.sistema.redAmber.basicas.http.LoginHTTP;
 import br.com.sistema.redAmber.util.Mensagens;
 import br.com.sistema.redAmber.util.URLUtil;
@@ -53,9 +54,18 @@ public class LoginMB implements Serializable{
 				String jsonResult = wr.get(String.class);
 				Gson gson = new Gson();
 				Funcionario f = gson.fromJson(jsonResult, Funcionario.class);
-				this.setUsuarioLogado(f);
 				
-				RequestContext.getCurrentInstance().execute("loginSucess('" + Mensagens.m1 + "');");
+				
+				if (f.getStatus().toString().equals(StatusUsuario.ATIVO.toString())) {
+					
+					this.setUsuarioLogado(f);
+					RequestContext.getCurrentInstance().execute("loginSucess('" + Mensagens.m1 + "');");
+					
+				}else{
+					
+					RequestContext.getCurrentInstance().execute("loginError('" + Mensagens.m9 + "');");
+					
+				}
 				
 			}else{
 				
