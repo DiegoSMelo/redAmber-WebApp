@@ -12,14 +12,13 @@
 		<ol class="breadcrumb">
 			<li><h:outputLink value="/redAmber-WebApp/home/index.xhtml">Página Inicial</h:outputLink></li>
 			<li><h:outputLink
-					value="/redAmber-WebApp/aluno/index.xhtml">Alunos</h:outputLink></li>
-			<li class="active">Editar Aluno</li>
+					value="/redAmber-WebApp/funcionario/index.xhtml">Funcionários</h:outputLink></li>
+			<li class="active">Editar funcionário</li>
 		</ol>
 
 
 
-
-		<h:form styleClass="form-horizontal"  prependId="false">
+	<h:form styleClass="form-horizontal" prependId="false">
 			
 			<div class="form-group">
 				<h:outputLabel value="Nome" for="inputNome"
@@ -27,7 +26,7 @@
 				<div class="col-sm-10">
 					<h:inputText required="true" tabindex="2"
 						requiredMessage="Digite seu nome" styleClass="form-control"
-						id="inputNome" value="#{alunoMB.aluno.nome}"></h:inputText>
+						id="inputNome" value="#{funcionarioMB.funcionario.nome}"></h:inputText>
 					<h:message styleClass="text-danger" for="inputNome" id="inputNomeMSG"></h:message>
 				</div>
 			</div>
@@ -37,7 +36,7 @@
 					styleClass="col-sm-2 control-label"></h:outputLabel>
 				<div class="col-sm-10">
 					<h:inputText styleClass="form-control" tabindex="6" required="true" requiredMessage="Digite o seu rg"
-						converterMessage="RG inválido" id="inputRG" value="#{alunoMB.aluno.rg}">
+						converterMessage="RG inválido" id="inputRG" value="#{funcionarioMB.funcionario.rg}">
 						
 						<f:convertNumber integerOnly="true" minIntegerDigits="1"  />
 						
@@ -51,7 +50,7 @@
 					styleClass="col-sm-2 control-label"></h:outputLabel>
 				<div class="col-sm-10">
 					<h:inputText styleClass="form-control data" tabindex="6" required="true" requiredMessage="Digite a data de nascimento"
-					converter="dataConverter" id="inputDataNascimento" value="#{alunoMB.aluno.dataNascimento}" >
+					converter="dataConverter" id="inputDataNascimento" value="#{funcionarioMB.funcionario.dataNascimento}">
 					
 					
 					
@@ -65,7 +64,7 @@
 					styleClass="col-sm-2 control-label"></h:outputLabel>
 				<div class="col-sm-10">
 					<h:inputText styleClass="form-control telefone" tabindex="6" required="true" requiredMessage="Digite o seu telefone"
-						id="inputTel" value="#{alunoMB.aluno.telefone}"></h:inputText>
+						id="inputTel" value="#{funcionarioMB.funcionario.telefone}"></h:inputText>
 					<h:message styleClass="text-danger" for="inputTel" id="inputTelMSG"></h:message>
 				</div>
 			</div>
@@ -75,7 +74,7 @@
 					styleClass="col-sm-2 control-label"></h:outputLabel>
 				<div class="col-sm-10">
 					<h:inputText styleClass="form-control" tabindex="10" required="true" requiredMessage="Digite o seu e-mail"
-						validatorMessage="E-mail inválido" id="inputEmail" value="#{alunoMB.aluno.email}">
+						validatorMessage="E-mail inválido" id="inputEmail" value="#{funcionarioMB.funcionario.email}">
 				
 						<f:validateRegex pattern="^[_A-Za-z0-9-\+]+(\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\.[A-Za-z0-9]+)*(\.[A-Za-z]{2,})$" />
 		
@@ -85,6 +84,18 @@
 			</div>
 			
 			
+			<div class="form-group">
+				<h:outputLabel value="Tipo de Funcionário" for="inputTipo"
+					styleClass="col-sm-2 control-label"></h:outputLabel>
+				<div class="col-sm-10">
+				
+					<h:selectOneMenu id="inputTipo" styleClass="form-control" value="#{funcionarioMB.funcionario.tipoFuncionario}">
+						<f:selectItems value="#{funcionarioMB.tipos}" var="tipo"
+						itemValue="#{tipo}" />
+					</h:selectOneMenu>
+					
+				</div>
+			</div>
 			
 			
 			
@@ -94,13 +105,15 @@
 				
 				<div class="col-sm-10">
 				
-					<h:selectOneMenu id="inputStatus" styleClass="form-control" value="#{alunoMB.aluno.status}">
-						<f:selectItems value="#{alunoMB.statusUsuario}" var="status" itemValue="#{status}" />
+					<h:selectOneMenu id="inputStatus" styleClass="form-control" value="#{funcionarioMB.funcionario.status}">
+						<f:selectItems value="#{funcionarioMB.statusUsuario}" var="status" itemValue="#{status}" />
 					</h:selectOneMenu>
 					
 				</div>
 				
 			</div>
+			
+			
 			
 		
 
@@ -108,17 +121,18 @@
 			<div class="form-group">
 				<div class="col-sm-offset-2 col-sm-10">
 					<h:commandButton styleClass="btn btn-default"
-						actionListener="#{alunoMB.salvar}" value="Salvar">
+						actionListener="#{funcionarioMB.salvar}" value="Salvar">
 						
-							<f:ajax execute="inputNome inputRG inputDataNascimento inputTel inputEmail inputStatus" 
+							<f:ajax execute="inputNome inputRG inputDataNascimento inputTel inputEmail inputTipo inputStatus" 
 							render="inputNomeMSG inputRGMSG inputDataNascimentoMSG inputTelMSG inputEmailMSG"/>
-							
 						</h:commandButton>
 				</div>
 			</div>
 
 
 		</h:form>
+
+		
 
 
 	</ui:define>

@@ -1,22 +1,20 @@
 package br.com.sistema.redAmber.basicas.enums;
 
-public enum TipoFuncionario {
-	C {
-		@Override
-		public String toString() {
-			return "Coordenador";
-		}
-	},
+public enum TipoTurno {
 
-	S {
+	MANHA {
 		@Override
 		public String toString() {
-			return "Secretário";
+			return "Manhã";
 		}
 	}
-	
-	
-	
-	
-	
+
+	,
+
+	NOITE {
+		@Override
+		public String toString() {
+			return "Noite";
+		}
+	}
 }

@@ -1,22 +1,18 @@
 package br.com.sistema.redAmber.basicas.enums;
 
-public enum TipoFuncionario {
-	C {
+public enum StatusMatricula {
+	ATIVO {
 		@Override
 		public String toString() {
-			return "Coordenador";
+
+			return "ATIVO";
 		}
 	},
-
-	S {
+	INATIVO {
 		@Override
 		public String toString() {
-			return "Secretário";
+
+			return "INATIVO";
 		}
 	}
-	
-	
-	
-	
-	
 }
