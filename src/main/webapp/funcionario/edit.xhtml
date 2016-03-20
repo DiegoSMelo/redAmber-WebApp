@@ -99,7 +99,19 @@
 			
 			
 			
+			<div class="form-group">
 			
+				<h:outputLabel value="Status" for="inputStatus" styleClass="col-sm-2 control-label"></h:outputLabel>
+				
+				<div class="col-sm-10">
+				
+					<h:selectOneMenu id="inputStatus" styleClass="form-control" value="#{funcionarioMB.funcionario.status}">
+						<f:selectItems value="#{funcionarioMB.statusUsuario}" var="status" itemValue="#{status}" />
+					</h:selectOneMenu>
+					
+				</div>
+				
+			</div>
 			
 			
 			
@@ -111,7 +123,7 @@
 					<h:commandButton styleClass="btn btn-default"
 						actionListener="#{funcionarioMB.salvar}" value="Salvar">
 						
-							<f:ajax execute="inputNome inputRG inputDataNascimento inputTel inputEmail inputTipo" 
+							<f:ajax execute="inputNome inputRG inputDataNascimento inputTel inputEmail inputTipo inputStatus" 
 							render="inputNomeMSG inputRGMSG inputDataNascimentoMSG inputTelMSG inputEmailMSG"/>
 						</h:commandButton>
 				</div>

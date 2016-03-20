@@ -20,6 +20,7 @@ import com.sun.jersey.api.client.config.DefaultClientConfig;
 import com.sun.jersey.api.json.JSONConfiguration;
 
 import br.com.sistema.redAmber.basicas.Curso;
+import br.com.sistema.redAmber.basicas.enums.StatusCurso;
 import br.com.sistema.redAmber.util.Mensagens;
 import br.com.sistema.redAmber.util.URLUtil;
 
@@ -141,6 +142,10 @@ public class CursoMB {
 
 	public void setIsAdd(Boolean isAdd) {
 		this.isAdd = isAdd;
+	}
+	
+	public StatusCurso[] getStatusCurso() {
+		return StatusCurso.values();
 	}
 	
 }

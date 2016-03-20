@@ -21,6 +21,7 @@ import com.sun.jersey.api.json.JSONConfiguration;
 
 import br.com.sistema.redAmber.basicas.Disciplina;
 import br.com.sistema.redAmber.basicas.Professor;
+import br.com.sistema.redAmber.basicas.enums.StatusUsuario;
 import br.com.sistema.redAmber.util.Mensagens;
 import br.com.sistema.redAmber.util.URLUtil;
 
@@ -228,4 +229,7 @@ public class ProfessorMB {
 		this.disciplina = disciplina;
 	}
 	
+	public StatusUsuario[] getStatusUsuario() {
+		return StatusUsuario.values();
+	}
 }

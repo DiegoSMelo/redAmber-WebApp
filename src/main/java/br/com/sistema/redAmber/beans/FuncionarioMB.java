@@ -19,6 +19,7 @@ import com.sun.jersey.api.client.config.DefaultClientConfig;
 import com.sun.jersey.api.json.JSONConfiguration;
 
 import br.com.sistema.redAmber.basicas.Funcionario;
+import br.com.sistema.redAmber.basicas.enums.StatusUsuario;
 import br.com.sistema.redAmber.basicas.enums.TipoFuncionario;
 import br.com.sistema.redAmber.util.Mensagens;
 import br.com.sistema.redAmber.util.URLUtil;
@@ -135,5 +136,9 @@ public class FuncionarioMB {
 
 	public void setPagAdd(boolean isPagAdd) {
 		this.isPagAdd = isPagAdd;
+	}
+	
+	public StatusUsuario[] getStatusUsuario() {
+		return StatusUsuario.values();
 	}
 }

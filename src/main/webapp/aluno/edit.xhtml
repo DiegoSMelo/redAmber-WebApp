@@ -88,7 +88,19 @@
 			
 			
 			
+			<div class="form-group">
 			
+				<h:outputLabel value="Status" for="inputStatus" styleClass="col-sm-2 control-label"></h:outputLabel>
+				
+				<div class="col-sm-10">
+				
+					<h:selectOneMenu id="inputStatus" styleClass="form-control" value="#{alunoMB.aluno.status}">
+						<f:selectItems value="#{alunoMB.statusUsuario}" var="status" itemValue="#{status}" />
+					</h:selectOneMenu>
+					
+				</div>
+				
+			</div>
 			
 		
 
@@ -98,8 +110,9 @@
 					<h:commandButton styleClass="btn btn-default"
 						actionListener="#{alunoMB.salvar}" value="Salvar">
 						
-							<f:ajax execute="inputNome inputRG inputDataNascimento inputTel inputEmail" 
+							<f:ajax execute="inputNome inputRG inputDataNascimento inputTel inputEmail inputStatus" 
 							render="inputNomeMSG inputRGMSG inputDataNascimentoMSG inputTelMSG inputEmailMSG"/>
+							
 						</h:commandButton>
 				</div>
 			</div>

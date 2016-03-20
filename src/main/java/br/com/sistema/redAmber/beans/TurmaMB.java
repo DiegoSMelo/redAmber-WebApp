@@ -19,6 +19,7 @@ import com.sun.jersey.api.client.config.DefaultClientConfig;
 import com.sun.jersey.api.json.JSONConfiguration;
 
 import br.com.sistema.redAmber.basicas.Turma;
+import br.com.sistema.redAmber.basicas.enums.StatusTurma;
 import br.com.sistema.redAmber.basicas.enums.TipoTurno;
 import br.com.sistema.redAmber.basicas.http.TurmaHTTP;
 import br.com.sistema.redAmber.util.Mensagens;
@@ -143,5 +144,9 @@ public class TurmaMB {
 
 	public void setIdCurso(Long idCurso) {
 		this.idCurso = idCurso;
+	}
+	
+	public StatusTurma[] getStatusTurma() {
+		return StatusTurma.values();
 	}
 }

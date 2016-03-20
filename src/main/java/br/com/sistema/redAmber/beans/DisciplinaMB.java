@@ -20,6 +20,7 @@ import com.sun.jersey.api.client.config.DefaultClientConfig;
 import com.sun.jersey.api.json.JSONConfiguration;
 
 import br.com.sistema.redAmber.basicas.Disciplina;
+import br.com.sistema.redAmber.basicas.enums.StatusDisciplina;
 import br.com.sistema.redAmber.util.Mensagens;
 import br.com.sistema.redAmber.util.URLUtil;
 
@@ -150,5 +151,8 @@ public class DisciplinaMB {
 	public void setIsAdd(Boolean isAdd) {
 		this.isAdd = isAdd;
 	}
-
+	
+	public StatusDisciplina[] getStatusDisciplina() {
+		return StatusDisciplina.values();
+	}
 }
