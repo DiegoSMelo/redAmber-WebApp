@@ -61,12 +61,11 @@ public class ProfessorMB {
 						this.getProfessor());
 
 				if (response.getStatus() == 200) {
-					
-					if (this.isPagAdd()) {
-						FacesContext.getCurrentInstance().getExternalContext()
-								.redirect("/redAmber-WebApp/professor/index.xhtml");
-					}
-					
+					FacesContext.getCurrentInstance().getExternalContext().redirect("/redAmber-WebApp/professor/index.xhtml");
+//					if (this.isPagAdd()) {
+//						FacesContext.getCurrentInstance().getExternalContext()
+//								.redirect("/redAmber-WebApp/professor/index.xhtml");
+//					}
 				} else {
 					RequestContext.getCurrentInstance().execute("alert('" + Mensagens.m3 + "');");
 				}
