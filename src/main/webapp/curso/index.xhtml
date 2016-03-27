@@ -29,6 +29,11 @@ template="#{beanGeral.template}">
 		<f:facet name="header">Nome</f:facet>
 		<h:outputText value="#{curso.nome}"></h:outputText>
 	</h:column>
+	
+	<h:column>	
+		<f:facet name="header">Tipo</f:facet>
+		<h:outputText value="#{curso.tipoCurso}"></h:outputText>
+	</h:column>
 
 	<h:column>	
 		<f:facet name="header">Sigla</f:facet>
@@ -38,11 +43,6 @@ template="#{beanGeral.template}">
 	<h:column>	
 		<f:facet name="header">Carga Horária</f:facet>
 		<h:outputText value="#{curso.cargaHorariaTotal}"></h:outputText>
-	</h:column>
-	
-	<h:column>	
-		<f:facet name="header">Data de início</f:facet>
-		<h:outputText value="#{curso.dataInicio}" converter="dataConverter"></h:outputText>
 	</h:column>
 	
 	
