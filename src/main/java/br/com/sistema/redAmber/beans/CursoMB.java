@@ -21,6 +21,7 @@ import com.sun.jersey.api.json.JSONConfiguration;
 
 import br.com.sistema.redAmber.basicas.Curso;
 import br.com.sistema.redAmber.basicas.enums.StatusCurso;
+import br.com.sistema.redAmber.basicas.enums.TipoCurso;
 import br.com.sistema.redAmber.util.Mensagens;
 import br.com.sistema.redAmber.util.URLUtil;
 
@@ -146,6 +147,10 @@ public class CursoMB {
 	
 	public StatusCurso[] getStatusCurso() {
 		return StatusCurso.values();
+	}
+	
+	public TipoCurso[] getTipoCurso(){
+		return TipoCurso.values();
 	}
 	
 }

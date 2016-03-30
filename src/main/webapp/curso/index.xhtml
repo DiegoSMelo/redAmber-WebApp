@@ -45,6 +45,10 @@ template="#{beanGeral.template}">
 		<h:outputText value="#{curso.dataInicio}" converter="dataConverter"></h:outputText>
 	</h:column>
 	
+	<h:column>	
+		<f:facet name="header">Tipo</f:facet>
+		<h:outputText value="#{curso.tipoCurso}"></h:outputText>
+	</h:column>
 	
 	<h:column>	
 	

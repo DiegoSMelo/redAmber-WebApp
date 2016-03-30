@@ -10,9 +10,9 @@ public abstract class URLUtil {
 	
 	static{
 		try {
-			
-			prop = new Properties();			
-			prop.load(new FileInputStream("C:/Users/Diego Melo/workspace/redAmber-WebApp/src/main/resources/url.properties"));
+										//C:/Users/Mimmo/Documents/GitHub/redAmber-WebApp/src/main/resources
+			prop = new Properties();	//C:/Users/Diego Melo/workspace/redAmber-WebApp/src/main/resources/url.properties	
+			prop.load(new FileInputStream("C:/Users/Mimmo/Documents/GitHub/redAmber-WebApp/src/main/resources/url.properties"));
 			
 		} catch (FileNotFoundException e) {
 			

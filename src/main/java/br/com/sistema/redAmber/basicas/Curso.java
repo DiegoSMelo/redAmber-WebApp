@@ -3,6 +3,7 @@ package br.com.sistema.redAmber.basicas;
 import java.util.Calendar;
 
 import br.com.sistema.redAmber.basicas.enums.StatusCurso;
+import br.com.sistema.redAmber.basicas.enums.TipoCurso;
 
 
 
@@ -22,8 +23,17 @@ public class Curso {
 	
 	private StatusCurso status;
 
+    private TipoCurso tipoCurso;
 	
 	
+	public TipoCurso getTipoCurso() {
+		return tipoCurso;
+	}
+
+	public void setTipoCurso(TipoCurso tipoCurso) {
+		this.tipoCurso = tipoCurso;
+	}
+
 	public StatusCurso getStatus() {
 		return status;
 	}

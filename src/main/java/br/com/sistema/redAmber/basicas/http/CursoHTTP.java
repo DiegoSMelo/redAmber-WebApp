@@ -1,6 +1,7 @@
 package br.com.sistema.redAmber.basicas.http;
 
 import br.com.sistema.redAmber.basicas.enums.StatusCurso;
+import br.com.sistema.redAmber.basicas.enums.TipoCurso;
 
 public class CursoHTTP {
 	
@@ -20,8 +21,16 @@ public class CursoHTTP {
 	
 	private StatusCurso status;
 	
+	private TipoCurso tipoCurso;
 	
-	
+
+	public TipoCurso getTipoCurso() {
+		return tipoCurso;
+	}
+
+	public void setTipoCurso(TipoCurso tipoCurso) {
+		this.tipoCurso = tipoCurso;
+	}
 
 	public Long getId() {
 		return id;
