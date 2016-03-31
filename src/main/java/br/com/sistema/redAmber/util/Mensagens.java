@@ -14,5 +14,6 @@ public class Mensagens {
 	public static String m7 = "Disciplina já cadastrada";
 	public static String m8 = "Curso já cadastrado";
 	public static String m9 = "Este usuário encontra-se inativo. Entre em contato com a coordenação.";
+	public static String m10 = "Equipamento já cadastrado";
 
 }
