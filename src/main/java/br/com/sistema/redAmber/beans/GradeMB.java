@@ -31,7 +31,9 @@ public class GradeMB {
 	public Curso curso;
 	public Grade grade;
 	public List<Grade> listaGrades;
+	
 	private Boolean isAdd;
+	
 	
 	public void salvar() {
 		try {
@@ -42,7 +44,10 @@ public class GradeMB {
 			clientConfig.getFeatures().put(JSONConfiguration.FEATURE_POJO_MAPPING, Boolean.TRUE);
 			Client client = Client.create(clientConfig);
 			
-			this.getGrade().setStatus(StatusGrade.PENDENTE);
+			if(this.getGrade().getId() == null){
+				this.getGrade().setStatus(StatusGrade.PENDENTE);
+			}
+			
 			this.getGrade().setCurso(this.getCurso());
 			
 			WebResource webResourcePost = client.resource(URLUtil.SALVAR_GRADE);
@@ -60,6 +65,16 @@ public class GradeMB {
 		}
 	}
 	
+	public void salvarGrade() {
+
+		this.salvar();
+
+		RequestContext.getCurrentInstance().execute("alert('Grade salva com sucesso!');");
+
+	}
+	
+	
+	
 	public void ativar(){
 		
 		Long idGrade = Long.parseLong(FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("idGradeParam"));
@@ -71,6 +86,7 @@ public class GradeMB {
 				
 				this.setGrade(grade);
 				this.salvar();
+				continue;
 			}
 		}
 		
@@ -87,15 +103,37 @@ public class GradeMB {
 				
 				this.setGrade(grade);
 				this.salvar();
+				continue;
 			}
 		}
 		
 	}
 	
+	public void redirectGrade(){
+		try {
+			this.setIsAdd(false);
+			FacesContext.getCurrentInstance().getExternalContext().redirect("/redAmber-WebApp/grade/grade.xhtml");
+
+		} catch (IOException e) {
+			RequestContext.getCurrentInstance().execute("alert('"+e.getMessage()+"');");
+		}
+	}
+
+	public void redirectPeriodos(){
+		try {
+			this.setIsAdd(false);
+			FacesContext.getCurrentInstance().getExternalContext().redirect("/redAmber-WebApp/periodo/index.xhtml");
+
+		} catch (IOException e) {
+			RequestContext.getCurrentInstance().execute("alert('"+e.getMessage()+"');");
+		}
+	}
+
 	
 	public void redirectIndex(){
 		try {
 			this.setIsAdd(false);
+			this.setGrade(new Grade());
 			FacesContext.getCurrentInstance().getExternalContext().redirect("/redAmber-WebApp/grade/index.xhtml");
 
 		} catch (IOException e) {
@@ -182,6 +220,9 @@ public class GradeMB {
 		this.isAdd = isAdd;
 	}
 	
+	public StatusGrade[] getStatusGrade(){
+		return StatusGrade.values();
+	}
 	
 	
 }
