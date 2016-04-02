@@ -55,6 +55,11 @@ template="#{beanGeral.template}">
 			<f:setPropertyActionListener value="#{curso}" target="#{cursoMB.curso}"></f:setPropertyActionListener>
 		</h:commandLink>
 		
+		<h:commandLink styleClass="btn btn-info btn-acoes" actionListener="#{gradeMB.redirectIndex}">
+			Grades
+			<f:setPropertyActionListener value="#{curso}" target="#{gradeMB.curso}"></f:setPropertyActionListener>
+		</h:commandLink>
+		
 	</h:column>
 	
 	

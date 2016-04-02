@@ -99,6 +99,14 @@ public abstract class URLUtil {
 	 */
 	public static final String BUSCAR_CURSO_POR_ID = BASE + prop.getProperty("url.buscar.curso.por.id");
 	
+	/*
+	 * PARAM ID CURSO
+	 */
+	public static final String LISTAR_GRADES_POR_CURSO = BASE + prop.getProperty("url.listar.grades.por.curso");
+	
+	public static final String SALVAR_GRADE = BASE + prop.getProperty("url.salvar.grade");
+	
+	
 	public static final String LISTAR_TURMAS = BASE + prop.getProperty("url.listar.turmas");
 	
 	public static final String SALVAR_TURMA = BASE + prop.getProperty("url.salvar.turma");
