@@ -119,15 +119,7 @@ public class GradeMB {
 		}
 	}
 
-	public void redirectPeriodos(){
-		try {
-			this.setIsAdd(false);
-			FacesContext.getCurrentInstance().getExternalContext().redirect("/redAmber-WebApp/periodo/index.xhtml");
-
-		} catch (IOException e) {
-			RequestContext.getCurrentInstance().execute("alert('"+e.getMessage()+"');");
-		}
-	}
+	
 
 	
 	public void redirectIndex(){

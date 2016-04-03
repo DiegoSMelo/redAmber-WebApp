@@ -13,6 +13,7 @@ public class Grade_Disciplina_PK implements Serializable{
 	
 	private Disciplina disciplina;
 	
+	private Integer nPeriodo;
 	
 
 	public Grade getGrade() {
@@ -29,6 +30,14 @@ public class Grade_Disciplina_PK implements Serializable{
 
 	public void setDisciplina(Disciplina disciplina) {
 		this.disciplina = disciplina;
+	}
+
+	public Integer getnPeriodo() {
+		return nPeriodo;
+	}
+
+	public void setnPeriodo(Integer nPeriodo) {
+		this.nPeriodo = nPeriodo;
 	}
 	
 	

@@ -11,7 +11,7 @@ public class Grade_Disciplina {
 	
 	private Grade_Disciplina_PK id;
 	
-	private Integer nPeriodo;
+	
 	
 	public boolean isMesmoPeriodo(String paramPeriodo){
 		return (paramPeriodo.equals(paramPeriodo+""));
@@ -25,13 +25,7 @@ public class Grade_Disciplina {
 		this.id = id;
 	}
 
-	public Integer getnPeriodo() {
-		return nPeriodo;
-	}
 
-	public void setnPeriodo(Integer nPeriodo) {
-		this.nPeriodo = nPeriodo;
-	}
 	
 	
 }

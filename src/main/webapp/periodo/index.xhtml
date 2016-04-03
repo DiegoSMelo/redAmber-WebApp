@@ -83,7 +83,7 @@
 							
 							
 							<h:column>
-								<h:outputText rendered="#{gd.nPeriodo == i}" value="#{gd.id.disciplina.titulo}" />
+								<h:outputText rendered="#{gd.id.nPeriodo == i}" value="#{gd.id.disciplina.titulo}" />
 							</h:column>
 							
 							
@@ -107,7 +107,7 @@
 				<div class="form-group">
 					<h:commandLink styleClass="btn btn-primary"
 						value="Salvar"
-						actionListener="#{periodoMB.adicionarPeriodo}">
+						actionListener="#{periodoMB.salvarPeriodo}">
 
 						<f:ajax render="AreaPersonalizacaoPeriodos"></f:ajax>
 

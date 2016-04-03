@@ -107,6 +107,14 @@ public abstract class URLUtil {
 	public static final String SALVAR_GRADE = BASE + prop.getProperty("url.salvar.grade");
 	
 	
+	public static final String SALVAR_GRADE_DISCIPLINA = BASE + prop.getProperty("url.salvar.grade-disciplina");
+	public static final String REMOVER_GRADE_DISCIPLINA = BASE + prop.getProperty("url.remover.grade-disciplina");
+	public static final String LISTAR_GRADE_DISCIPLINA_POR_GRADE = BASE + prop.getProperty("url.listar.grade-disciplina.por.grade");
+	public static final String LISTAR_GRADE_DISCIPLINA_POR_ID = BASE + prop.getProperty("url.buscar.grade-disciplina.por.id");
+	
+	
+	
+	
 	public static final String LISTAR_TURMAS = BASE + prop.getProperty("url.listar.turmas");
 	
 	public static final String SALVAR_TURMA = BASE + prop.getProperty("url.salvar.turma");
