@@ -2,50 +2,127 @@
 	xmlns:ui="http://java.sun.com/jsf/facelets"
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:f="http://java.sun.com/jsf/core"
-	xmlns:p="http://primefaces.org/ui" template="#{beanGeral.template}">
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:c="http://java.sun.com/jstl/core"
+   	xmlns:a4j="http://richfaces.org/a4j"
+    xmlns:rich="http://richfaces.org/rich"
+    template="#{beanGeral.template}">
 	<ui:define name="body">
+	
+	
 	
 
 
 <ol class="breadcrumb">
   <li><h:outputLink value="/redAmber-WebApp/home/index.xhtml">Página Inicial</h:outputLink></li>
   <li><h:outputLink value="/redAmber-WebApp/curso/index.xhtml">Cursos (<h:outputText value="#{gradeMB.curso.nome}"></h:outputText>)</h:outputLink></li>
-  <li> <p:commandLink actionListener="#{gradeMB.redirectIndex}">Grades (<h:outputText value="#{gradeMB.grade.titulo}"></h:outputText>)</p:commandLink> </li>
+  <li> <p:commandLink actionListener="#{gradeMB.redirectIndex}">Grades (<h:outputText value="#{periodoMB.grade.titulo}"></h:outputText>)</p:commandLink> </li>
   <li class="active">Personalizar Períodos</li>
 </ol>
 
 
-
-		<h:form styleClass="form-horizontal" prependId="false">
+	
+<h:form id="form" styleClass="form-horizontal form-periodo" prependId="false">
 			
 			<div class="form-group">
 				<h:commandLink styleClass="btn btn-success" value="Adicionar período" actionListener="#{periodoMB.adicionarPeriodo}">
 				
-					<f:ajax render="areaPeriodos"></f:ajax>
+					<f:ajax render="AreaPersonalizacaoPeriodos"></f:ajax>
 					
 				</h:commandLink>
 			</div>
 			
+			<div class="form-group">
+				<h:commandLink styleClass="btn btn-danger" value="Remover período" actionListener="#{periodoMB.removerPeriodo}">
+				
+					<f:ajax render="AreaPersonalizacaoPeriodos"></f:ajax>
+					
+				</h:commandLink>
+			</div>
 			
 		
-			<h:panelGroup id="areaPeriodos"><h:outputText value="#{periodoMB.numeroPeriodos}"></h:outputText></h:panelGroup>
-			
-			
-			
-			
-			<div class="form-group">
-				<div class="col-sm-offset-2 col-sm-10">
-					<h:commandButton 
-					styleClass="btn btn-default"
-					actionListener="#{gradeMB.salvarGrade}" value="Salvar">
+
+
+
+
+			<h:panelGrid styleClass="form-group"  id="AreaPersonalizacaoPeriodos" columnClasses="panelc valign, valign, valign, valign" columns="#{periodoMB.numeroPeriodos + 1}" width="100%">
+
+				<rich:panel style="width:133px">
+					<f:facet name="header">
+						<h:outputText value="Disciplinas" />
+					</f:facet>
+					<h:dataTable id="src" columns="1" value="#{periodoMB.listaDisciplinas}"
+						var="disc" footerClass="footerClass" styleClass="table table-hover table-bordered">
+						<h:column>
+							<a4j:outputPanel layout="block" styleClass="rf-ind-drag">
+								<rich:dragSource type="dis" dragValue="#{disc}" />
+								<h:outputText value="#{disc.titulo}" />
+							</a4j:outputPanel>
+						</h:column>
 						
-							<f:ajax  />
-					</h:commandButton>
+						<f:facet name="footer">
+							<a4j:commandButton action="#{periodoMB.reset}"
+								value="Limpar" render="AreaPersonalizacaoPeriodos" />
+						</f:facet>
+						 
+					</h:dataTable>
+				</rich:panel>
+
+				<c:forEach var="i" begin="1" end="#{periodoMB.numeroPeriodos}">
+				
+					<rich:panel styleClass="dropTargetPanel">
+						<f:facet name="header">
+							<h:outputText value="Período #{i}" />
+						</f:facet>
+						<rich:dropTarget acceptedTypes="dis" id="per-#{i}" dropValue="dis"
+							dropListener="#{periodoMB.processDrop}"
+							render="periodotable#{i}, src" />
+
+						<h:dataTable id="periodotable#{i}" columns="1"
+							value="#{periodoMB.listaGrade_Disciplina}" var="gd">
+							
+							
+							<h:column>
+								<h:outputText rendered="#{gd.nPeriodo == i}" value="#{gd.id.disciplina.titulo}" />
+							</h:column>
+							
+							
+						</h:dataTable>
+					</rich:panel>
+				
+				
+				</c:forEach>
+
+
+
+
+				
+
+
+			</h:panelGrid>
+
+
+
+
+				<div class="form-group">
+					<h:commandLink styleClass="btn btn-primary"
+						value="Salvar"
+						actionListener="#{periodoMB.adicionarPeriodo}">
+
+						<f:ajax render="AreaPersonalizacaoPeriodos"></f:ajax>
+
+					</h:commandLink>
 				</div>
-			</div>
+
+		
 
 
-		</h:form>
+</h:form>
 
+	
+	<a4j:outputPanel ajaxRendered="true">
+        <h:messages></h:messages>
+    </a4j:outputPanel>
+    
 	</ui:define>
 </ui:composition>
