@@ -135,4 +135,18 @@ public abstract class URLUtil {
 	public static final String BUSCAR_SALA_POR_ID = BASE + prop.getProperty("url.buscar.sala.por.id");
 	
 	public static final String LISTAR_SALAS = BASE + prop.getProperty("url.listar.salas");
+	
+	/*
+	 * PARAM HORA INICIO E HORA FIM DA AULA
+	 */
+	public static final String BUSCAR_HORA_AULA_POR_HORA = BASE + prop.getProperty("url.buscar.horaaula.por.hora");
+	
+	/*
+	 * PARAM ID
+	 */
+	public static final String SALVAR_HORA_AULA = BASE + prop.getProperty("url.salvar.horaaula");
+	
+	public static final String BUSCAR_HORA_AULA_POR_ID = BASE + prop.getProperty("url.buscar.horaaula.por.id");
+	
+	public static final String LISTAR_HORAS_AULA = BASE + prop.getProperty("url.listar.horasaula");
 }

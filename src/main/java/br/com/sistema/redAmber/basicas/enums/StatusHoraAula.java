@@ -1,18 +1,16 @@
 package br.com.sistema.redAmber.basicas.enums;
 
-public enum TipoSala {
-	LAB {
+public enum StatusHoraAula {
+	ATIVA {
 		@Override
 		public String toString() {
-
-			return "Laboratório";
+			return "Ativa";
 		}
 	},
-	AULA {
+	INATIVA {
 		@Override
 		public String toString() {
-
-			return "Sala de aula";
+			return "Inativa";
 		}
 	}
 }

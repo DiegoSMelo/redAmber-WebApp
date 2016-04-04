@@ -19,50 +19,47 @@ import com.sun.jersey.api.client.config.ClientConfig;
 import com.sun.jersey.api.client.config.DefaultClientConfig;
 import com.sun.jersey.api.json.JSONConfiguration;
 
-import br.com.sistema.redAmber.basicas.Equipamento;
 import br.com.sistema.redAmber.basicas.Sala;
-import br.com.sistema.redAmber.basicas.enums.StatusEquipamento;
+import br.com.sistema.redAmber.basicas.enums.StatusSala;
+import br.com.sistema.redAmber.basicas.enums.TipoSala;
 import br.com.sistema.redAmber.util.Mensagens;
 import br.com.sistema.redAmber.util.URLUtil;
 
 @ManagedBean
 @SessionScoped
-public class EquipamentoMB {
-	
-	private Equipamento equipamento;
-	private List<Equipamento> listaEquipamentos;
+public class SalaMB {
+
+	private Sala sala;
 	private List<Sala> listaSalas;
 	private boolean isPagAdd;
-	
+
 	public void salvar() {
 		
 		try {
-			Equipamento equipamentoJaExiste = null;
+			Sala salaJaExiste = null;
 			Client c = new Client();
-			WebResource wr = c.resource(URLUtil.BUSCAR_EQUIPAMENTO_POR_TOMBO + this.getEquipamento().getTombo());
-			String jsonResult = "";
-			jsonResult = wr.get(String.class);
+			WebResource wr = c.resource(URLUtil.BUSCAR_SALA_POR_DESCRICAO + this.getSala().getDescricao());
+			String jsonResult = wr.get(String.class);
 			if (!jsonResult.equalsIgnoreCase("null")) {
 				Gson gson = new Gson();
-				equipamentoJaExiste = gson.fromJson(jsonResult, Equipamento.class);
+				salaJaExiste = gson.fromJson(jsonResult, Sala.class);
 			}
-			
-			if ((this.isPagAdd() && equipamentoJaExiste == null) || !this.isPagAdd()) {
+			if ((this.isPagAdd() && salaJaExiste == null) || !this.isPagAdd()) {
 				// Create Jersey client
 				ClientConfig clientConfig = new DefaultClientConfig();
 				clientConfig.getFeatures().put(JSONConfiguration.FEATURE_POJO_MAPPING, Boolean.TRUE);
 				Client client = Client.create(clientConfig);
 				
-				WebResource webResourcePost = client.resource(URLUtil.SALVAR_EQUIPAMENTO);
+				WebResource webResourcePost = client.resource(URLUtil.SALVAR_SALA);
 				ClientResponse response = webResourcePost.type("application/json").post(ClientResponse.class,
-						this.getEquipamento());
+						this.getSala());
 				if (response.getStatus() == 200) {
-					FacesContext.getCurrentInstance().getExternalContext().redirect("/redAmber-WebApp/equipamento/index.xhtml");
+					FacesContext.getCurrentInstance().getExternalContext().redirect("/redAmber-WebApp/sala/index.xhtml");
 				} else {
 					RequestContext.getCurrentInstance().execute("alert('" + Mensagens.m3 + "');");
 				}
 			} else {
-				RequestContext.getCurrentInstance().execute("alert('" + Mensagens.m10 + "');");
+				RequestContext.getCurrentInstance().execute("alert('" + Mensagens.m11 + "');");
 			}
 		} catch (Exception e) {
 			RequestContext.getCurrentInstance().execute("alert('" + Mensagens.m3 + "');");
@@ -73,8 +70,8 @@ public class EquipamentoMB {
 	public void redirectAdd() {
 		try {
 			this.setPagAdd(true);
-			this.setEquipamento(new Equipamento());
-			FacesContext.getCurrentInstance().getExternalContext().redirect("/redAmber-WebApp/equipamento/add.xhtml");
+			this.setSala(new Sala());
+			FacesContext.getCurrentInstance().getExternalContext().redirect("/redAmber-WebApp/sala/add.xhtml");
 		} catch (IOException e) {
 			RequestContext.getCurrentInstance().execute("alert('"+e.getMessage()+"');");
 			e.printStackTrace();
@@ -84,7 +81,7 @@ public class EquipamentoMB {
 	public void redirectEdit() {
 		try {
 			this.setPagAdd(false);
-			FacesContext.getCurrentInstance().getExternalContext().redirect("/redAmber-WebApp/equipamento/edit.xhtml");
+			FacesContext.getCurrentInstance().getExternalContext().redirect("/redAmber-WebApp/sala/edit.xhtml");
 		} catch (IOException e) {
 			RequestContext.getCurrentInstance().execute("alert('"+e.getMessage()+"');");
 			e.printStackTrace();
@@ -92,41 +89,20 @@ public class EquipamentoMB {
 	}
 	
 	public void init() {
-		equipamento = new Equipamento();
+		sala = new Sala();
 		listaSalas = new ArrayList<Sala>();
 	}
 	
 	/*
 	 * Getters and setters
 	 */
-	public Equipamento getEquipamento() {
-		return equipamento;
+	public Sala getSala() {
+		return sala;
 	}
-	
-	public void setEquipamento(Equipamento equipamento) {
-		this.equipamento = equipamento;
+	public void setSala(Sala sala) {
+		this.sala = sala;
 	}
-	
-	public List<Equipamento> getListaEquipamentos() {
-		
-		Client c = new Client();
-		WebResource wr = c.resource(URLUtil.LISTAR_EQUIPAMENTOS);
-	    String jsonResult = wr.get(String.class);
-	    if (!jsonResult.equalsIgnoreCase("null")) {
-			Gson gson = new Gson();
-			
-			Equipamento[] lista = gson.fromJson(jsonResult, Equipamento[].class);
-			this.listaEquipamentos = Arrays.asList(lista);
-	    }
-		return listaEquipamentos;
-	}
-	
-	public void setListaEquipamentos(List<Equipamento> listaEquipamentos) {
-		this.listaEquipamentos = listaEquipamentos;
-	}
-	
 	public List<Sala> getListaSalas() {
-		
 		Client c = new Client();
 		WebResource wr = c.resource(URLUtil.LISTAR_SALAS);
 		String jsonResult = wr.get(String.class);
@@ -135,23 +111,24 @@ public class EquipamentoMB {
 			
 			Sala[] lista = gson.fromJson(jsonResult, Sala[].class);
 			this.listaSalas = Arrays.asList(lista);
-		}
+		}	
 		return listaSalas;
 	}
-	
-	public void setListaSala(List<Sala> listaSalas) {
+	public void setListaSalas(List<Sala> listaSalas) {
 		this.listaSalas = listaSalas;
 	}
-	
 	public boolean isPagAdd() {
 		return isPagAdd;
 	}
-	
 	public void setPagAdd(boolean isPagAdd) {
 		this.isPagAdd = isPagAdd;
 	}
 	
-	public StatusEquipamento[] getStatusEquipamento() {
-		return StatusEquipamento.values();
+	public StatusSala[] getStatusSala() {
+		return StatusSala.values();
+	}
+	
+	public TipoSala[] getTipoSala() {
+		return TipoSala.values();
 	}
 }

@@ -31,6 +31,16 @@ public class Equipamento implements Serializable {
 		this.sala = sala;
 		this.status = status;
 	}
+	
+	/*
+	 * Construtor com parâmetros (exceto tombo)
+	 */
+	public Equipamento(Long id, String descricao, Sala sala, StatusEquipamento status) {
+		this.id = id;
+		this.descricao = descricao;
+		this.sala = sala;
+		this.status = status;
+	}
 
 	/*
 	 * Método equals sobrescrito. Ele serve para definir os critérios que definem se um objeto é ou
