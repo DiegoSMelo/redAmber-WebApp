@@ -21,6 +21,7 @@ import com.sun.jersey.api.json.JSONConfiguration;
 
 import br.com.sistema.redAmber.basicas.Curso;
 import br.com.sistema.redAmber.basicas.enums.StatusCurso;
+import br.com.sistema.redAmber.basicas.enums.TipoCurso;
 import br.com.sistema.redAmber.util.Mensagens;
 import br.com.sistema.redAmber.util.URLUtil;
 
@@ -31,67 +32,6 @@ public class CursoMB {
 	private List<Curso> listaCursos;
 	private Boolean isAdd;
 	
-
-	/**
-	 * Cria um novo objeto para o operador e redireciona para a página de cadastro.
-	 */
-	public void redirectAdd(){
-		try {
-			this.setIsAdd(true);
-			this.setCurso(new Curso());
-			FacesContext.getCurrentInstance().getExternalContext().redirect("/redAmber-WebApp/curso/add.xhtml");
-
-		} catch (IOException e) {
-			RequestContext.getCurrentInstance().execute("alert('"+e.getMessage()+"');");
-		}
-	}
-	
-	/**
-	 * Redireciona para a página de edição.
-	 */
-	public void redirectEdit(){
-		try {
-			this.setIsAdd(false);
-			FacesContext.getCurrentInstance().getExternalContext().redirect("/redAmber-WebApp/curso/edit.xhtml");	
-
-		} catch (IOException e) {
-			RequestContext.getCurrentInstance().execute("alert('"+e.getMessage()+"');");
-		}
-	}
-	
-	
-	
-	
-	
-	
-	public Curso getCurso() {
-		
-		return curso;
-	}
-
-	public void setCurso(Curso curso) {
-		
-		this.curso = curso;
-	}
-	
-	public List<Curso> getListaCursos() {
-		
-		Client c = new Client();
-	    WebResource wr = c.resource(URLUtil.LISTAR_CURSOS);
-	    String jsonResult = wr.get(String.class);
-	    if (!jsonResult.equalsIgnoreCase("null")) {
-			Gson gson = new Gson();
-			
-			Curso[] lista = gson.fromJson(jsonResult, Curso[].class);
-			this.listaCursos = Arrays.asList(lista);
-		}
-	    
-		return listaCursos;
-	}
-
-	public void setListaCursos(List<Curso> listaCursos) {
-		this.listaCursos = listaCursos;
-	}
 	
 	public void salvar(){
 		try {
@@ -136,6 +76,67 @@ public class CursoMB {
 		} 
 	}
 
+	
+	
+	/**
+	 * Cria um novo objeto para o operador e redireciona para a página de cadastro.
+	 */
+	public void redirectAdd(){
+		try {
+			this.setIsAdd(true);
+			this.setCurso(new Curso());
+			FacesContext.getCurrentInstance().getExternalContext().redirect("/redAmber-WebApp/curso/add.xhtml");
+
+		} catch (IOException e) {
+			RequestContext.getCurrentInstance().execute("alert('"+e.getMessage()+"');");
+		}
+	}
+	
+	/**
+	 * Redireciona para a página de edição.
+	 */
+	public void redirectEdit(){
+		try {
+			this.setIsAdd(false);
+			FacesContext.getCurrentInstance().getExternalContext().redirect("/redAmber-WebApp/curso/edit.xhtml");	
+
+		} catch (IOException e) {
+			RequestContext.getCurrentInstance().execute("alert('"+e.getMessage()+"');");
+		}
+	}
+	
+	
+	
+	
+	public Curso getCurso() {
+		
+		return curso;
+	}
+
+	public void setCurso(Curso curso) {
+		
+		this.curso = curso;
+	}
+	
+	public List<Curso> getListaCursos() {
+		
+		Client c = new Client();
+	    WebResource wr = c.resource(URLUtil.LISTAR_CURSOS);
+	    String jsonResult = wr.get(String.class);
+	    if (!jsonResult.equalsIgnoreCase("null")) {
+			Gson gson = new Gson();
+			
+			Curso[] lista = gson.fromJson(jsonResult, Curso[].class);
+			this.listaCursos = Arrays.asList(lista);
+		}
+	    
+		return listaCursos;
+	}
+
+	public void setListaCursos(List<Curso> listaCursos) {
+		this.listaCursos = listaCursos;
+	}
+	
 	public Boolean getIsAdd() {
 		return isAdd;
 	}
@@ -146,6 +147,10 @@ public class CursoMB {
 	
 	public StatusCurso[] getStatusCurso() {
 		return StatusCurso.values();
+	}
+	
+	public TipoCurso[] getTiposCurso(){
+		return TipoCurso.values();
 	}
 	
 }

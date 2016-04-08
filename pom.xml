@@ -6,6 +6,37 @@
   <packaging>war</packaging>
 
 	<dependencies>
+	<dependency>
+		<groupId>org.richfaces.core</groupId>
+		<artifactId>richfaces-core-api</artifactId>
+		<version>4.3.1.Final</version>
+	</dependency>
+
+	<dependency>
+		<groupId>org.richfaces.core</groupId>
+		<artifactId>richfaces-core-impl</artifactId>
+		<version>4.3.1.Final</version>
+	</dependency>
+
+	<dependency>
+		<groupId>org.richfaces.ui</groupId>
+		<artifactId>richfaces-components-ui</artifactId>
+		<version>4.3.1.Final</version>
+	</dependency>
+
+	<dependency>
+		<groupId>org.richfaces.ui</groupId>
+		<artifactId>richfaces-components-api</artifactId>
+		<version>4.3.1.Final</version>
+	</dependency>		
+	
+	<dependency>
+	<groupId>jstl</groupId>
+	<artifactId>jstl</artifactId>
+	<version>1.2</version>
+</dependency>
+	
+	
 		<dependency>
 			<groupId>com.sun.faces</groupId>
 			<artifactId>jsf-api</artifactId>

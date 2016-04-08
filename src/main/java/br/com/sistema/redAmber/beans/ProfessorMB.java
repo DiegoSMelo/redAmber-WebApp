@@ -32,9 +32,7 @@ public class ProfessorMB {
 	private Professor professor;
 	private List<Professor> listaProfessores;
 	private boolean isPagAdd;
-	
 	private Disciplina disciplina;
-	
 	
 	
 	public void salvar(){
