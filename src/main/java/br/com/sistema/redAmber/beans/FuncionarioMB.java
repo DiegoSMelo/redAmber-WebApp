@@ -96,9 +96,6 @@ public class FuncionarioMB {
 		}
 	}
 	
-	public void init(){
-		funcionario = new Funcionario();
-	}
 
 	public Funcionario getFuncionario() {
 		return funcionario;

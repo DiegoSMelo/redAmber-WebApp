@@ -34,6 +34,7 @@ public class TurmaMB {
 	private boolean isPagAdd;
 	private Long idCurso;
 	
+	
 	public void salvar(){
 		
 		try {

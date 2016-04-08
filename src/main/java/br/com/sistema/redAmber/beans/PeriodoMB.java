@@ -25,6 +25,7 @@ import br.com.sistema.redAmber.basicas.Disciplina;
 import br.com.sistema.redAmber.basicas.Grade;
 import br.com.sistema.redAmber.basicas.Grade_Disciplina;
 import br.com.sistema.redAmber.basicas.Grade_Disciplina_PK;
+import br.com.sistema.redAmber.util.Mensagens;
 import br.com.sistema.redAmber.util.URLUtil;
 
 @ManagedBean
@@ -36,22 +37,7 @@ public class PeriodoMB implements DropListener{
 	public List<Disciplina> listaDisciplinas;
 	public List<Grade_Disciplina> listaGrade_Disciplina;
 	
-	
-	
-	
-	
-	public void adicionarPeriodo(){
-		
-		this.numeroPeriodos++;
-		
-	}
-	
-	public void removerPeriodo(){
-		
-		this.numeroPeriodos--;		
-		
-	}
-	
+
 	public void salvarPeriodo() {
 
 		// Create Jersey client
@@ -65,17 +51,35 @@ public class PeriodoMB implements DropListener{
 		WebResource webResourcePostRemove = client.resource(URLUtil.REMOVER_GRADE_DISCIPLINA);
 		ClientResponse responseRemove = webResourcePostRemove.type("application/json").post(ClientResponse.class, this.grade);
 		
+		if (responseRemove.getStatus() != 200) {
 		
-		for (Grade_Disciplina gd : this.listaGrade_Disciplina) {
+			RequestContext.getCurrentInstance().execute("alert('" + Mensagens.m10 + "');");	
 			
-			/*
-			 * add
-			 */
-			WebResource webResourcePostSalva = client.resource(URLUtil.SALVAR_GRADE_DISCIPLINA);
-			ClientResponse responseSalva = webResourcePostSalva.type("application/json").post(ClientResponse.class, gd);
+		} else {
+			
+			int gatilhoSucesso = 0;
+			
+			for (Grade_Disciplina gd : this.listaGrade_Disciplina) {
 
+				/*
+				 * add
+				 */
+				WebResource webResourcePostSalva = client.resource(URLUtil.SALVAR_GRADE_DISCIPLINA);
+				ClientResponse responseSalva = webResourcePostSalva.type("application/json").post(ClientResponse.class, gd);
+				
+				if (responseSalva.getStatus() != 200) {
+					gatilhoSucesso = 1;
+				}
+				
+			}
+			
+			if (gatilhoSucesso == 1) {
+				RequestContext.getCurrentInstance().execute("alert('" + Mensagens.m10 + "');");
+			}else{
+				RequestContext.getCurrentInstance().execute("alert('" + Mensagens.m11 + "');");
+			}
+			
 		}
-		
 		
 		
 		/*
@@ -84,6 +88,17 @@ public class PeriodoMB implements DropListener{
 		this.listaGrade_Disciplina = null;
 	}
 	
+	public void adicionarPeriodo(){
+		
+		this.numeroPeriodos++;
+		
+	}
+	
+	public void removerPeriodo(){
+		
+		this.numeroPeriodos--;		
+		
+	}
 
 	@Override
 	public void processDrop(DropEvent event) {
@@ -129,14 +144,16 @@ public class PeriodoMB implements DropListener{
 
 	public List<Disciplina> getListaDisciplinas() {
 		
-		Client c = new Client();
-		WebResource wr = c.resource(URLUtil.LISTAR_DISCIPLINAS);
-		String jsonResult = wr.get(String.class);
-		if (!jsonResult.equalsIgnoreCase("null")) {
-			Gson gson = new Gson();
+		if (this.listaDisciplinas == null) {
+			Client c = new Client();
+			WebResource wr = c.resource(URLUtil.LISTAR_DISCIPLINAS);
+			String jsonResult = wr.get(String.class);
+			if (!jsonResult.equalsIgnoreCase("null")) {
+				Gson gson = new Gson();
 
-			Disciplina[] lista = gson.fromJson(jsonResult, Disciplina[].class);
-			this.listaDisciplinas = Arrays.asList(lista);
+				Disciplina[] lista = gson.fromJson(jsonResult, Disciplina[].class);
+				this.listaDisciplinas = Arrays.asList(lista);
+			} 
 		}
 		
 		return listaDisciplinas;

@@ -27,7 +27,7 @@
 			<div class="form-group">
 				<h:commandLink styleClass="btn btn-success" value="Adicionar período" actionListener="#{periodoMB.adicionarPeriodo}">
 				
-					<f:ajax render="AreaPersonalizacaoPeriodos"></f:ajax>
+					<f:ajax immediate="true" render="AreaPersonalizacaoPeriodos"></f:ajax>
 					
 				</h:commandLink>
 			</div>
@@ -35,7 +35,7 @@
 			<div class="form-group">
 				<h:commandLink styleClass="btn btn-danger" value="Remover período" actionListener="#{periodoMB.removerPeriodo}">
 				
-					<f:ajax render="AreaPersonalizacaoPeriodos"></f:ajax>
+					<f:ajax immediate="true" render="AreaPersonalizacaoPeriodos"></f:ajax>
 					
 				</h:commandLink>
 			</div>

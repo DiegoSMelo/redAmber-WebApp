@@ -27,9 +27,6 @@ public class MatriculaMB {
 	private List<Matricula> listaMatriculas;
 	
 	
-	
-	
-	
 	public void redirectIndex(){
 		try {
 			
@@ -51,6 +48,8 @@ public class MatriculaMB {
 			RequestContext.getCurrentInstance().execute("alert('"+e.getMessage()+"');");
 		}
 	}
+	
+	
 	
 	public Aluno getAluno() {
 		return aluno;
