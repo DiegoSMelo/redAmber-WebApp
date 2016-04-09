@@ -7,10 +7,13 @@ public enum TipoTurno {
 		public String toString() {
 			return "Manhã";
 		}
-	}
-
-	,
-
+	},
+	TARDE {
+		@Override
+		public String toString() {
+			return "Tarde";
+		}
+	},
 	NOITE {
 		@Override
 		public String toString() {

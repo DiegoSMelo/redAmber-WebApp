@@ -11,8 +11,8 @@ public abstract class URLUtil {
 	static{
 		try {
 			
-			prop = new Properties();			
-			prop.load(new FileInputStream("C:/Users/Diego/workspace/redAmber-WebApp/src/main/resources/url.properties"));
+			prop = new Properties();
+			prop.load(new FileInputStream("C:/Users/acmorais/workspace/repo/redAmber-WebApp/src/main/resources/url.properties"));
 			
 		} catch (FileNotFoundException e) {
 			
@@ -124,5 +124,45 @@ public abstract class URLUtil {
 	 */
 	public static final String BUSCAR_TURMA_POR_ID = BASE + prop.getProperty("url.buscar.turma.por.id");
 	
+	/*
+	 * PARAM TOMBO
+	 */
+	public static final String BUSCAR_EQUIPAMENTO_POR_TOMBO = BASE + prop.getProperty("url.buscar.equipamento.por.tombo");
 	
+	/*
+	 * PARAM ID
+	 */
+	public static final String SALVAR_EQUIPAMENTO = BASE + prop.getProperty("url.salvar.equipamento");
+	
+	public static final String BUSCAR_EQUIPAMENTO_POR_ID = BASE + prop.getProperty("url.buscar.equipamento.por.id");
+	
+	public static final String LISTAR_EQUIPAMENTOS = BASE + prop.getProperty("url.listar.equipamentos");
+
+	/*
+	 * PARAM DESCRICAO
+	 */
+	public static final String BUSCAR_SALA_POR_DESCRICAO = BASE + prop.getProperty("url.buscar.sala.por.descricao");
+	
+	/*
+	 * PARAM ID
+	 */
+	public static final String SALVAR_SALA = BASE + prop.getProperty("url.salvar.sala");
+	
+	public static final String BUSCAR_SALA_POR_ID = BASE + prop.getProperty("url.buscar.sala.por.id");
+	
+	public static final String LISTAR_SALAS = BASE + prop.getProperty("url.listar.salas");
+	
+	/*
+	 * PARAM HORA INICIO E HORA FIM DA AULA
+	 */
+	public static final String BUSCAR_HORA_AULA_POR_HORA = BASE + prop.getProperty("url.buscar.horaaula.por.hora");
+	
+	/*
+	 * PARAM ID
+	 */
+	public static final String SALVAR_HORA_AULA = BASE + prop.getProperty("url.salvar.horaaula");
+	
+	public static final String BUSCAR_HORA_AULA_POR_ID = BASE + prop.getProperty("url.buscar.horaaula.por.id");
+	
+	public static final String LISTAR_HORAS_AULA = BASE + prop.getProperty("url.listar.horasaula");
 }

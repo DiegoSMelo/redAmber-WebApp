@@ -16,5 +16,7 @@ public class Mensagens {
 	public static String m9 = "Este usuário encontra-se inativo. Entre em contato com a coordenação.";
 	public static String m10 = "Erro ao salvar período";
 	public static String m11 = "Período salvo com sucesso!";
-	
+	public static String m12 = "Equipamento já cadastrado";
+	public static String m13 = "Sala já cadastrada";
+	public static String m14 = "Horário já cadastrado";
 }
