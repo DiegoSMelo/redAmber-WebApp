@@ -19,4 +19,7 @@ public class Mensagens {
 	public static String m12 = "Equipamento já cadastrado";
 	public static String m13 = "Sala já cadastrada";
 	public static String m14 = "Horário já cadastrado";
+	public static String m15 = "Escolha uma grade";
+	public static String m16 = "Matrícula realizada com sucesso!";
+	public static String m17 = "Falha ao finalizar a matrícula";
 }
