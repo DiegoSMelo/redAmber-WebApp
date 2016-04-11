@@ -9,7 +9,6 @@ import java.util.List;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
-import javax.faces.event.ActionEvent;
 import javax.faces.event.ValueChangeEvent;
 
 import org.primefaces.context.RequestContext;
@@ -42,6 +41,7 @@ public class MatriculaMB {
 	private Grade gradeSelecionada;
 	private List<Grade> listaGrades;
 	private Integer entrada;
+	private boolean isPagAdd;
 	
 	public void redirectIndex(){
 		try {
@@ -55,6 +55,7 @@ public class MatriculaMB {
 	
 	public void redirectAdd(){
 		try {
+			this.setPagAdd(true);
 			this.setMatricula(new Matricula());
 			this.matricula.setAluno(this.getAluno());
 			FacesContext.getCurrentInstance().getExternalContext().redirect("/redAmber-WebApp/matricula/add.xhtml");
@@ -64,18 +65,32 @@ public class MatriculaMB {
 		}
 	}
 	
-	public void matricular(ActionEvent event) {
-		
+	public void redirectEdit() {
+		try {
+			this.setPagAdd(false);
+			FacesContext.getCurrentInstance().getExternalContext().redirect("/redAmber-WebApp/matricula/edit.xhtml");
+		} catch (IOException e) {
+			RequestContext.getCurrentInstance().execute("alert('"+e.getMessage()+"');");
+			e.printStackTrace();
+		}
+	}
+
+	/*
+	 * Método que matricula um aluno em uma grade.
+	 * ESTE MÉTODO AINDA NÃO VERIFICA SE O ALUNO JÁ ESTÁ MATRICULADO EM DETERMINADO MESMO CURSO!
+	 */
+	public String matricular() {
+
 		if (this.getGradeSelecionada() == null) {
 			RequestContext.getCurrentInstance().execute("alert('" + Mensagens.m15 + "');");
-			return;
+			return null;
 		}
 		try {
+			String codigoMatricula = gerarCodigoMatricula();
 			Date date = new Date();
 			Calendar cal = Calendar.getInstance();
 			cal.setTime(date);
 			
-			String codigoMatricula = gerarCodigoMatricula();
 			this.getMatricula().setAluno(aluno);
 			this.getMatricula().setCodigoMatricula(codigoMatricula);
 			this.getMatricula().setDataMatricula(cal);
@@ -89,9 +104,11 @@ public class MatriculaMB {
 			WebResource webResourcePost = client.resource(URLUtil.SALVAR_MATRICULA);
 			ClientResponse response = webResourcePost.type("application/json").post(ClientResponse.class,
 					this.getMatricula());
+			System.out.println("CÓDIGO DE RESPOSTA: " + response.getStatus());
 			if (response.getStatus() == 200) {
-				RequestContext.getCurrentInstance().execute("alert('" + Mensagens.m16 + "');");
-//				FacesContext.getCurrentInstance().getExternalContext().redirect("/redAmber-WebApp/matricula/index.xhtml");
+//					RequestContext.getCurrentInstance().execute("alert('" + Mensagens.m16 + "');");
+//					FacesContext.getCurrentInstance().getExternalContext().redirect("/redAmber-WebApp/matricula/index.xhtml");
+				redirectIndex();
 			} else {
 				RequestContext.getCurrentInstance().execute("alert('" + Mensagens.m17 + "');");
 			}
@@ -99,8 +116,72 @@ public class MatriculaMB {
 			RequestContext.getCurrentInstance().execute("alert('" + Mensagens.m17 + "');");
 			e.printStackTrace();
 		}
+		return null;
 	}
 	
+	/*
+	 * Método que matricula um aluno em uma grade.
+	 * ESTE MÉTODO VERIFICA SE O ALUNO ESTÁ SE MATRICULANDO NOVAMENTE NO MESMO CURSO, MAS ESTE
+	 * RECURSO AINDA NÃO FUNCIONA!
+	 */
+	public String matricularQuebrado() {
+
+		if (this.getGradeSelecionada() == null) {
+			RequestContext.getCurrentInstance().execute("alert('" + Mensagens.m15 + "');");
+			return null;
+		}
+		try {
+			String codigoMatricula = gerarCodigoMatricula();
+			Matricula matriculaJaExiste = null;
+			Client c = new Client();
+			WebResource wr = c.resource(URLUtil.BUSCAR_MATRICULA_POR_CODIGO + codigoMatricula);
+			String jsonResult = "";
+			jsonResult = wr.get(String.class);
+			if (!jsonResult.equalsIgnoreCase("null")) {
+				Gson gson = new Gson();
+				matriculaJaExiste = gson.fromJson(jsonResult, Matricula.class);
+			}
+			
+			if ((this.isPagAdd() && matriculaJaExiste == null) || !this.isPagAdd()) {
+				Date date = new Date();
+				Calendar cal = Calendar.getInstance();
+				cal.setTime(date);
+				
+				this.getMatricula().setAluno(aluno);
+				this.getMatricula().setCodigoMatricula(codigoMatricula);
+				this.getMatricula().setDataMatricula(cal);
+				this.getMatricula().setGrade(this.getGradeSelecionada());
+				this.getMatricula().setStatus(StatusMatricula.ATIVO);
+				
+				ClientConfig clientConfig = new DefaultClientConfig();
+				clientConfig.getFeatures().put(JSONConfiguration.FEATURE_POJO_MAPPING, Boolean.TRUE);
+				Client client = Client.create(clientConfig);
+				
+				WebResource webResourcePost = client.resource(URLUtil.SALVAR_MATRICULA);
+				ClientResponse response = webResourcePost.type("application/json").post(ClientResponse.class,
+						this.getMatricula());
+				System.out.println("CÓDIGO DE RESPOSTA: " + response.getStatus());
+				if (response.getStatus() == 200) {
+//					RequestContext.getCurrentInstance().execute("alert('" + Mensagens.m16 + "');");
+//					FacesContext.getCurrentInstance().getExternalContext().redirect("/redAmber-WebApp/matricula/index.xhtml");
+					redirectIndex();
+				} else {
+					RequestContext.getCurrentInstance().execute("alert('" + Mensagens.m17 + "');");
+				}
+			} else {
+				RequestContext.getCurrentInstance().execute("alert('" + Mensagens.m18 + "');");
+			}
+		} catch (Exception e) {
+			RequestContext.getCurrentInstance().execute("alert('" + Mensagens.m17 + "');");
+			e.printStackTrace();
+		}
+		return null;
+	}
+	
+	/*
+	 * Método que gera um código de matrícula de 12 dígitos para o aluno baseado no seguinte critério:
+	 * Código de matrícula = ANO DA MATRÍCULA + ENTRADA + CÓDIGO DO CURSO + ID DO ALUNO COM 6 DÍGITOS
+	 */
 	public String gerarCodigoMatricula() {
 		Date date = new Date();
 		Calendar cal = Calendar.getInstance();
@@ -234,5 +315,13 @@ public class MatriculaMB {
 
 	public void setEntrada(Integer entrada) {
 		this.entrada = entrada;
+	}
+	
+	public boolean isPagAdd() {
+		return isPagAdd;
+	}
+	
+	public void setPagAdd(boolean isPagAdd) {
+		this.isPagAdd = isPagAdd;
 	}
 }
