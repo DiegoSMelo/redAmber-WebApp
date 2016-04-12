@@ -200,6 +200,7 @@ public class PeriodoMB implements DropListener{
 	public void redirectPeriodos(){
 		try {
 			this.listaGrade_Disciplina = null;
+			this.setListaDisciplinas(null);
 			this.numeroPeriodos = 0;
 			
 			FacesContext.getCurrentInstance().getExternalContext().redirect("/redAmber-WebApp/periodo/index.xhtml");

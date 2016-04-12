@@ -16,5 +16,9 @@ public class Mensagens {
 	public static String m9 = "Este usuário encontra-se inativo. Entre em contato com a coordenação.";
 	public static String m10 = "Erro ao salvar período";
 	public static String m11 = "Período salvo com sucesso!";
+	public static String m12 = "Escolha uma grade";
+	public static String m13 = "Falha ao finalizar a matrícula";
+	public static String m14 = "O aluno já está matriculado nesse curso";
+	
 	
 }

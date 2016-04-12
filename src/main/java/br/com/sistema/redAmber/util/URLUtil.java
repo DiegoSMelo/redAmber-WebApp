@@ -60,6 +60,19 @@ public abstract class URLUtil {
 	
 	public static final String SALVAR_MATRICULA = BASE + prop.getProperty("url.matricula.cadastrar");
 	
+	/*
+	 * param ID MATRICULA
+	 */
+	public static final String BUSCAR_MATRICULA_POR_ID = BASE + prop.getProperty("url.buscar.matricula.por.id");
+	
+	/*
+	 * param CODIGO MATRICULA
+	 */
+	public static final String BUSCAR_MATRICULA_POR_CODIGO = BASE + prop.getProperty("url.buscar.matricula.por.codigo");
+	
+	
+	
+	
 	public static final String LISTAR_PROFESSORES = BASE + prop.getProperty("url.listar.professores");
 
 	public static final String SALVAR_PROFESSOR = BASE + prop.getProperty("url.salvar.professor");
@@ -111,8 +124,8 @@ public abstract class URLUtil {
 	public static final String REMOVER_GRADE_DISCIPLINA = BASE + prop.getProperty("url.remover.grade-disciplina");
 	public static final String LISTAR_GRADE_DISCIPLINA_POR_GRADE = BASE + prop.getProperty("url.listar.grade-disciplina.por.grade");
 	public static final String LISTAR_GRADE_DISCIPLINA_POR_ID = BASE + prop.getProperty("url.buscar.grade-disciplina.por.id");
-	
-	
+	public static final String LISTAR_GRADES = BASE + prop.getProperty("url.listar.grades");
+	public static final String BUSCAR_GRADE_POR_ID = BASE + prop.getProperty("url.buscar.grade.por.id");
 	
 	
 	public static final String LISTAR_TURMAS = BASE + prop.getProperty("url.listar.turmas");
