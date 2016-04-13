@@ -22,6 +22,8 @@ public class Matricula implements Serializable {
 	
 	private Grade grade;
 	
+	private Integer entrada;
+	
 	private StatusMatricula status;
 
 	/*
@@ -67,6 +69,14 @@ public class Matricula implements Serializable {
 		this.grade = grade;
 	}
 	
+	public Integer getEntrada() {
+		return entrada;
+	}
+
+	public void setEntrada(Integer entrada) {
+		this.entrada = entrada;
+	}
+
 	public StatusMatricula getStatus() {
 		return status;
 	}

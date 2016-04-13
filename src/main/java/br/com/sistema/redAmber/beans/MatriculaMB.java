@@ -95,6 +95,7 @@ public class MatriculaMB {
 			this.getMatricula().setCodigoMatricula(codigoMatricula);
 			this.getMatricula().setDataMatricula(cal);
 			this.getMatricula().setGrade(this.getGradeSelecionada());
+			this.getMatricula().setEntrada(this.getEntrada());
 			this.getMatricula().setStatus(StatusMatricula.ATIVO);
 			
 			ClientConfig clientConfig = new DefaultClientConfig();
@@ -151,6 +152,7 @@ public class MatriculaMB {
 				this.getMatricula().setCodigoMatricula(codigoMatricula);
 				this.getMatricula().setDataMatricula(cal);
 				this.getMatricula().setGrade(this.getGradeSelecionada());
+				this.getMatricula().setEntrada(this.getEntrada());
 				this.getMatricula().setStatus(StatusMatricula.ATIVO);
 				
 				ClientConfig clientConfig = new DefaultClientConfig();
@@ -190,7 +192,68 @@ public class MatriculaMB {
 		String paramAno = Integer.toString(cal.get(Calendar.YEAR));
 		String paramAluno = String.format("%06d",this.getAluno().getId());
 		
-		String codigoMatricula = paramAno + this.getEntrada() + this.getCursoSelecionado() + paramAluno;
+		String codigoMatricula = paramAno + this.getEntrada() + this.getCursoSelecionado() + 
+				paramAluno;
+		
+	    return  codigoMatricula;
+	}
+	
+	/*
+	 * Método que modifica os dados de uma matrícula previamente efetuada
+	 */
+	public String modificarMatricula() {
+		if (this.getGradeSelecionada() == null) {
+			RequestContext.getCurrentInstance().execute("alert('" + Mensagens.m15 + "');");
+			return null;
+		}
+		try {
+			String novoCodigoMatricula = modificarCodigoMatricula();
+//			Date date = new Date();
+//			Calendar cal = Calendar.getInstance();
+//			cal.setTime(date);
+			
+//			this.getMatricula().setAluno(aluno);
+			this.getMatricula().setCodigoMatricula(novoCodigoMatricula);
+//			this.getMatricula().setDataMatricula(cal);
+//			this.getMatricula().setGrade(this.getGradeSelecionada());
+//			this.getMatricula().setEntrada(this.getEntrada());
+//			this.getMatricula().setStatus(StatusMatricula.ATIVO);
+			
+			ClientConfig clientConfig = new DefaultClientConfig();
+			clientConfig.getFeatures().put(JSONConfiguration.FEATURE_POJO_MAPPING, Boolean.TRUE);
+			Client client = Client.create(clientConfig);
+			
+			WebResource webResourcePost = client.resource(URLUtil.SALVAR_MATRICULA);
+			ClientResponse response = webResourcePost.type("application/json").post(ClientResponse.class,
+					this.getMatricula());
+			System.out.println("CÓDIGO DE RESPOSTA: " + response.getStatus());
+			if (response.getStatus() == 200) {
+//					RequestContext.getCurrentInstance().execute("alert('" + Mensagens.m16 + "');");
+//					FacesContext.getCurrentInstance().getExternalContext().redirect("/redAmber-WebApp/matricula/index.xhtml");
+				redirectIndex();
+			} else {
+				RequestContext.getCurrentInstance().execute("alert('" + Mensagens.m17 + "');");
+			}
+		} catch (Exception e) {
+			RequestContext.getCurrentInstance().execute("alert('" + Mensagens.m17 + "');");
+			e.printStackTrace();
+		}
+		return null;
+	}
+
+	/*
+	 * Método que atualiza o código de uma matrícula previamente efetuada
+	 */
+	public String modificarCodigoMatricula() {
+		Date date = new Date();
+		Calendar cal = Calendar.getInstance();
+	    cal.setTime(date);
+	    
+		String paramAno = Integer.toString(cal.get(Calendar.YEAR));
+		String paramAluno = String.format("%06d",this.getAluno().getId());
+		
+		String codigoMatricula = paramAno + this.getMatricula().getEntrada() + 
+				this.getMatricula().getGrade().getCurso().getId() + paramAluno;
 		
 	    return  codigoMatricula;
 	}
@@ -323,5 +386,9 @@ public class MatriculaMB {
 	
 	public void setPagAdd(boolean isPagAdd) {
 		this.isPagAdd = isPagAdd;
+	}
+	
+	public StatusMatricula[] getStatusMatricula() {
+		return StatusMatricula.values();
 	}
 }
