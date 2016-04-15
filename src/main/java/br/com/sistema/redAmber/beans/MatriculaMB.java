@@ -1,6 +1,7 @@
 package br.com.sistema.redAmber.beans;
 
 import java.io.IOException;
+import java.net.URLEncoder;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
@@ -9,6 +10,7 @@ import java.util.List;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
+import javax.faces.event.ActionEvent;
 import javax.faces.event.ValueChangeEvent;
 
 import org.primefaces.context.RequestContext;
@@ -77,107 +79,63 @@ public class MatriculaMB {
 
 	/*
 	 * Método que matricula um aluno em uma grade.
-	 * ESTE MÉTODO AINDA NÃO VERIFICA SE O ALUNO JÁ ESTÁ MATRICULADO EM DETERMINADO MESMO CURSO!
 	 */
-	public String matricular() {
+	public void matricular(ActionEvent event) {
 
 		if (this.getGradeSelecionada() == null) {
 			RequestContext.getCurrentInstance().execute("alert('" + Mensagens.m15 + "');");
-			return null;
-		}
-		try {
-			String codigoMatricula = gerarCodigoMatricula();
-			Date date = new Date();
-			Calendar cal = Calendar.getInstance();
-			cal.setTime(date);
-			
-			this.getMatricula().setAluno(aluno);
-			this.getMatricula().setCodigoMatricula(codigoMatricula);
-			this.getMatricula().setDataMatricula(cal);
-			this.getMatricula().setGrade(this.getGradeSelecionada());
-			this.getMatricula().setEntrada(this.getEntrada());
-			this.getMatricula().setStatus(StatusMatricula.ATIVO);
-			
-			ClientConfig clientConfig = new DefaultClientConfig();
-			clientConfig.getFeatures().put(JSONConfiguration.FEATURE_POJO_MAPPING, Boolean.TRUE);
-			Client client = Client.create(clientConfig);
-			
-			WebResource webResourcePost = client.resource(URLUtil.SALVAR_MATRICULA);
-			ClientResponse response = webResourcePost.type("application/json").post(ClientResponse.class,
-					this.getMatricula());
-			System.out.println("CÓDIGO DE RESPOSTA: " + response.getStatus());
-			if (response.getStatus() == 200) {
-//					RequestContext.getCurrentInstance().execute("alert('" + Mensagens.m16 + "');");
-//					FacesContext.getCurrentInstance().getExternalContext().redirect("/redAmber-WebApp/matricula/index.xhtml");
-				redirectIndex();
-			} else {
-				RequestContext.getCurrentInstance().execute("alert('" + Mensagens.m17 + "');");
-			}
-		} catch (Exception e) {
-			RequestContext.getCurrentInstance().execute("alert('" + Mensagens.m17 + "');");
-			e.printStackTrace();
-		}
-		return null;
-	}
-	
-	/*
-	 * Método que matricula um aluno em uma grade.
-	 * ESTE MÉTODO VERIFICA SE O ALUNO ESTÁ SE MATRICULANDO NOVAMENTE NO MESMO CURSO, MAS ESTE
-	 * RECURSO AINDA NÃO FUNCIONA!
-	 */
-	public String matricularQuebrado() {
-
-		if (this.getGradeSelecionada() == null) {
-			RequestContext.getCurrentInstance().execute("alert('" + Mensagens.m15 + "');");
-			return null;
-		}
-		try {
-			String codigoMatricula = gerarCodigoMatricula();
-			Matricula matriculaJaExiste = null;
-			Client c = new Client();
-			WebResource wr = c.resource(URLUtil.BUSCAR_MATRICULA_POR_CODIGO + codigoMatricula);
-			String jsonResult = "";
-			jsonResult = wr.get(String.class);
-			if (!jsonResult.equalsIgnoreCase("null")) {
-				Gson gson = new Gson();
-				matriculaJaExiste = gson.fromJson(jsonResult, Matricula.class);
-			}
-			
-			if ((this.isPagAdd() && matriculaJaExiste == null) || !this.isPagAdd()) {
-				Date date = new Date();
-				Calendar cal = Calendar.getInstance();
-				cal.setTime(date);
+			//return null;
+		} else {
+			try {
+				String codigoMatricula = gerarCodigoMatricula();
 				
-				this.getMatricula().setAluno(aluno);
-				this.getMatricula().setCodigoMatricula(codigoMatricula);
-				this.getMatricula().setDataMatricula(cal);
-				this.getMatricula().setGrade(this.getGradeSelecionada());
-				this.getMatricula().setEntrada(this.getEntrada());
-				this.getMatricula().setStatus(StatusMatricula.ATIVO);
-				
-				ClientConfig clientConfig = new DefaultClientConfig();
-				clientConfig.getFeatures().put(JSONConfiguration.FEATURE_POJO_MAPPING, Boolean.TRUE);
-				Client client = Client.create(clientConfig);
-				
-				WebResource webResourcePost = client.resource(URLUtil.SALVAR_MATRICULA);
-				ClientResponse response = webResourcePost.type("application/json").post(ClientResponse.class,
-						this.getMatricula());
-				System.out.println("CÓDIGO DE RESPOSTA: " + response.getStatus());
-				if (response.getStatus() == 200) {
-//					RequestContext.getCurrentInstance().execute("alert('" + Mensagens.m16 + "');");
-//					FacesContext.getCurrentInstance().getExternalContext().redirect("/redAmber-WebApp/matricula/index.xhtml");
-					redirectIndex();
-				} else {
-					RequestContext.getCurrentInstance().execute("alert('" + Mensagens.m17 + "');");
+				Matricula matriculaJaExiste = null;
+				Client c = new Client();
+				WebResource wr = c.resource(URLUtil.BUSCAR_MATRICULA_POR_ALUNO_CURSO + 
+						URLEncoder.encode(String.valueOf(this.getAluno().getId()), 
+								java.nio.charset.StandardCharsets.UTF_8.toString()) + "/" + 
+			    		URLEncoder.encode(String.valueOf(this.getGradeSelecionada().getCurso().getId()), 
+			    				java.nio.charset.StandardCharsets.UTF_8.toString()));
+				String jsonResult = "";
+				jsonResult = wr.get(String.class);
+				if (!jsonResult.equalsIgnoreCase("null")) {
+					Gson gson = new Gson();
+					matriculaJaExiste = gson.fromJson(jsonResult, Matricula.class);
 				}
-			} else {
-				RequestContext.getCurrentInstance().execute("alert('" + Mensagens.m18 + "');");
+				
+				if ((this.isPagAdd() && matriculaJaExiste == null)) {
+					Date date = new Date();
+					Calendar cal = Calendar.getInstance();
+					cal.setTime(date);
+					
+					this.getMatricula().setAluno(aluno);
+					this.getMatricula().setCodigoMatricula(codigoMatricula);
+					this.getMatricula().setDataMatricula(cal);
+					this.getMatricula().setGrade(this.getGradeSelecionada());
+					this.getMatricula().setEntrada(this.getEntrada());
+					this.getMatricula().setStatus(StatusMatricula.ATIVO);
+					
+					ClientConfig clientConfig = new DefaultClientConfig();
+					clientConfig.getFeatures().put(JSONConfiguration.FEATURE_POJO_MAPPING, Boolean.TRUE);
+					Client client = Client.create(clientConfig);
+					
+					WebResource webResourcePost = client.resource(URLUtil.SALVAR_MATRICULA);
+					ClientResponse response = webResourcePost.type("application/json").post(ClientResponse.class,
+							this.getMatricula());
+					if (response.getStatus() == 200) {
+						redirectIndex();
+					} else {
+						RequestContext.getCurrentInstance().execute("alert('" + Mensagens.m17 + "');");
+					}
+				} else if (matriculaJaExiste != null) {
+					RequestContext.getCurrentInstance().execute("alert('" + Mensagens.m18 + "');");
+				}
+			} catch (Exception e) {
+				RequestContext.getCurrentInstance().execute("alert('" + Mensagens.m17 + "');");
+				e.printStackTrace();
 			}
-		} catch (Exception e) {
-			RequestContext.getCurrentInstance().execute("alert('" + Mensagens.m17 + "');");
-			e.printStackTrace();
+			//return null;
 		}
-		return null;
 	}
 	
 	/*
@@ -201,44 +159,32 @@ public class MatriculaMB {
 	/*
 	 * Método que modifica os dados de uma matrícula previamente efetuada
 	 */
-	public String modificarMatricula() {
-		if (this.getGradeSelecionada() == null) {
+	public void modificarMatricula(ActionEvent event) {
+
+		if (this.getMatricula().getGrade() == null) {
 			RequestContext.getCurrentInstance().execute("alert('" + Mensagens.m15 + "');");
-			return null;
-		}
-		try {
-			String novoCodigoMatricula = modificarCodigoMatricula();
-//			Date date = new Date();
-//			Calendar cal = Calendar.getInstance();
-//			cal.setTime(date);
-			
-//			this.getMatricula().setAluno(aluno);
-			this.getMatricula().setCodigoMatricula(novoCodigoMatricula);
-//			this.getMatricula().setDataMatricula(cal);
-//			this.getMatricula().setGrade(this.getGradeSelecionada());
-//			this.getMatricula().setEntrada(this.getEntrada());
-//			this.getMatricula().setStatus(StatusMatricula.ATIVO);
-			
-			ClientConfig clientConfig = new DefaultClientConfig();
-			clientConfig.getFeatures().put(JSONConfiguration.FEATURE_POJO_MAPPING, Boolean.TRUE);
-			Client client = Client.create(clientConfig);
-			
-			WebResource webResourcePost = client.resource(URLUtil.SALVAR_MATRICULA);
-			ClientResponse response = webResourcePost.type("application/json").post(ClientResponse.class,
-					this.getMatricula());
-			System.out.println("CÓDIGO DE RESPOSTA: " + response.getStatus());
-			if (response.getStatus() == 200) {
-//					RequestContext.getCurrentInstance().execute("alert('" + Mensagens.m16 + "');");
-//					FacesContext.getCurrentInstance().getExternalContext().redirect("/redAmber-WebApp/matricula/index.xhtml");
-				redirectIndex();
-			} else {
+		} else {
+			try {
+				String novoCodigoMatricula = modificarCodigoMatricula();
+				this.getMatricula().setCodigoMatricula(novoCodigoMatricula);
+				ClientConfig clientConfig = new DefaultClientConfig();
+				clientConfig.getFeatures().put(JSONConfiguration.FEATURE_POJO_MAPPING, Boolean.TRUE);
+				Client client = Client.create(clientConfig);
+				
+				WebResource webResourcePost = client.resource(URLUtil.SALVAR_MATRICULA);
+				ClientResponse response = webResourcePost.type("application/json").post(ClientResponse.class,
+						this.getMatricula());
+				if (response.getStatus() == 200) {
+					redirectIndex();
+				} else {
+					RequestContext.getCurrentInstance().execute("alert('" + Mensagens.m17 + "');");
+				}
+			} catch (Exception e) {
 				RequestContext.getCurrentInstance().execute("alert('" + Mensagens.m17 + "');");
+				e.printStackTrace();
 			}
-		} catch (Exception e) {
-			RequestContext.getCurrentInstance().execute("alert('" + Mensagens.m17 + "');");
-			e.printStackTrace();
+			//return null;
 		}
-		return null;
 	}
 
 	/*

@@ -56,7 +56,8 @@
 			<div class="form-group">
 				<div class="col-sm-offset-2 col-sm-10">
 					<h:commandButton styleClass="btn btn-default"
-						action="#{matriculaMB.matricular}" value="Matricular">
+						actionListener="#{matriculaMB.matricular}" value="Matricular">
+						<f:ajax execute="inputCurso inputGrade inputEntrada" />
 					</h:commandButton>
 				</div>
 			</div>

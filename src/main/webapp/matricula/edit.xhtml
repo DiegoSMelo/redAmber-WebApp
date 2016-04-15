@@ -38,11 +38,12 @@
 				<div class="col-sm-10">
 					<h:selectOneMenu id="inputGrade" styleClass="form-control"
 						value="#{matriculaMB.matricula.grade}" converter="gradeConverter"
-						immediate="true">
+						required="true" requiredMessage="Informe a grade">
 						<f:selectItem itemValue="#{null}" itemLabel="Escolha a grade" />
 						<f:selectItems value="#{matriculaMB.listaGrades}" var="grade"
 							itemValue="#{grade}" itemLabel="#{grade.titulo}" />
 					</h:selectOneMenu>
+					<h:message styleClass="text-danger" for="inputGrade" id="inputGradeMSG" />
 				</div>
 			</div>
 			
@@ -62,9 +63,12 @@
 				<h:outputLabel value="Data de matrícula" for="inputDataMatricula"
 					styleClass="col-sm-2 control-label"></h:outputLabel>
 				<div class="col-sm-10">
-					<h:inputText styleClass="form-control data" tabindex="6" required="true" requiredMessage="Digite a data de matrícula"
-					converter="dataConverter" id="inputDataMatricula" value="#{matriculaMB.matricula.dataMatricula}" />
-					<h:message styleClass="text-danger" for="inputDataMatricula" id="inputDataMatriculaMSG" />
+					<h:inputText styleClass="form-control data" tabindex="6" required="true"
+						requiredMessage="Informe a data de matrícula de aluno"
+						converter="dataConverter" id="inputDataMatricula"
+						value="#{matriculaMB.matricula.dataMatricula}" />
+					<h:message styleClass="text-danger" for="inputDataMatricula"
+						id="inputDataMatriculaMSG" />
 				</div>
 			</div>
 			
@@ -80,7 +84,9 @@
 			<div class="form-group">
 				<div class="col-sm-offset-2 col-sm-10">
 					<h:commandButton styleClass="btn btn-default"
-						action="#{matriculaMB.modificarMatricula}" value="Atualizar">
+						actionListener="#{matriculaMB.modificarMatricula}" value="Atualizar">
+						<f:ajax execute="inputCurso inputGrade inputEntrada inputDataMatricula 
+						inputStatus" render="inputGradeMSG inputDataMatriculaMSG" />
 					</h:commandButton>
 				</div>
 			</div>
