@@ -1,11 +1,17 @@
 package br.com.sistema.redAmber.basicas;
 
+import java.io.Serializable;
 import java.util.Calendar;
 
 import br.com.sistema.redAmber.basicas.enums.StatusMatricula;
 
-public class Matricula {
+public class Matricula implements Serializable {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	
 	private Long id;
 	
 	private String codigoMatricula;
@@ -14,8 +20,15 @@ public class Matricula {
 	
 	private Calendar dataMatricula;
 	
+	private Grade grade;
+
+	private Integer entrada;
+	
 	private StatusMatricula status;
 
+	/*
+	 * Getters and setters
+	 */
 	public Long getId() {
 		return id;
 	}
@@ -48,6 +61,14 @@ public class Matricula {
 		this.dataMatricula = dataMatricula;
 	}
 
+	public Grade getGrade() {
+		return grade;
+	}
+
+	public void setGrade(Grade grade) {
+		this.grade = grade;
+	}
+	
 	public StatusMatricula getStatus() {
 		return status;
 	}
@@ -55,6 +76,29 @@ public class Matricula {
 	public void setStatus(StatusMatricula status) {
 		this.status = status;
 	}
-	
-	
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Matricula other = (Matricula) obj;
+		if (id == null) {
+			if (other.id != null)
+				return false;
+		} else if (!id.equals(other.id))
+			return false;
+		return true;
+	}
+
+	public Integer getEntrada() {
+		return entrada;
+	}
+
+	public void setEntrada(Integer entrada) {
+		this.entrada = entrada;
+	}
 }

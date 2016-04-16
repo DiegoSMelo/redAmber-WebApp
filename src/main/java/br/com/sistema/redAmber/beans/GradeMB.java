@@ -31,13 +31,11 @@ public class GradeMB {
 	public Curso curso;
 	public Grade grade;
 	public List<Grade> listaGrades;
-	
 	private Boolean isAdd;
 	
 	
 	public void salvar() {
 		try {
-			
 			
 			// Create Jersey client
 			ClientConfig clientConfig = new DefaultClientConfig();
@@ -73,8 +71,6 @@ public class GradeMB {
 
 	}
 	
-	
-	
 	public void ativar(){
 		
 		Long idGrade = Long.parseLong(FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("idGradeParam"));
@@ -109,6 +105,7 @@ public class GradeMB {
 		
 	}
 	
+	
 	public void redirectGrade(){
 		try {
 			this.setIsAdd(false);
@@ -118,8 +115,6 @@ public class GradeMB {
 			RequestContext.getCurrentInstance().execute("alert('"+e.getMessage()+"');");
 		}
 	}
-
-	
 
 	
 	public void redirectIndex(){
@@ -178,8 +173,6 @@ public class GradeMB {
 		this.grade = grade;
 	}
 
-
-
 	public List<Grade> getListaGrades() {
 		
 		Client c = new Client();
@@ -196,18 +189,14 @@ public class GradeMB {
 		
 	}
 
-
-
 	public void setListaGrades(List<Grade> listaGrades) {
 		this.listaGrades = listaGrades;
 	}
 
-
 	public Boolean getIsAdd() {
 		return isAdd;
 	}
-
-
+	
 	public void setIsAdd(Boolean isAdd) {
 		this.isAdd = isAdd;
 	}

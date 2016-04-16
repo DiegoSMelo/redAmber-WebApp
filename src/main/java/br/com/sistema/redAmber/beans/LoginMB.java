@@ -32,9 +32,6 @@ public class LoginMB implements Serializable{
 	private LoginHTTP login;
 	private Funcionario usuarioLogado;
 	
-	public void init(){
-		usuarioLogado = null;
-	}
 	
 	public void autenticar() {
 		if ((this.getLogin().getLogin() != null && this.getLogin().getSenha() != null)
@@ -114,6 +111,4 @@ public class LoginMB implements Serializable{
 		this.usuarioLogado = usuarioLogado;
 	}
 
-	
-	
 }

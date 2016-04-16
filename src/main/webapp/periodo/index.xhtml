@@ -20,14 +20,16 @@
   <li class="active">Personalizar Períodos</li>
 </ol>
 
+<rich:dragIndicator id="indicator" acceptClass="accept" rejectClass="reject" draggingClass="default">
+       <h:graphicImage styleClass="indicatorDragDrop" value="/resources/images/Cursor_drag_arrow.png"></h:graphicImage>
+</rich:dragIndicator>
 
-	
 <h:form id="form" styleClass="form-horizontal form-periodo" prependId="false">
 			
 			<div class="form-group">
 				<h:commandLink styleClass="btn btn-success" value="Adicionar período" actionListener="#{periodoMB.adicionarPeriodo}">
 				
-					<f:ajax render="AreaPersonalizacaoPeriodos"></f:ajax>
+					<f:ajax immediate="true" render="AreaPersonalizacaoPeriodos"></f:ajax>
 					
 				</h:commandLink>
 			</div>
@@ -35,7 +37,7 @@
 			<div class="form-group">
 				<h:commandLink styleClass="btn btn-danger" value="Remover período" actionListener="#{periodoMB.removerPeriodo}">
 				
-					<f:ajax render="AreaPersonalizacaoPeriodos"></f:ajax>
+					<f:ajax immediate="true" render="AreaPersonalizacaoPeriodos"></f:ajax>
 					
 				</h:commandLink>
 			</div>
@@ -53,9 +55,10 @@
 					</f:facet>
 					<h:dataTable id="src" columns="1" value="#{periodoMB.listaDisciplinas}"
 						var="disc" footerClass="footerClass" styleClass="table table-hover table-bordered">
+						
 						<h:column>
-							<a4j:outputPanel layout="block" styleClass="rf-ind-drag">
-								<rich:dragSource type="dis" dragValue="#{disc}" />
+							<a4j:outputPanel layout="block" styleClass="rf-ind-drag areaDrag">
+								<rich:dragSource type="dis" dragValue="#{disc}" dragIndicator="indicator" />
 								<h:outputText value="#{disc.titulo}" />
 							</a4j:outputPanel>
 						</h:column>
