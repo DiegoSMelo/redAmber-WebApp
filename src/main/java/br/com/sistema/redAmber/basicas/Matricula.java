@@ -21,6 +21,8 @@ public class Matricula implements Serializable {
 	private Calendar dataMatricula;
 	
 	private Grade grade;
+
+	private Integer entrada;
 	
 	private StatusMatricula status;
 
@@ -90,5 +92,13 @@ public class Matricula implements Serializable {
 		} else if (!id.equals(other.id))
 			return false;
 		return true;
+	}
+
+	public Integer getEntrada() {
+		return entrada;
+	}
+
+	public void setEntrada(Integer entrada) {
+		this.entrada = entrada;
 	}
 }
