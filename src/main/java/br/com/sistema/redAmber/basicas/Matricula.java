@@ -24,6 +24,8 @@ public class Matricula implements Serializable {
 	
 	private Integer entrada;
 	
+	private Turma turma;
+	
 	private StatusMatricula status;
 
 	/*
@@ -77,6 +79,14 @@ public class Matricula implements Serializable {
 		this.entrada = entrada;
 	}
 
+	public Turma getTurma() {
+		return turma;
+	}
+	
+	public void setTurma(Turma turma) {
+		this.turma = turma;
+	}
+	
 	public StatusMatricula getStatus() {
 		return status;
 	}

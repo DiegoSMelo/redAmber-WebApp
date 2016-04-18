@@ -23,4 +23,5 @@ public class Mensagens {
 	public static String m16 = "Matrícula realizada com sucesso!";
 	public static String m17 = "Falha ao finalizar a matrícula";
 	public static String m18 = "O aluno já está matriculado nesse curso";
+	public static String m19 = "Escolha uma turma";
 }
