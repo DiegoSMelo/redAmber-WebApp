@@ -136,6 +136,12 @@ public abstract class URLUtil {
 	
 	public static final String LISTAR_TURMAS = BASE + prop.getProperty("url.listar.turmas");
 	
+	/*
+	 * PARAM CURSO e TURNO
+	 */
+	public static final String LISTAR_TURMAS_POR_CURSO_TURNO = BASE + prop.getProperty("url.buscar.turmas.por.curso.turno");
+	
+	
 	public static final String SALVAR_TURMA = BASE + prop.getProperty("url.salvar.turma");
 	
 	/*

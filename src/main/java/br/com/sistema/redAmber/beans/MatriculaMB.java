@@ -27,7 +27,9 @@ import br.com.sistema.redAmber.basicas.Aluno;
 import br.com.sistema.redAmber.basicas.Curso;
 import br.com.sistema.redAmber.basicas.Grade;
 import br.com.sistema.redAmber.basicas.Matricula;
+import br.com.sistema.redAmber.basicas.Turma;
 import br.com.sistema.redAmber.basicas.enums.StatusMatricula;
+import br.com.sistema.redAmber.basicas.enums.TipoTurno;
 import br.com.sistema.redAmber.util.Mensagens;
 import br.com.sistema.redAmber.util.URLUtil;
 
@@ -43,6 +45,9 @@ public class MatriculaMB {
 	private Grade gradeSelecionada;
 	private List<Grade> listaGrades;
 	private Integer entrada;
+	private Turma turma;
+	private List<Turma> listaTurmas;
+	private TipoTurno turno;
 	private boolean isPagAdd;
 	
 	public void redirectIndex(){
@@ -113,6 +118,7 @@ public class MatriculaMB {
 					this.getMatricula().setDataMatricula(cal);
 					this.getMatricula().setGrade(this.getGradeSelecionada());
 					this.getMatricula().setEntrada(this.getEntrada());
+					this.getMatricula().setTurma(this.getTurma());
 					this.getMatricula().setStatus(StatusMatricula.ATIVO);
 					
 					ClientConfig clientConfig = new DefaultClientConfig();
@@ -216,6 +222,32 @@ public class MatriculaMB {
 				
 				Grade[] lista = gson.fromJson(jsonResult, Grade[].class);
 				this.setListaGrades(Arrays.asList(lista));
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public void atualizarListaTurmas(ValueChangeEvent event) {
+		
+		try {
+			this.setTurno((TipoTurno) event.getNewValue());
+			Client c = new Client();
+			WebResource wr = null;
+			if (this.getCursoSelecionado() == null) {
+				wr = c.resource(URLUtil.LISTAR_TURMAS);
+			} else {
+				wr = c.resource(URLUtil.LISTAR_TURMAS_POR_CURSO_TURNO + 
+						URLEncoder.encode(getCursoSelecionado().toString(),
+								java.nio.charset.StandardCharsets.UTF_8.toString()) + "/" + 
+						this.getTurno().name());
+			}
+			String jsonResult = wr.get(String.class);
+		    if (!jsonResult.equalsIgnoreCase("null")) {
+				Gson gson = new Gson();
+				
+				Turma[] lista = gson.fromJson(jsonResult, Turma[].class);
+				this.setListaTurmas(Arrays.asList(lista));
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -336,5 +368,53 @@ public class MatriculaMB {
 	
 	public StatusMatricula[] getStatusMatricula() {
 		return StatusMatricula.values();
+	}
+
+	public Turma getTurma() {
+		return turma;
+	}
+
+	public void setTurma(Turma turma) {
+		this.turma = turma;
+	}
+
+	public List<Turma> getListaTurmas() {
+		
+		try {
+			setListaTurmas(null);
+			Client c = new Client();
+			WebResource wr = null;
+			if (this.getCursoSelecionado() == null) {
+				wr = c.resource(URLUtil.LISTAR_TURMAS);
+			} else {
+				wr = c.resource(URLUtil.LISTAR_TURMAS_POR_CURSO_TURNO + 
+						URLEncoder.encode(getCursoSelecionado().toString(),
+								java.nio.charset.StandardCharsets.UTF_8.toString()) + "/" + 
+						URLEncoder.encode(getTurno().toString(),
+								java.nio.charset.StandardCharsets.UTF_8.toString()));
+			}
+			String jsonResult = wr.get(String.class);
+			if (!jsonResult.equalsIgnoreCase("null")) {
+				Gson gson = new Gson();
+				
+				Turma[] lista = gson.fromJson(jsonResult, Turma[].class);
+				this.listaTurmas = Arrays.asList(lista);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return listaTurmas;
+	}
+
+	public void setListaTurmas(List<Turma> listaTurmas) {
+		this.listaTurmas = listaTurmas;
+	}
+
+	public TipoTurno getTurno() {
+		return turno;
+	}
+
+	public void setTurno(TipoTurno turno) {
+		this.turno = turno;
 	}
 }
