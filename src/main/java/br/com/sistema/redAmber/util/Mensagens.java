@@ -19,6 +19,6 @@ public class Mensagens {
 	public static String m12 = "Escolha uma grade";
 	public static String m13 = "Falha ao finalizar a matrícula";
 	public static String m14 = "O aluno já está matriculado nesse curso";
-	
+	public static String m15 = "Escolha uma turma";
 	
 }

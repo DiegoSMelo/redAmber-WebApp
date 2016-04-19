@@ -25,6 +25,8 @@ public class Matricula implements Serializable {
 	private Integer entrada;
 	
 	private StatusMatricula status;
+	
+	private Turma turma;
 
 	/*
 	 * Getters and setters
@@ -100,5 +102,13 @@ public class Matricula implements Serializable {
 
 	public void setEntrada(Integer entrada) {
 		this.entrada = entrada;
+	}
+
+	public Turma getTurma() {
+		return turma;
+	}
+
+	public void setTurma(Turma turma) {
+		this.turma = turma;
 	}
 }
