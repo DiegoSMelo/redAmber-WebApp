@@ -1,0 +1,109 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:c="http://java.sun.com/jstl/core"
+   	xmlns:a4j="http://richfaces.org/a4j"
+    xmlns:rich="http://richfaces.org/rich"
+    template="#{beanGeral.template}">
+	<ui:define name="body">
+	
+	
+	
+
+
+<ol class="breadcrumb">
+  <li><h:outputLink value="/redAmber-WebApp/home/index.xhtml">Página Inicial</h:outputLink></li>
+  <li><h:outputLink value="/redAmber-WebApp/turma/index.xhtml">Turma (<h:outputText value="#{gradeAulaMB.turma}"></h:outputText>)</h:outputLink></li>
+  <li class="active">Personalizar grade de aulas</li>
+</ol>
+
+<rich:dragIndicator id="indicator" acceptClass="accept" rejectClass="reject" draggingClass="default">
+       <h:graphicImage styleClass="indicatorDragDrop" value="/resources/images/Cursor_drag_arrow.png"></h:graphicImage>
+</rich:dragIndicator>
+
+<h:form id="form" styleClass="form-horizontal form-periodo" prependId="false">
+			
+			
+			
+
+			<h:panelGrid styleClass="form-group"  id="AreaPersonalizacaoPeriodos" columnClasses="panelc valign, valign, valign, valign" columns="#{gradeAulaMB.numColunas}" width="100%">
+
+
+
+
+
+				<rich:panel styleClass="dropTargetPanel">
+
+
+
+					<h:dataTable id="periodotable"  styleClass="table table-hover table-bordered"
+						value="#{gradeAulaMB.listaDisciplinas}" var="gd">
+
+					
+
+						<c:forEach var="i" begin="0" end="#{gradeAulaMB.numColunas - 1}">
+
+							<h:column>
+							
+								<f:facet name="header">
+									<h:outputText value="#{gradeAulaMB.colunas[i]}" />
+								</f:facet>
+								
+								
+								
+								<c:if test="#{gradeAulaMB.colunas[i] eq 'Horários'}">
+									<h:outputText value="18:00 / 18:45" />
+								</c:if>
+							
+								<c:if test="#{(gradeAulaMB.colunas[i] eq 'Horários') == false}">
+									<h:outputText value="#{gd.titulo}" />
+								</c:if>
+								
+
+							</h:column>
+
+						</c:forEach>
+						
+						
+
+					</h:dataTable>
+
+				</rich:panel>
+
+
+
+
+
+
+
+
+
+			</h:panelGrid>
+
+
+
+
+				<div class="form-group">
+					<h:commandLink styleClass="btn btn-primary"
+						value="Salvar"
+						actionListener="#{periodoMB.salvarPeriodo}">
+
+						<f:ajax render="AreaPersonalizacaoPeriodos"></f:ajax>
+
+					</h:commandLink>
+				</div>
+
+		
+
+
+</h:form>
+
+	
+	<a4j:outputPanel ajaxRendered="true">
+        <h:messages></h:messages>
+    </a4j:outputPanel>
+    
+	</ui:define>
+</ui:composition>
