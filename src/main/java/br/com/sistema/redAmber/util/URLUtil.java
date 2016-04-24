@@ -65,6 +65,11 @@ public abstract class URLUtil {
 	public static final String SALVAR_PROFESSOR = BASE + prop.getProperty("url.salvar.professor");
 	
 	/*
+	 * param ID PROFESSOR
+	 */
+	public static final String BUSCAR_PROFESSOR_POR_ID = BASE + prop.getProperty("url.buscar.professor.por.id");
+	
+	/*
 	 * param ID MATRICULA
 	 */
 	public static final String BUSCAR_MATRICULA_POR_ID = BASE + prop.getProperty("url.buscar.matricula.por.id");
@@ -182,4 +187,20 @@ public abstract class URLUtil {
 	public static final String BUSCAR_HORA_AULA_POR_ID = BASE + prop.getProperty("url.buscar.horaaula.por.id");
 	
 	public static final String LISTAR_HORAS_AULA = BASE + prop.getProperty("url.listar.horasaula");
+	
+	/*
+	 * PARAM ID
+	 */
+	public static final String BUSCAR_RESERVA_EQUIPAMENTO_POR_ID = BASE + prop.getProperty("url.buscar.reserva.de.equipamento.por.id");
+	
+	/*
+	 * PARAM DATA_RESERVA HORARIO
+	 */
+	public static final String VERIFICAR_RESERVA_POR_DATA_RESERVA_HORARIO = BASE + prop.getProperty("url.verificar.reserva.por.data.horario");
+	
+	public static final String SALVAR_RESERVA_EQUIPAMENTO = BASE + prop.getProperty("url.salvar.reserva.de.equipamento");
+	
+	public static final String LISTAR_RESERVAS_EQUIPAMENTO = BASE + prop.getProperty("url.listar.reservas.de.equipamentos");
+	
+	public static final String LISTAR_RESERVAS_EQUIPAMENTOS_PENDENTES = BASE + prop.getProperty("url.listar.reservas.de.equipamentos.pendentes");
 }

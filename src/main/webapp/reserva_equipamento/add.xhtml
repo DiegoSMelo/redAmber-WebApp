@@ -1,0 +1,100 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui" template="#{beanGeral.template}">
+	<ui:define name="body">
+
+		<ol class="breadcrumb">
+	  		<li><h:outputLink value="/redAmber-WebApp/home/index.xhtml">Página Inicial</h:outputLink></li>
+		</ol>
+
+		<h:form styleClass="form-horizontal" prependId="false">
+		
+			<div class="form-group">
+				<h:outputLabel value="Professor" for="inputProfessor"
+					styleClass="col-sm-2 control-label" />
+				<div class="col-sm-10">
+					<h:selectOneMenu required="true" id="inputProfessor" styleClass="form-control"
+						value="#{reservaEquipamentoMB.reservaEquipamento.professor}"
+						requiredMessage="Informe o professor que deseja reservar o equipamento"
+						converter="professorConverter" immediate="true">
+						<f:selectItem itemValue="#{null}" itemLabel="Escolha o professor" />
+						<f:selectItems value="#{reservaEquipamentoMB.listaProfessores}" var="professor"
+							itemValue="#{professor}" itemLabel="#{professor.nome}" />
+					</h:selectOneMenu>
+					<h:message styleClass="text-danger" for="inputProfessor" id="inputProfessorMSG" />
+				</div>
+			</div>
+		
+			<div class="form-group">
+				<h:outputLabel value="Equipamento" for="inputEquipamento"
+					styleClass="col-sm-2 control-label" />
+				<div class="col-sm-10">
+					<h:selectOneMenu required="true" id="inputEquipamento" styleClass="form-control"
+						value="#{reservaEquipamentoMB.reservaEquipamento.equip}"
+						requiredMessage="Informe o equipamento a ser reservado"
+						converter="equipamentoConverter" immediate="true">
+						<f:selectItem itemValue="#{null}" itemLabel="Escolha o equipamento" />
+						<f:selectItems value="#{reservaEquipamentoMB.listaEquipamentos}" var="equip"
+							itemValue="#{equip}" itemLabel="#{equip.descricao}" />
+					</h:selectOneMenu>
+					<h:message styleClass="text-danger" for="inputEquipamento" id="inputEquipamentoMSG" />
+				</div>
+			</div>
+
+			<div class="form-group">
+				<h:outputLabel value="Data da reserva" for="inputReserva"
+					styleClass="col-sm-2 control-label"></h:outputLabel>
+				<div class="col-sm-10">
+					<h:inputText styleClass="form-control data" required="true" tabindex="1"
+						requiredMessage="Informe a data desejada para a reserva do equipamento"
+						id="inputReserva" converter="dataConverter"
+						value="#{reservaEquipamentoMB.reservaEquipamento.dataReserva}">
+					</h:inputText>
+					<h:message styleClass="text-danger" for="inputReserva" id="inputReservaMSG" />
+				</div>
+			</div>
+
+			<div class="form-group">
+				<h:outputLabel value="Horário da Reserva" for="inputHorario"
+					styleClass="col-sm-2 control-label" />
+				<div class="col-sm-10">
+					<h:selectOneMenu required="true" id="inputHorario" styleClass="form-control"
+						value="#{reservaEquipamentoMB.reservaEquipamento.horarioReserva}"
+						requiredMessage="Informe o horário para o qual o equipamento será reservado" 
+						converter="horaAulaConverter" immediate="true">
+						<f:selectItem itemValue="#{null}" itemLabel="Escolha o horário" />
+						<f:selectItems value="#{reservaEquipamentoMB.listaHorarios}" var="horario"
+							itemValue="#{horario}" itemLabel="#{horario.getHoraInicioString()} - #{horario.getHoraFimString()}">
+						</f:selectItems>
+					</h:selectOneMenu>
+					<h:message styleClass="text-danger" for="inputHorario" id="inputHorarioMSG" />
+				</div>
+			</div>
+			
+			<div class="form-group">
+				<h:outputLabel value="Observações" for="inputObservacao"
+					styleClass="col-sm-2 control-label" />
+				<div class="col-sm-10">
+					<h:inputTextarea rows="10" tabindex="1" styleClass="form-control"
+						id="inputObservacao"
+						value="#{reservaEquipamentoMB.reservaEquipamento.observacao}" />
+				</div>
+			</div>
+			
+			<div class="form-group">
+				<div class="col-sm-offset-2 col-sm-10">
+					<h:commandButton styleClass="btn btn-default"
+						actionListener="#{reservaEquipamentoMB.salvar}" value="Reservar">
+						<f:ajax execute="inputProfessor inputEquipamento inputReserva inputHorario
+							inputObservacao" render="inputProfessorMSG inputEquipamentoMSG
+							inputReservaMSG inputHorarioMSG" />
+					</h:commandButton>
+				</div>
+			</div>
+			
+		</h:form>
+
+	</ui:define>
+</ui:composition>

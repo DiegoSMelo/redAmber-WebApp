@@ -1,6 +1,7 @@
 package br.com.sistema.redAmber.basicas;
 
 import java.io.Serializable;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import br.com.sistema.redAmber.basicas.enums.StatusHoraAula;
@@ -119,5 +120,24 @@ public class HoraAula implements Serializable {
 
 	public void setStatus(StatusHoraAula status) {
 		this.status = status;
+	}
+	
+	public String getHoraInicioString() {
+		SimpleDateFormat sdf = new SimpleDateFormat("HH:mm");
+		String hora = sdf.format(this.horaInicio);
+		return hora;
+	}
+	
+	public String getHoraFimString() {
+		SimpleDateFormat sdf = new SimpleDateFormat("HH:mm");
+		String hora = sdf.format(this.horaFim);
+		return hora;
+	}
+	
+	public String getHorarioString() {
+		SimpleDateFormat sdf = new SimpleDateFormat("HH:mm");
+		String inicio = sdf.format(this.horaInicio);
+		String fim = sdf.format(this.horaFim);
+		return inicio + " às " + fim;
 	}
 }
