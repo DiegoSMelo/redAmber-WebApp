@@ -177,4 +177,22 @@ public abstract class URLUtil {
 	
 	public static final String LISTAR_SALAS = BASE + prop.getProperty("url.listar.salas");
 	
+	
+	/*
+	 * PARAM ID_TURMA
+	 */
+	public static final String BUSCAR_HORAAULA_POR_ID_TURMA = BASE + prop.getProperty("url.buscar.hora-aula.por.id.turma");
+	
+	/*
+	 * PARAM: Objeto do tipo HoraAulaPK preenchido
+	 */
+	public static final String BUSCAR_HORAAULA_POR_HORAAULAPK = BASE + prop.getProperty("url.buscar.hora-aula.por.horaaulapk");
+	
+	
+	public static final String ADD_HORA_AULA = BASE + prop.getProperty("url.add.hora-aula");
+	
+	/*
+	 * PARAM POST: Objeto do tipo HoraAulaHTTP preenchido
+	 */
+	public static final String REMOVER_HORA_AULA = BASE + prop.getProperty("url.remover.hora-aula");
 }
