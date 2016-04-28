@@ -195,4 +195,20 @@ public abstract class URLUtil {
 	 * PARAM POST: Objeto do tipo HoraAulaHTTP preenchido
 	 */
 	public static final String REMOVER_HORA_AULA = BASE + prop.getProperty("url.remover.hora-aula");
+	
+	
+	
+	public static final String LISTAR_AULAS = BASE + prop.getProperty("url.listar.aulas");
+	
+	/*
+	 * PARAM: Objeto PK instanciado
+	 */
+	public static final String BUSCAR_AULA_POR_PK = BASE + prop.getProperty("url.buscar.aula.por.pk");
+	
+	public static final String ADD_AULA = BASE + prop.getProperty("url.add.aula");
+	
+	/*
+	 * PARAM POST: Objeto do tipo Aula preenchido
+	 */
+	public static final String REMOVER_AULA = BASE + prop.getProperty("url.remover.aula");
 }
