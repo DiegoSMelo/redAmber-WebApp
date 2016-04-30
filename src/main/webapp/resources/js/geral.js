@@ -6,6 +6,7 @@ $(document).ready(function() {
 	});
 
 	$(".data").mask("99/99/9999");
+	$(".hora").mask("99:99");
 	
 	jQuery(".telefone")
     .mask("(99) 9999-9999?9")
@@ -43,3 +44,6 @@ function esconde_bscAvancada(){
 	$(".area_input_busca").show("slow");
 }
 
+function fechaModal(){
+	$('.modal').modal('hide');
+}

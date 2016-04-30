@@ -1,61 +1,89 @@
 package br.com.sistema.redAmber.beans;
 
+import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
+import javax.faces.context.FacesContext;
 
-import org.richfaces.event.DropEvent;
-import org.richfaces.event.DropListener;
+import org.primefaces.context.RequestContext;
 
-import com.google.gson.Gson;
-import com.sun.jersey.api.client.Client;
-import com.sun.jersey.api.client.WebResource;
-
-import br.com.sistema.redAmber.basicas.Disciplina;
+import br.com.sistema.redAmber.basicas.Horario;
 import br.com.sistema.redAmber.basicas.Turma;
 import br.com.sistema.redAmber.basicas.enums.DiasSemana;
-import br.com.sistema.redAmber.util.URLUtil;
 
 @ManagedBean
 @SessionScoped
-public class GradeAulaMB implements DropListener {
+public class GradeAulaMB {
 	
 	public Turma turma;
-	public List<Disciplina> listaDisciplinas;
 	public List<String> colunas;
 	public int numColunas;
+	public List<Horario> listaHorarios;
 	
-	@Override
-	public void processDrop(DropEvent arg0) {
-		// TODO Auto-generated method stub
+	public Horario horario;
+
+	
+	public void addHorario(){
+		
+		this.getListaHorarios().add(getHorario());
+		
+		this.horario = null;
+		
+		RequestContext.getCurrentInstance().execute("fechaModal()");
 		
 	}
 	
-	
-	public List<Disciplina> getListaDisciplinas() {
-		
-		if (this.listaDisciplinas == null) {
-			Client c = new Client();
-			WebResource wr = c.resource(URLUtil.LISTAR_DISCIPLINAS);
-			String jsonResult = wr.get(String.class);
-			if (!jsonResult.equalsIgnoreCase("null")) {
-				Gson gson = new Gson();
+	/**
+	 * Redireciona para a página de criação de grade de horários de aulas.
+	 */
+	public void redirectIndex(){
+		try {
+			
+			FacesContext.getCurrentInstance().getExternalContext().redirect("/redAmber-WebApp/grade-aula/index.xhtml");	
 
-				Disciplina[] lista = gson.fromJson(jsonResult, Disciplina[].class);
-				this.listaDisciplinas = Arrays.asList(lista);
-			} 
+		} catch (IOException e) {
+			
+			RequestContext.getCurrentInstance().execute("alert('"+e.getMessage()+"');");
+		}
+	}
+
+	
+
+	public List<Horario> getListaHorarios() {
+		
+		if (this.listaHorarios == null) {
+			this.listaHorarios = new ArrayList<Horario>();
 		}
 		
-		return listaDisciplinas;
-		
+		return listaHorarios;
 	}
 
-	public void setListaDisciplinas(List<Disciplina> listaDisciplinas) {
-		this.listaDisciplinas = listaDisciplinas;
+
+
+	public void setListaHorarios(List<Horario> listaHorarios) {
+		this.listaHorarios = listaHorarios;
 	}
+
+
+
+	public Horario getHorario() {
+		
+		if (this.horario == null) {
+			this.horario = new Horario();
+		}
+		
+		return horario;
+	}
+
+
+
+	public void setHorario(Horario horario) {
+		this.horario = horario;
+	}
+
 
 
 	public Turma getTurma() {
@@ -88,7 +116,5 @@ public class GradeAulaMB implements DropListener {
 	public int getNumColunas() {
 		return this.getColunas().size();
 	}
-	
-	
 	
 }

@@ -35,5 +35,13 @@
 }
 
 .indicatorDragDrop{
-    width: 45px;
+ width: 45px;
+}
+
+#btnAddHorario{
+ margin-left: -15px;
+}
+
+#btnSalvarHorario{
+ margin-right: 150px;
 }

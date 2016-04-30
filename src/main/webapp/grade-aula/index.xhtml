@@ -7,7 +7,7 @@
    	xmlns:a4j="http://richfaces.org/a4j"
     xmlns:rich="http://richfaces.org/rich"
     template="#{beanGeral.template}">
-	<ui:define name="body">
+<ui:define name="body">
 	
 	
 	
@@ -15,18 +15,76 @@
 
 <ol class="breadcrumb">
   <li><h:outputLink value="/redAmber-WebApp/home/index.xhtml">Página Inicial</h:outputLink></li>
-  <li><h:outputLink value="/redAmber-WebApp/turma/index.xhtml">Turma (<h:outputText value="#{gradeAulaMB.turma}"></h:outputText>)</h:outputLink></li>
+  <li><h:outputLink value="/redAmber-WebApp/turma/index.xhtml">Turma (<h:outputText value="#{gradeAulaMB.turma.nome}"></h:outputText>)</h:outputLink></li>
   <li class="active">Personalizar grade de aulas</li>
 </ol>
 
-<rich:dragIndicator id="indicator" acceptClass="accept" rejectClass="reject" draggingClass="default">
-       <h:graphicImage styleClass="indicatorDragDrop" value="/resources/images/Cursor_drag_arrow.png"></h:graphicImage>
-</rich:dragIndicator>
+
+
+<div class="modal fade bs-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+   	   
+   		 <div class="modal-header">
+       		 <h4 class="modal-title" id="exampleModalLabel">Adicionar horário</h4>
+    	 </div>
+    	<h:form id="formAddHorario" styleClass="form-horizontal form-periodo" prependId="false">
+    	 <div class="modal-body">
+       		
+    		<div class="form-group">
+				<h:outputLabel value="Hora de início" for="inputHoraInicio"
+					styleClass="col-sm-2 control-label"></h:outputLabel>
+				<div class="col-sm-8">
+					<h:inputText required="true" tabindex="1"
+						requiredMessage="Digite o horário de início da aula" styleClass="form-control hora"
+						id="inputHoraInicio" value="#{gradeAulaMB.horario.horaInicio}">
+						
+						<f:convertDateTime type="time"  pattern="HH:mm"/>
+						</h:inputText>
+					<h:message styleClass="text-danger" for="inputHoraInicio" id="inputHoraInicioMSG"></h:message>
+				</div>
+			</div>	
+			
+			
+			<div class="form-group">
+				<h:outputLabel value="Hora final" for="inputHoraFinal"
+					styleClass="col-sm-2 control-label"></h:outputLabel>
+				<div class="col-sm-8">
+					<h:inputText required="true" tabindex="2"
+						requiredMessage="Digite o horário final da aula" styleClass="form-control hora"
+						id="inputHoraFinal" value="#{gradeAulaMB.horario.horaFim}">
+						
+						<f:convertDateTime type="time" pattern="HH:mm"/>
+						</h:inputText>
+					<h:message styleClass="text-danger" for="inputHoraFinal" id="inputHoraFinalMSG"></h:message>
+				</div>
+			</div>	
+    			
+    		
+    	 </div>
+     				 
+      
+      	 <div class="modal-footer">
+      	 
+       			<h:commandButton id="btnSalvarHorario" styleClass="btn btn-primary" actionListener="#{gradeAulaMB.addHorario}" value="Adicionar">
+						
+					<f:ajax execute="inputHoraInicio inputHoraFinal" render=":form:AreaPersonalizacaoPeriodos :formAddHorario:inputHoraInicioMSG :formAddHorario:inputHoraFinalMSG"/>
+				</h:commandButton>
+						
+     	 </div>
+     		    
+       </h:form>
+    </div>
+  </div>
+</div>
+
+
 
 <h:form id="form" styleClass="form-horizontal form-periodo" prependId="false">
 			
-			
-			
+			<div class="areaPlus">
+ 				  <button type="button" id="btnAddHorario" class="btn btn-success" data-toggle="modal" data-target=".bs-example-modal-sm">Adicionar Horário</button>	
+			</div>
 
 			<h:panelGrid styleClass="form-group"  id="AreaPersonalizacaoPeriodos" columnClasses="panelc valign, valign, valign, valign" columns="#{gradeAulaMB.numColunas}" width="100%">
 
@@ -39,7 +97,7 @@
 
 
 					<h:dataTable id="periodotable"  styleClass="table table-hover table-bordered"
-						value="#{gradeAulaMB.listaDisciplinas}" var="gd">
+						value="#{gradeAulaMB.listaHorarios}" var="horario">
 
 					
 
@@ -54,11 +112,21 @@
 								
 								
 								<c:if test="#{gradeAulaMB.colunas[i] eq 'Horários'}">
-									<h:outputText value="18:00 / 18:45" />
+									<h:outputText value="#{horario}" />
 								</c:if>
 							
 								<c:if test="#{(gradeAulaMB.colunas[i] eq 'Horários') == false}">
-									<h:outputText value="#{gd.titulo}" />
+
+
+									<h:commandLink styleClass="btn btn-info btn-acoes" actionListener="#{disciplinaMB.redirectEdit}">
+									
+										<span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Aula
+										
+										<f:setPropertyActionListener value="#{disciplina}" target="#{disciplinaMB.disciplina}"></f:setPropertyActionListener>
+										
+									</h:commandLink>
+
+
 								</c:if>
 								
 
