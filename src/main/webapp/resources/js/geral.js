@@ -44,6 +44,21 @@ function esconde_bscAvancada(){
 	$(".area_input_busca").show("slow");
 }
 
-function fechaModal(){
-	$('.modal').modal('hide');
+function exibeModalHorario(){
+	$('.modalHorario').modal('show');
 }
+
+function fechaModalHorario(){
+	$('.modalHorario').modal('hide');
+}
+
+function exibeModalAula(){
+	$('.modalAula').modal('show');
+}
+
+function fechaModalAula(){
+	$('.modalAula').modal('hide');
+}
+
+
+

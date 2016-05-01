@@ -12,12 +12,14 @@ public class Horario {
 	@Override
 	public String toString() {
 		
-		DateFormat df2 = new SimpleDateFormat("HH:mm");
-		String horaIniStr = df2.format(this.getHoraInicio());
-		String horaFimStr = df2.format(this.getHoraFim());
+		if (this.horaInicio != null && this.horaFim != null) {
+			DateFormat df = new SimpleDateFormat("HH:mm");
+			String horaIniStr = df.format(this.getHoraInicio());
+			String horaFimStr = df.format(this.getHoraFim());
+			return horaIniStr + "/" + horaFimStr;
+		}
 		
-		
-		return horaIniStr + "/" + horaFimStr;
+		return "";
 	}
 	
 	public Date getHoraInicio() {

@@ -30,8 +30,27 @@ public class GeralUsuario implements Serializable{
 	
 	private Usuario usuario;
 	
+	public GeralUsuario() {
+		// TODO Auto-generated constructor stub
+	}
 	
 	
+	
+	public GeralUsuario(Long id, String nome, String rg, String email, String telefone, Calendar dataNascimento,
+			StatusUsuario status, Usuario usuario) {
+		super();
+		this.id = id;
+		this.nome = nome;
+		this.rg = rg;
+		this.email = email;
+		this.telefone = telefone;
+		this.dataNascimento = dataNascimento;
+		this.status = status;
+		this.usuario = usuario;
+	}
+
+
+
 	public Long getId() {
 		return id;
 	}

@@ -41,6 +41,7 @@ public class Sala implements Serializable {
 	 */
 	@Override
 	public boolean equals(Object obj) {
+		
 		if (this == obj) {
 			return true;
 		}
@@ -50,14 +51,23 @@ public class Sala implements Serializable {
 		if (this.getClass() != obj.getClass()) {
 			return false;
 		}
-		Sala other = (Sala) obj;
-		if (other.getId().intValue() == this.getId().intValue()) {
-			return true;
+		
+		try {
+			
+			Sala other = (Sala) obj;
+			if (other.getId() != null && other.getId().intValue() == this.getId().intValue()) {
+				return true;
+			}
+			if (other.getDescricao() != null && other.getDescricao().equalsIgnoreCase(this.getDescricao())) {
+				return true;
+			}
+			
+		} catch (NullPointerException e) {
+			return false;
 		}
-		if (other.getDescricao().equalsIgnoreCase(this.getDescricao())) {
-			return true;
-		}
+		
 		return false;
+		
 	}
 	
 	/*

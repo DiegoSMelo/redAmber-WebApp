@@ -11,17 +11,6 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
  
-/*
- * Created on 30/09/2005
- * Author: Francisco Nascimento
- */
- 
-/**
- * @author Francisco Nascimento
- *
- * To change the template for this generated type comment go to
- * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
- */
 public class Datas {
  
     /**

@@ -1,5 +1,7 @@
 package br.com.sistema.redAmber.basicas;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import br.com.sistema.redAmber.basicas.enums.DiasSemana;
@@ -17,7 +19,22 @@ public class HoraAula {
 	
 	private StatusHoraAula status;
 	
+	@Override
+	public String toString() {
+		
+		if (this.horaInicio != null && this.horaFim != null) {
+			DateFormat df = new SimpleDateFormat("HH:mm");
+			String horaIniStr = df.format(this.getHoraInicio());
+			String horaFimStr = df.format(this.getHoraFim());
 
+			String retorno = this.dia.toString() + "(Início: " + horaIniStr + " Fim: " + horaFimStr + ")";
+
+			return retorno;
+		}
+
+		return "";
+	}
+	
 	/*
 	 * Getters and setters
 	 */

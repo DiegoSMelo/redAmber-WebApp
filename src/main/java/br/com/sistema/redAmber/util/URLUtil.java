@@ -81,12 +81,20 @@ public abstract class URLUtil {
 
 	public static final String SALVAR_PROFESSOR = BASE + prop.getProperty("url.salvar.professor");
 	
-	
+	/*
+	 * param ID DISCIPLINA
+	 */
+	public static final String LISTAR_PROFESSORES_POR_DISCIPLINA = BASE + prop.getProperty("url.lista.professores.por.disciplina");
 	
 	/*
 	 * param RG PROFESSOR
 	 */
 	public static final String BUSCAR_PROFESSOR_POR_RG = BASE + prop.getProperty("url.buscar.professor.por.rg");
+	
+	/*
+	 * param ID PROFESSOR
+	 */
+	public static final String BUSCAR_PROFESSOR_POR_ID = BASE + prop.getProperty("url.buscar.professor.por.id");
 	
 	public static final String LISTAR_FUNCIONARIOS = BASE + prop.getProperty("url.listar.funcionarios");
 	

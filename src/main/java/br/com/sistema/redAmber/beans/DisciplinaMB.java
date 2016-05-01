@@ -117,7 +117,7 @@ public class DisciplinaMB {
 	}
 	
 	
-	public List<Disciplina> getListaDisciplinas() {
+    public List<Disciplina> getListaDisciplinas() {
 
 		Client c = new Client();
 		WebResource wr = c.resource(URLUtil.LISTAR_DISCIPLINAS);
