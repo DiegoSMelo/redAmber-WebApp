@@ -9,6 +9,7 @@ import java.util.List;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
+import javax.faces.event.ActionEvent;
 
 import org.primefaces.context.RequestContext;
 
@@ -20,52 +21,52 @@ import com.sun.jersey.api.client.config.ClientConfig;
 import com.sun.jersey.api.client.config.DefaultClientConfig;
 import com.sun.jersey.api.json.JSONConfiguration;
 
-import br.com.sistema.redAmber.basicas.HoraAula;
-import br.com.sistema.redAmber.basicas.enums.StatusHoraAula;
+import br.com.sistema.redAmber.basicas.DuracaoAula;
+import br.com.sistema.redAmber.basicas.enums.StatusDuracaoAula;
 import br.com.sistema.redAmber.basicas.enums.TipoTurno;
-import br.com.sistema.redAmber.basicas.http.HoraAulaHTTP;
+import br.com.sistema.redAmber.basicas.http.DuracaoAulaHTTP;
 import br.com.sistema.redAmber.util.Mensagens;
 import br.com.sistema.redAmber.util.URLUtil;
 
 @ManagedBean
 @SessionScoped
-public class HoraAulaMB {
+public class DuracaoAulaMB {
 
-	private HoraAula horaAula;
-	private HoraAulaHTTP horaAulaHTTP;
-	private List<HoraAula> listaHorasAula;
+	private DuracaoAula duracaoAula;
+	private DuracaoAulaHTTP duracaoAulaHTTP;
+	private List<DuracaoAula> listaHorasAula;
 	private boolean isPagAdd;
 	
-	public void salvar() {
+	public void salvar(ActionEvent event) {
 		
 		try {
-			System.out.println(horaAula.getHoraInicio().getTime());
-			System.out.println(horaAula.getHoraFim().getTime());
+			System.out.println(duracaoAula.getHoraInicio().getTime());
+			System.out.println(duracaoAula.getHoraFim().getTime());
 			
-			HoraAula horaAulaExistente = null;
+			DuracaoAula duracaoAulaExistente = null;
 			Client c = new Client();
-			WebResource wr = c.resource(URLUtil.BUSCAR_HORA_AULA_POR_HORA + 
-		    		URLEncoder.encode(String.valueOf(horaAula.getHoraInicio().getTime()),
+			WebResource wr = c.resource(URLUtil.BUSCAR_DURACAO_AULA_POR_HORA + 
+		    		URLEncoder.encode(String.valueOf(duracaoAula.getHoraInicio().getTime()),
 		    				java.nio.charset.StandardCharsets.UTF_8.toString()) + "/" + 
-		    		URLEncoder.encode(String.valueOf(horaAula.getHoraFim().getTime()),
+		    		URLEncoder.encode(String.valueOf(duracaoAula.getHoraFim().getTime()),
 		    				java.nio.charset.StandardCharsets.UTF_8.toString()));
 			String jsonResult = "";
 			jsonResult = wr.get(String.class);
 			if (!jsonResult.equalsIgnoreCase("null")) {
 				Gson gson = new Gson();
-				horaAulaExistente = gson.fromJson(jsonResult, HoraAula.class);
+				duracaoAulaExistente = gson.fromJson(jsonResult, DuracaoAula.class);
 			}
-			if ((this.isPagAdd() && horaAulaExistente == null) || !this.isPagAdd()) {
+			if ((this.isPagAdd() && duracaoAulaExistente == null) || !this.isPagAdd()) {
 				// Create Jersey client
 				ClientConfig clientConfig = new DefaultClientConfig();
 				clientConfig.getFeatures().put(JSONConfiguration.FEATURE_POJO_MAPPING, Boolean.TRUE);
 				Client client = Client.create(clientConfig);
 				
-				WebResource webResourcePost = client.resource(URLUtil.SALVAR_HORA_AULA);
+				WebResource webResourcePost = client.resource(URLUtil.SALVAR_DURACAO_AULA);
 				ClientResponse response = webResourcePost.type("application/json").post(ClientResponse.class,
-						this.getHoraAula());
+						this.getDuracaoAula());
 				if (response.getStatus() == 200) {
-					FacesContext.getCurrentInstance().getExternalContext().redirect("/redAmber-WebApp/horaaula/index.xhtml");
+					FacesContext.getCurrentInstance().getExternalContext().redirect("/redAmber-WebApp/duracaoaula/index.xhtml");
 				} else {
 					RequestContext.getCurrentInstance().execute("alert('" + Mensagens.m3 + "');");
 				}
@@ -78,21 +79,21 @@ public class HoraAulaMB {
 		}
 	}
 	
-	public void redirectAdd() {
+	public void redirectAdd(ActionEvent event) {
 		try {
 			this.setPagAdd(true);
-			this.setHoraAula(new HoraAula());
-			FacesContext.getCurrentInstance().getExternalContext().redirect("/redAmber-WebApp/horaaula/add.xhtml");
+			this.setDuracaoAula(new DuracaoAula());
+			FacesContext.getCurrentInstance().getExternalContext().redirect("/redAmber-WebApp/duracaoaula/add.xhtml");
 		} catch (IOException e) {
 			RequestContext.getCurrentInstance().execute("alert('"+e.getMessage()+"');");
 			e.printStackTrace();
 		}
 	}
 	
-	public void redirectEdit() {
+	public void redirectEdit(ActionEvent event) {
 		try {
 			this.setPagAdd(false);
-			FacesContext.getCurrentInstance().getExternalContext().redirect("/redAmber-WebApp/horaaula/edit.xhtml");
+			FacesContext.getCurrentInstance().getExternalContext().redirect("/redAmber-WebApp/duracaoaula/edit.xhtml");
 		} catch (IOException e) {
 			RequestContext.getCurrentInstance().execute("alert('"+e.getMessage()+"');");
 			e.printStackTrace();
@@ -100,36 +101,36 @@ public class HoraAulaMB {
 	}
 	
 	public void init() {
-		horaAula = new HoraAula();
-		listaHorasAula = new ArrayList<HoraAula>();
+		duracaoAula = new DuracaoAula();
+		listaHorasAula = new ArrayList<DuracaoAula>();
 	}
 
 	/*
 	 * Getters and setters
 	 */
-	public HoraAula getHoraAula() {
-		return horaAula;
+	public DuracaoAula getDuracaoAula() {
+		return duracaoAula;
 	}
 
-	public void setHoraAula(HoraAula horaAula) {
-		this.horaAula = horaAula;
+	public void setDuracaoAula(DuracaoAula duracaoAula) {
+		this.duracaoAula = duracaoAula;
 	}
 
-	public List<HoraAula> getListaHorasAula() {
+	public List<DuracaoAula> getListaHorasAula() {
 
 		Client c = new Client();
-		WebResource wr = c.resource(URLUtil.LISTAR_HORAS_AULA);
+		WebResource wr = c.resource(URLUtil.LISTAR_DURACOES_AULA);
 		String jsonResult = wr.get(String.class);
 		if (!jsonResult.equalsIgnoreCase("null")) {
 			Gson gson = new Gson();
 			
-			HoraAula[] lista = gson.fromJson(jsonResult, HoraAula[].class);
+			DuracaoAula[] lista = gson.fromJson(jsonResult, DuracaoAula[].class);
 			this.listaHorasAula = Arrays.asList(lista);
 		}
 		return listaHorasAula;
 	}
 
-	public void setListaHorasAula(List<HoraAula> listaHorasAula) {
+	public void setListaHorasAula(List<DuracaoAula> listaHorasAula) {
 		this.listaHorasAula = listaHorasAula;
 	}
 
@@ -141,19 +142,19 @@ public class HoraAulaMB {
 		this.isPagAdd = isPagAdd;
 	}
 
-	public HoraAulaHTTP getHoraAulaHTTP() {
-		return horaAulaHTTP;
+	public DuracaoAulaHTTP getDuracaoAulaHTTP() {
+		return duracaoAulaHTTP;
 	}
 
-	public void setHoraAulaHTTP(HoraAulaHTTP horaAulaHTTP) {
-		this.horaAulaHTTP = horaAulaHTTP;
+	public void setDuracaoAulaHTTP(DuracaoAulaHTTP duracaoAulaHTTP) {
+		this.duracaoAulaHTTP = duracaoAulaHTTP;
 	}
 	
 	public TipoTurno[] getTipoTurno() {
 		return TipoTurno.values();
 	}
 
-	public StatusHoraAula[] getStatusHoraAula() {
-		return StatusHoraAula.values();
+	public StatusDuracaoAula[] getStatusDuracaoAula() {
+		return StatusDuracaoAula.values();
 	}
 }

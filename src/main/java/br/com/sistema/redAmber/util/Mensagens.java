@@ -18,7 +18,7 @@ public class Mensagens {
 	public static String m11 = "Período salvo com sucesso!";
 	public static String m12 = "Equipamento já cadastrado.";
 	public static String m13 = "Sala já cadastrada.";
-	public static String m14 = "Horário já cadastrado.";
+	public static String m14 = "Duração de aula já cadastrada.";
 	public static String m15 = "Escolha uma grade.";
 	public static String m16 = "Matrícula realizada com sucesso!";
 	public static String m17 = "Falha ao finalizar a matrícula.";
@@ -26,4 +26,5 @@ public class Mensagens {
 	public static String m19 = "Escolha uma turma.";
 	public static String m20 = "Equipamento já reservado para esse dia e horário.";
 	public static String m21 = "A data da reserva é anterior à data atual.";
+	public static String m22 = "Sala já reservada para esse dia e horário.";
 }

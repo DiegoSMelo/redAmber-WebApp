@@ -5,22 +5,22 @@ import java.util.Calendar;
 
 import br.com.sistema.redAmber.basicas.enums.StatusReserva;
 
-public class ReservaEquipamento implements Serializable {
-	
+public class ReservaSala implements Serializable {
+
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
 	private Long id;
 	private Professor professor;
-	private Equipamento equip;
+	private Sala sala;
 	private Calendar dataRequisicao;
 	private Calendar dataReserva;
 	private DuracaoAula horarioReserva;
 	private String observacao;
 	private String resposta;
 	private StatusReserva status;
-
+	
 	/*
 	 * Método equals sobrescrito. Ele serve para estabelecer os critérios que definem se um objeto é ou
 	 * não igual a outro.
@@ -33,7 +33,7 @@ public class ReservaEquipamento implements Serializable {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		ReservaEquipamento other = (ReservaEquipamento) obj;
+		ReservaSala other = (ReservaSala) obj;
 		if (id == null) {
 			if (other.id != null)
 				return false;
@@ -61,12 +61,12 @@ public class ReservaEquipamento implements Serializable {
 		this.professor = professor;
 	}
 
-	public Equipamento getEquip() {
-		return equip;
+	public Sala getSala() {
+		return sala;
 	}
 
-	public void setEquip(Equipamento equip) {
-		this.equip = equip;
+	public void setSala(Sala sala) {
+		this.sala = sala;
 	}
 
 	public Calendar getDataRequisicao() {
@@ -100,11 +100,11 @@ public class ReservaEquipamento implements Serializable {
 	public void setObservacao(String observacao) {
 		this.observacao = observacao;
 	}
-	
+
 	public String getResposta() {
 		return resposta;
 	}
-	
+
 	public void setResposta(String resposta) {
 		this.resposta = resposta;
 	}

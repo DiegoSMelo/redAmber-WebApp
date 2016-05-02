@@ -16,11 +16,11 @@
 					styleClass="col-sm-2 control-label" />
 				<div class="col-sm-10">
 					<h:selectOneMenu required="true" id="inputProfessor" styleClass="form-control"
-						value="#{reservaEquipamentoMB.reservaEquipamento.professor}"
-						requiredMessage="Informe o professor que deseja reservar o equipamento"
+						value="#{reservaSalaMB.reservaSala.professor}"
+						requiredMessage="Informe o professor que deseja reservar a sala"
 						converter="professorConverter" immediate="true">
 						<f:selectItem itemValue="#{null}" itemLabel="Escolha o professor" />
-						<f:selectItems value="#{reservaEquipamentoMB.listaProfessores}" var="professor"
+						<f:selectItems value="#{reservaSalaMB.listaProfessores}" var="professor"
 							itemValue="#{professor}" itemLabel="#{professor.nome}" />
 					</h:selectOneMenu>
 					<h:message styleClass="text-danger" for="inputProfessor" id="inputProfessorMSG" />
@@ -28,18 +28,19 @@
 			</div>
 		
 			<div class="form-group">
-				<h:outputLabel value="Equipamento" for="inputEquipamento" 
-					styleClass="col-sm-2 control-label" />
+				<h:outputLabel value="Sala" for="inputSala" styleClass="col-sm-2 control-label" />
 				<div class="col-sm-10">
-					<h:selectOneMenu required="true" id="inputEquipamento" styleClass="form-control"
-						value="#{reservaEquipamentoMB.reservaEquipamento.equip}"
-						requiredMessage="Informe o equipamento a ser reservado"
-						converter="equipamentoConverter" immediate="true">
-						<f:selectItem itemValue="#{null}" itemLabel="Escolha o equipamento" />
-						<f:selectItems value="#{reservaEquipamentoMB.listaEquipamentos}" var="equip"
-							itemValue="#{equip}" itemLabel="#{equip.descricao}" />
+					<h:selectOneMenu required="true" id="inputSala" styleClass="form-control"
+						value="#{reservaSalaMB.reservaSala.sala}"
+						requiredMessage="Informe a sala a ser reservada"
+						converter="salaConverter" immediate="true">
+						<f:selectItem itemValue="#{null}" itemLabel="Escolha a sala" />
+						<f:selectItems value="#{reservaSalaMB.listaSalas}" var="sala"
+							itemValue="#{sala}" itemLabel="Sala: #{sala.descricao} / 
+								Tipo: #{sala.tipoSala.toString()} / Capacidade:  
+								#{sala.capacidadeAlunos} alunos" />
 					</h:selectOneMenu>
-					<h:message styleClass="text-danger" for="inputEquipamento" id="inputEquipamentoMSG" />
+					<h:message styleClass="text-danger" for="inputSala" id="inputSalaMSG" />
 				</div>
 			</div>
 
@@ -48,9 +49,9 @@
 					styleClass="col-sm-2 control-label"></h:outputLabel>
 				<div class="col-sm-10">
 					<h:inputText styleClass="form-control data" required="true" tabindex="1"
-						requiredMessage="Informe a data desejada para a reserva do equipamento"
+						requiredMessage="Informe a data desejada para a reserva da sala"
 						id="inputReserva" converter="dataConverter"
-						value="#{reservaEquipamentoMB.reservaEquipamento.dataReserva}">
+						value="#{reservaSalaMB.reservaSala.dataReserva}">
 					</h:inputText>
 					<h:message styleClass="text-danger" for="inputReserva" id="inputReservaMSG" />
 				</div>
@@ -61,13 +62,12 @@
 					styleClass="col-sm-2 control-label" />
 				<div class="col-sm-10">
 					<h:selectOneMenu required="true" id="inputHorario" styleClass="form-control"
-						value="#{reservaEquipamentoMB.reservaEquipamento.horarioReserva}"
-						requiredMessage="Informe o horário para o qual o equipamento será reservado" 
+						value="#{reservaSalaMB.reservaSala.horarioReserva}"
+						requiredMessage="Informe o horário para o qual a sala será reservada" 
 						converter="duracaoAulaConverter" immediate="true">
 						<f:selectItem itemValue="#{null}" itemLabel="Escolha o horário" />
-						<f:selectItems value="#{reservaEquipamentoMB.listaHorarios}" var="horario"
-							itemValue="#{horario}" itemLabel="#{horario.getHoraInicioString()} - 
-								#{horario.getHoraFimString()}">
+						<f:selectItems value="#{reservaSalaMB.listaHorarios}" var="horario"
+							itemValue="#{horario}" itemLabel="#{horario.getHoraInicioString()} - #{horario.getHoraFimString()}">
 						</f:selectItems>
 					</h:selectOneMenu>
 					<h:message styleClass="text-danger" for="inputHorario" id="inputHorarioMSG" />
@@ -79,8 +79,8 @@
 					styleClass="col-sm-2 control-label" />
 				<div class="col-sm-10">
 					<h:selectOneMenu required="true" id="inputStatus" styleClass="form-control"
-						value="#{reservaEquipamentoMB.reservaEquipamento.status}">
-						<f:selectItems value="#{reservaEquipamentoMB.statusReservas}" var="status"
+						value="#{reservaSalaMB.reservaSala.status}">
+						<f:selectItems value="#{reservaSalaMB.statusReservas}" var="status"
 							itemValue="#{status}" itemLabel="#{status}">
 						</f:selectItems>
 					</h:selectOneMenu>				
@@ -93,7 +93,7 @@
 				<div class="col-sm-10">
 					<h:inputTextarea readonly="true" rows="10" tabindex="1" styleClass="form-control"
 						id="inputObservacao"
-						value="#{reservaEquipamentoMB.reservaEquipamento.observacao}" />
+						value="#{reservaSalaMB.reservaSala.observacao}" />
 				</div>
 			</div>
 			
@@ -103,17 +103,17 @@
 				<div class="col-sm-10">
 					<h:inputTextarea rows="10" tabindex="1" styleClass="form-control"
 						id="inputResposta"
-						value="#{reservaEquipamentoMB.reservaEquipamento.resposta}" />
+						value="#{reservaSalaMB.reservaSala.resposta}" />
 				</div>
 			</div>
 			
 			<div class="form-group">
 				<div class="col-sm-offset-2 col-sm-10">
 					<h:commandLink styleClass="btn btn-success btn-acoes"
-						actionListener="#{reservaEquipamentoMB.salvar}">
+						actionListener="#{reservaSalaMB.salvar}">
 						<span class="glyphicon glyphicon-floppy-disk" aria-hidden="true"></span> Salvar
-						<f:ajax execute="inputResposta inputProfessor inputEquipamento inputReserva 
-							inputHorario inputObservacao inputStatus" />
+						<f:ajax execute="inputResposta inputProfessor inputSala inputReserva inputHorario
+								inputObservacao inputStatus" />
 					</h:commandLink>
 				</div>
 			</div>

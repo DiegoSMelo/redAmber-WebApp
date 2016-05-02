@@ -1,0 +1,271 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:c="http://java.sun.com/jstl/core"
+   	xmlns:a4j="http://richfaces.org/a4j"
+    xmlns:rich="http://richfaces.org/rich"
+    template="#{beanGeral.template}">
+<ui:define name="body">
+	
+	
+	
+
+
+<ol class="breadcrumb">
+  <li><h:outputLink value="/redAmber-WebApp/home/index.xhtml">Página Inicial</h:outputLink></li>
+  <li><h:outputLink value="/redAmber-WebApp/turma/index.xhtml">Turma (<h:outputText value="#{gradeAulaMB.turma.nome}"></h:outputText>)</h:outputLink></li>
+  <li class="active">Personalizar grade de aulas</li>
+</ol>
+
+
+
+
+<!-- Modal add aulas -->
+<div class="modal modalAula fade bs-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+   	   
+   		 <div class="modal-header">
+       		 <h4 class="modal-title" id="exampleModalLabel"><h:outputText id="tituloHoraAula" value="#{gradeAulaMB.horaAula}"></h:outputText></h4>
+    	 </div>
+    	 
+    	<h:form id="formAddAula" styleClass="form-horizontal form-periodo" prependId="false">
+    	
+    	 <div class="modal-body">
+       		
+       		<!-- SALA -->
+			<div class="form-group">
+			
+				<h:outputLabel value="Sala" for="inputSala" styleClass="col-sm-2 control-label"></h:outputLabel>
+				
+				<div class="col-sm-8">
+				
+					<h:selectOneMenu id="inputSala" styleClass="form-control" converter="salaConverter" value="#{gradeAulaMB.sala}">
+						<f:selectItem itemValue="#{null}" itemLabel="Nenhuma" />
+						<f:selectItems value="#{gradeAulaMB.listaSalas}" var="sala" itemValue="#{sala}" itemLabel="#{sala.descricao} (Capacidade: #{sala.capacidadeAlunos} alunos)" />
+					</h:selectOneMenu>
+					<h:message styleClass="text-danger" for="inputSala" id="inputSalaMSG"></h:message>
+				</div>
+				
+			</div>
+			
+			<!-- DISCIPLINA -->
+			<div class="form-group">
+			
+				<h:outputLabel value="Disciplina" for="inputDisciplina" styleClass="col-sm-2 control-label"></h:outputLabel>
+				
+				<div class="col-sm-8">
+				
+					<h:selectOneMenu id="inputDisciplina" styleClass="form-control" converter="disciplinaConverter" value="#{gradeAulaMB.disciplina}">
+						<f:selectItem itemValue="#{null}" itemLabel="Nenhuma" />
+						<f:selectItems value="#{gradeAulaMB.listaDisciplinas}" var="disciplina" itemValue="#{disciplina}" itemLabel="#{disciplina.titulo}" />
+						
+						<f:ajax event="change" render=":formAddAula:inputProfessor"></f:ajax>
+					</h:selectOneMenu>
+					<h:message styleClass="text-danger" for="inputDisciplina" id="inputDisciplinaMSG"></h:message>
+				</div>
+				
+			</div>
+			
+			<!-- PROFESSOR -->
+			<div class="form-group">
+			
+				<h:outputLabel value="Professor" for="inputProfessor" styleClass="col-sm-2 control-label"></h:outputLabel>
+				
+				<div class="col-sm-8">
+				
+					<h:selectOneMenu id="inputProfessor" styleClass="form-control" converter="professorConverter" value="#{gradeAulaMB.professor}">
+						<f:selectItem itemValue="#{null}" itemLabel="Nenhuma" />
+						<f:selectItems value="#{gradeAulaMB.listaProfessoresPorDisciplina}" var="professor" itemValue="#{professor}" itemLabel="#{professor.nome}" />
+					</h:selectOneMenu>
+					<h:message styleClass="text-danger" for="inputProfessor" id="inputProfessorMSG"></h:message>
+				</div>
+				
+			</div>
+    		
+    	 </div>
+     				 
+      
+      	 <div class="modal-footer">
+      	 
+       			<h:commandButton id="btnSalvarAula" styleClass="btn btn-primary btnModal" actionListener="#{gradeAulaMB.salvarHoraAula}" value="Adicionar">
+       			
+						<f:ajax execute="inputSala inputDisciplina inputProfessor" 
+								render=":form:AreaPersonalizacaoHorarioAula :formAddAula:inputSalaMSG :formAddAula:inputDisciplinaMSG :formAddAula:inputProfessorMSG"/> 
+				</h:commandButton>
+						
+     	 </div>
+     		    
+       </h:form>
+       
+    </div>
+  </div>
+</div>
+
+
+
+<!-- Modal add horários -->
+<div class="modal modalHorario fade bs-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+   	   
+   		 <div class="modal-header">
+       		 <h4 class="modal-title" id="exampleModalLabel">Adicionar horário</h4>
+    	 </div>
+    	 
+    	<h:form id="formAddHorario" styleClass="form-horizontal form-periodo" prependId="false">
+    	 
+    	 <div class="modal-body">
+       		
+    		<div class="form-group">
+				<h:outputLabel value="Hora de início" for="inputHoraInicio"
+					styleClass="col-sm-2 control-label"></h:outputLabel>
+				<div class="col-sm-8">
+						<h:inputText required="true" tabindex="1"
+							requiredMessage="Digite o horário de início da aula" styleClass="form-control hora"
+							id="inputHoraInicio" value="#{gradeAulaMB.horario.horaInicio}">
+						
+							<f:convertDateTime type="time"  pattern="HH:mm"/>
+						</h:inputText>
+					<h:message styleClass="text-danger" for="inputHoraInicio" id="inputHoraInicioMSG"></h:message>
+				</div>
+			</div>	
+			
+			
+			<div class="form-group">
+				<h:outputLabel value="Hora final" for="inputHoraFinal"
+					styleClass="col-sm-2 control-label"></h:outputLabel>
+				<div class="col-sm-8">
+						<h:inputText required="true" tabindex="2"
+							requiredMessage="Digite o horário final da aula" styleClass="form-control hora"
+							id="inputHoraFinal" value="#{gradeAulaMB.horario.horaFim}">
+						
+							<f:convertDateTime type="time" pattern="HH:mm"/>
+						</h:inputText>
+					<h:message styleClass="text-danger" for="inputHoraFinal" id="inputHoraFinalMSG"></h:message>
+				</div>
+			</div>	
+    			
+    		
+    	 </div>
+     				 
+      
+      	 <div class="modal-footer">
+      	 
+       			<h:commandButton  id="btnSalvarHorario" styleClass="btn btn-primary btnModal" actionListener="#{gradeAulaMB.addHorario}" value="Adicionar">
+					
+					<f:ajax execute="inputHoraInicio inputHoraFinal" render=":form:AreaPersonalizacaoHorarioAula :formAddHorario:inputHoraInicioMSG :formAddHorario:inputHoraFinalMSG"/> 
+				</h:commandButton>
+						
+     	 </div>
+     		    
+       </h:form>
+       
+    </div>
+  </div>
+</div>
+
+
+
+<h:form id="form" styleClass="form-horizontal form-periodo" prependId="false">
+			
+			<div class="areaPlus">
+
+				<h:commandLink id="btnAddHorario" styleClass="btn btn-success" actionListener="#{gradeAulaMB.exibeModalHorario}">
+					Adicionar Horário
+					<f:ajax  />
+				</h:commandLink>
+
+			</div>
+
+			<h:panelGrid styleClass="form-group"  id="AreaPersonalizacaoHorarioAula" columnClasses="panelc valign, valign, valign, valign" columns="#{gradeAulaMB.numColunas}" width="100%">
+
+
+
+
+
+				<rich:panel styleClass="dropTargetPanel">
+
+
+
+					<h:dataTable id="periodotable"  styleClass="table table-hover table-bordered"
+						value="#{gradeAulaMB.listaHorarios}" var="horario">
+
+					
+						<c:forEach var="i" begin="0" end="#{gradeAulaMB.numColunas - 1}">
+
+							<h:column>
+								
+								<f:facet name="header">
+									<h:outputText value="#{gradeAulaMB.colunas[i]}" />
+								</f:facet>
+								
+								<!-- Apenas para a coluna de horários -->
+								<c:if test="#{gradeAulaMB.colunas[i] eq 'Horários'}">
+									<h:outputText value="#{horario}" />
+								</c:if>
+								
+								<!-- Apenas para as colunas de aulas -->
+								<c:if test="#{(gradeAulaMB.colunas[i] eq 'Horários') == false}">
+									
+									<!-- Link de registro de aulas -->
+									<h:commandLink styleClass="btn btn-info btn-acoes" actionListener="#{gradeAulaMB.addAula}">
+									
+										<span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Aula
+										
+										<f:param name="horarioParam" value="#{horario}" />
+										<f:param name="diaSemanaParam" value="#{gradeAulaMB.colunas[i]}" />
+										
+										<f:setPropertyActionListener value="#{horario}" target="#{gradeAulaMB.horario}"></f:setPropertyActionListener>
+										
+										<f:ajax render=":form:AreaPersonalizacaoHorarioAula :formAddAula :tituloHoraAula" />
+										
+									</h:commandLink>
+
+								</c:if>
+								
+							</h:column>
+
+						</c:forEach>
+						
+						
+					</h:dataTable>
+					
+					
+
+				</rich:panel>
+
+
+
+
+
+
+			</h:panelGrid>
+
+
+
+
+				<div class="form-group">
+					<h:commandLink styleClass="btn btn-primary"
+						value="Salvar"
+						actionListener="#{periodoMB.salvarPeriodo}">
+
+						<f:ajax render="AreaPersonalizacaoHorarioAula"></f:ajax>
+
+					</h:commandLink>
+				</div>
+
+		
+
+
+</h:form>
+
+	
+	<a4j:outputPanel ajaxRendered="true">
+        <h:messages></h:messages>
+    </a4j:outputPanel>
+    
+	</ui:define>
+</ui:composition>

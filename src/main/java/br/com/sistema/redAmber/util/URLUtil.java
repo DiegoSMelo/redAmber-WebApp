@@ -65,6 +65,11 @@ public abstract class URLUtil {
 	public static final String SALVAR_PROFESSOR = BASE + prop.getProperty("url.salvar.professor");
 	
 	/*
+	 * param ID DISCIPLINA
+	 */
+	public static final String LISTAR_PROFESSORES_POR_DISCIPLINA = BASE + prop.getProperty("url.lista.professores.por.disciplina");
+	
+	/*
 	 * param ID PROFESSOR
 	 */
 	public static final String BUSCAR_PROFESSOR_POR_ID = BASE + prop.getProperty("url.buscar.professor.por.id");
@@ -177,16 +182,16 @@ public abstract class URLUtil {
 	/*
 	 * PARAM HORA INICIO E HORA FIM DA AULA
 	 */
-	public static final String BUSCAR_HORA_AULA_POR_HORA = BASE + prop.getProperty("url.buscar.horaaula.por.hora");
+	public static final String BUSCAR_DURACAO_AULA_POR_HORA = BASE + prop.getProperty("url.buscar.duracaoaula.por.hora");
 	
 	/*
 	 * PARAM ID
 	 */
-	public static final String SALVAR_HORA_AULA = BASE + prop.getProperty("url.salvar.horaaula");
+	public static final String SALVAR_DURACAO_AULA = BASE + prop.getProperty("url.salvar.duracaoaula");
 	
-	public static final String BUSCAR_HORA_AULA_POR_ID = BASE + prop.getProperty("url.buscar.horaaula.por.id");
+	public static final String BUSCAR_DURACAO_AULA_POR_ID = BASE + prop.getProperty("url.buscar.duracaoaula.por.id");
 	
-	public static final String LISTAR_HORAS_AULA = BASE + prop.getProperty("url.listar.horasaula");
+	public static final String LISTAR_DURACOES_AULA = BASE + prop.getProperty("url.listar.duracoessaula");
 	
 	/*
 	 * PARAM ID
@@ -203,4 +208,20 @@ public abstract class URLUtil {
 	public static final String LISTAR_RESERVAS_EQUIPAMENTO = BASE + prop.getProperty("url.listar.reservas.de.equipamentos");
 	
 	public static final String LISTAR_RESERVAS_EQUIPAMENTOS_PENDENTES = BASE + prop.getProperty("url.listar.reservas.de.equipamentos.pendentes");
+	
+	/*
+	 * PARAM ID SALA
+	 */
+	public static final String BUSCAR_RESERVA_SALA_POR_ID = BASE + prop.getProperty("url.buscar.reserva.de.sala.por.id");
+	
+	/*
+	 * PARAM DATA_RESERVA HORARIO
+	 */
+	public static final String VERIFICAR_RESERVA_SALA_POR_DATA_RESERVA_HORARIO = BASE + prop.getProperty("url.verificar.reserva.sala.por.data.horario");
+	
+	public static final String SALVAR_RESERVA_SALA = BASE + prop.getProperty("url.salvar.reserva.de.sala");
+	
+	public static final String LISTAR_RESERVAS_SALA = BASE + prop.getProperty("url.listar.reservas.de.salas");
+	
+	public static final String LISTAR_RESERVAS_SALAS_PENDENTES = BASE + prop.getProperty("url.listar.reservas.de.salas.pendentes");
 }
