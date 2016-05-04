@@ -24,5 +24,6 @@ public class Mensagens {
 	public static String m17 = "Sala já cadastrada";
 	public static String m18 = "Erro ao salvar equipamento";
 	public static String m19 = "Erro ao salvar sala";
+	public static String m20 = "Grade de aulas salva com sucesso!";
 	
 }

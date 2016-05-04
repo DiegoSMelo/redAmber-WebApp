@@ -204,6 +204,10 @@ public abstract class URLUtil {
 	 */
 	public static final String REMOVER_HORA_AULA = BASE + prop.getProperty("url.remover.hora-aula");
 	
+	/*
+	 * PARAM POST: OBJ TURMA
+	 */
+	public static final String REMOVER_HORA_AULA_POR_TURMA = BASE + prop.getProperty("url.remover.hora.aula.por.turma");
 	
 	
 	public static final String LISTAR_AULAS = BASE + prop.getProperty("url.listar.aulas");

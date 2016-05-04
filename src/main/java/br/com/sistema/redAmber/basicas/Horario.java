@@ -10,6 +10,20 @@ public class Horario {
 	private Date horaFim;
 	
 	@Override
+	public boolean equals(Object obj) {
+		
+		Horario horario = (Horario)obj;
+		
+		DateFormat df = new SimpleDateFormat("HH:mm");
+		if (df.format(this.getHoraInicio()).equals(df.format(horario.getHoraInicio())) && df.format(this.getHoraFim()).equals(df.format(horario.getHoraFim()))) {
+			return true;
+		}
+		
+		return false;
+		
+	}
+	
+	@Override
 	public String toString() {
 		
 		if (this.horaInicio != null && this.horaFim != null) {

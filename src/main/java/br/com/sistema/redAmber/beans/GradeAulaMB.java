@@ -14,7 +14,13 @@ import org.primefaces.context.RequestContext;
 
 import com.google.gson.Gson;
 import com.sun.jersey.api.client.Client;
+import com.sun.jersey.api.client.ClientHandlerException;
+import com.sun.jersey.api.client.ClientResponse;
+import com.sun.jersey.api.client.UniformInterfaceException;
 import com.sun.jersey.api.client.WebResource;
+import com.sun.jersey.api.client.config.ClientConfig;
+import com.sun.jersey.api.client.config.DefaultClientConfig;
+import com.sun.jersey.api.json.JSONConfiguration;
 
 import br.com.sistema.redAmber.basicas.Aula;
 import br.com.sistema.redAmber.basicas.AulaPK;
@@ -28,11 +34,14 @@ import br.com.sistema.redAmber.basicas.Turma;
 import br.com.sistema.redAmber.basicas.enums.DiasSemana;
 import br.com.sistema.redAmber.basicas.enums.StatusHoraAula;
 import br.com.sistema.redAmber.util.Datas;
+import br.com.sistema.redAmber.util.Mensagens;
 import br.com.sistema.redAmber.util.URLUtil;
 
 @ManagedBean
 @SessionScoped
 public class GradeAulaMB {
+	
+	public Gson gson = new Gson();
 	
 	public Turma turma;
 	public List<String> colunas;
@@ -55,7 +64,68 @@ public class GradeAulaMB {
 	public Professor professor;
 	public List<Professor> listaProfessoresPorDisciplina;
 	
-
+	public void salvarGradeAula(){
+		
+		try {
+			
+			this.removerHoraAulaPorTurmaHTTP(this.getTurma());
+			
+			for (HoraAula ha : this.listaHoraAulas) {
+				
+				this.salvarHoraAulaHTTP(ha);
+				
+			}
+			
+			RequestContext.getCurrentInstance().execute("alert('" + Mensagens.m20 + "');");
+		
+		} catch (UniformInterfaceException e) {
+			RequestContext.getCurrentInstance().execute("alert('" + Mensagens.m3 + "');");
+		} catch (ClientHandlerException e) {
+			RequestContext.getCurrentInstance().execute("alert('" + Mensagens.m3 + "');");
+		}
+		
+	}
+	
+	public void removerHoraAulaPorTurmaHTTP(Turma turma){
+		
+		// Create Jersey client
+		ClientConfig clientConfig = new DefaultClientConfig();
+		clientConfig.getFeatures().put(JSONConfiguration.FEATURE_POJO_MAPPING, Boolean.TRUE);
+		Client client = Client.create(clientConfig);
+		
+		WebResource webResourcePost = client.resource(URLUtil.REMOVER_HORA_AULA_POR_TURMA);
+		ClientResponse response = webResourcePost.type("application/json").post(ClientResponse.class, turma);
+		
+		if (response.getStatus() == 200) {
+			
+			System.out.println("HoraAula removido com sucesso");
+			
+		} else {
+			System.out.println("Falha ao remover HoraAula");
+		}
+		
+	}
+	
+	public void salvarHoraAulaHTTP(HoraAula ha){
+				
+		// Create Jersey client
+		ClientConfig clientConfig = new DefaultClientConfig();
+		clientConfig.getFeatures().put(JSONConfiguration.FEATURE_POJO_MAPPING, Boolean.TRUE);
+		Client client = Client.create(clientConfig);
+		
+		WebResource webResourcePost = client.resource(URLUtil.ADD_HORA_AULA);
+		ClientResponse response = webResourcePost.type("application/json").post(ClientResponse.class, ha);
+		
+		if (response.getStatus() == 200) {
+			
+			System.out.println("HoraAula salvo com sucesso");
+			
+		} else {
+			System.out.println("Falha ao salvar HoraAula");
+		}
+		
+	}
+	
 	public void salvarHoraAula(){
 		
 		HoraAulaPK haPk = new HoraAulaPK();
@@ -72,9 +142,9 @@ public class GradeAulaMB {
 		
 		this.getHoraAula().setId(haPk);	
 		
-		RequestContext.getCurrentInstance().execute("fechaModalAula()");
+		this.getListaHoraAulas().add(this.getHoraAula());
 		
-		//aqui irá salvar o obj de HoraAula
+		RequestContext.getCurrentInstance().execute("fechaModalAula()");
 		
 		this.setAula(null);
 		this.setDisciplina(null);
@@ -141,16 +211,32 @@ public class GradeAulaMB {
 			RequestContext.getCurrentInstance().execute("alert('"+e.getMessage()+"');");
 		}
 	}
-
+	
+	
 	
 
 	public List<Horario> getListaHorarios() {
 		
-		if (this.listaHorarios == null) {
-			this.listaHorarios = new ArrayList<Horario>();
+		this.listaHorarios = new ArrayList<Horario>();
+		
+		for (HoraAula ha : this.getListaHoraAulas()) {
+			for (Horario ho : this.listaHorarios) {
+				
+				Horario horario = new Horario();
+				
+				if (!ho.equals(horario)) {
+					
+					horario.setHoraInicio(ha.getHoraInicio());
+					horario.setHoraFim(ha.getHoraFim());
+					
+					this.listaHorarios.add(horario);
+					
+				}
+			}
 		}
 		
 		return listaHorarios;
+		
 	}
 
 
@@ -244,7 +330,15 @@ public class GradeAulaMB {
 
 	public List<HoraAula> getListaHoraAulas() {
 		
-		if (this.listaHoraAulas == null) {
+		Client c = new Client();
+		WebResource wr = c.resource(URLUtil.BUSCAR_HORAAULA_POR_ID_TURMA + this.getTurma().getId());
+		String jsonResult = wr.get(String.class);
+	    if (!jsonResult.equalsIgnoreCase("null")) {
+			Gson gson = new Gson();
+			
+			HoraAula[] lista = gson.fromJson(jsonResult, HoraAula[].class); //PROBLEMA AQUI, AO TENTAR CONVERTER AS HORAS.
+			this.listaHoraAulas = Arrays.asList(lista);
+		}else{
 			this.listaHoraAulas = new ArrayList<HoraAula>();
 		}
 		
