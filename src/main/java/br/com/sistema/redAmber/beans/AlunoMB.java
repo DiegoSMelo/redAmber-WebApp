@@ -31,7 +31,6 @@ public class AlunoMB {
 	private List<Aluno> listaAlunos;
 	private boolean isPagAdd;
 	
-	
 	public void salvar(){
 		try {
 			Aluno alunoJaExiste = null;

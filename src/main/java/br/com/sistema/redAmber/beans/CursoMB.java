@@ -32,7 +32,6 @@ public class CursoMB {
 	private List<Curso> listaCursos;
 	private Boolean isAdd;
 	
-	
 	public void salvar(){
 		try {
 				Curso cursoJaExiste = null;
@@ -47,9 +46,7 @@ public class CursoMB {
 			    if (!jsonResult.equalsIgnoreCase("null")) {
 					Gson gson = new Gson();
 					cursoJaExiste = gson.fromJson(jsonResult, Curso.class);
-					
 			    }
-			    
 			    
 				if ((this.getIsAdd() && cursoJaExiste == null ) || !this.getIsAdd()) {
 					// Create Jersey client
@@ -70,13 +67,10 @@ public class CursoMB {
 					RequestContext.getCurrentInstance().execute("alert('" + Mensagens.m8 + "');");
 				}
 			
-			
 		} catch (Exception e) {
 			RequestContext.getCurrentInstance().execute("alert('" + Mensagens.m3 + "');");
 		} 
 	}
-
-	
 	
 	/**
 	 * Cria um novo objeto para o operador e redireciona para a página de cadastro.
@@ -104,9 +98,6 @@ public class CursoMB {
 			RequestContext.getCurrentInstance().execute("alert('"+e.getMessage()+"');");
 		}
 	}
-	
-	
-	
 	
 	public Curso getCurso() {
 		

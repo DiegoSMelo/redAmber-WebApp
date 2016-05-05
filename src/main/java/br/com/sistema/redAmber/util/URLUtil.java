@@ -6,13 +6,13 @@ import java.io.IOException;
 import java.util.Properties;
 
 public abstract class URLUtil {
+	
 	private static Properties prop;
 	
 	static{
 		try {
-			
 			prop = new Properties();			
-			prop.load(new FileInputStream("C:/Users/Diego Melo/workspace/redAmber-WebApp/src/main/resources/url.properties"));
+			prop.load(new FileInputStream("C:/eclipse-jee-mars-2-win32-x86_64/xProject/redAmber-WebApp/src/main/resources/url.properties"));
 			
 		} catch (FileNotFoundException e) {
 			
@@ -21,10 +21,7 @@ public abstract class URLUtil {
 		} catch (IOException e) {
 			
 			e.printStackTrace();
-			
 		}
-		
-		
 	}
 	
 	
