@@ -33,6 +33,7 @@ import br.com.sistema.redAmber.basicas.Sala;
 import br.com.sistema.redAmber.basicas.Turma;
 import br.com.sistema.redAmber.basicas.enums.DiasSemana;
 import br.com.sistema.redAmber.basicas.enums.StatusHoraAula;
+import br.com.sistema.redAmber.basicas.http.HoraAulaHTTP;
 import br.com.sistema.redAmber.util.Datas;
 import br.com.sistema.redAmber.util.Mensagens;
 import br.com.sistema.redAmber.util.URLUtil;
@@ -42,6 +43,7 @@ import br.com.sistema.redAmber.util.URLUtil;
 public class GradeAulaMB {
 	
 	public Gson gson = new Gson();
+	public boolean atualiza;
 	
 	public Turma turma;
 	public List<String> colunas;
@@ -55,6 +57,9 @@ public class GradeAulaMB {
 	public HoraAula horaAula;
 	public List<HoraAula> listaHoraAulas;
 	
+	public HoraAulaHTTP horaAulaHTTP;
+	public List<HoraAulaHTTP> listaHoraAulaHTTP;
+	
 	public Sala sala;
 	public List<Sala> listaSalas;
 	
@@ -64,6 +69,35 @@ public class GradeAulaMB {
 	public Professor professor;
 	public List<Professor> listaProfessoresPorDisciplina;
 	
+	
+	public String getResumoHoraAula(){
+		
+		Map<String,String> params = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap();
+	    String dia = params.get("diaSemanaParam2");
+	    String horario = params.get("horarioParam2");
+	    
+		
+		String resumo = "";
+		String[] horaSplit = horario.split("/");
+		String horaIni = horaSplit[0];
+		String horaFim = horaSplit[1];
+		
+		for (HoraAulaHTTP horaAulaHTTP : this.listaHoraAulaHTTP) {
+			
+			if (Datas.convertStringTimeToDate(horaAulaHTTP.getHoraInicio()).compareTo(Datas.criarHora(Integer.parseInt(horaIni.split(":")[0]), Integer.parseInt(horaIni.split(":")[1]), 0)) == 0 &&
+					Datas.convertStringTimeToDate(horaAulaHTTP.getHoraFim()).compareTo(Datas.criarHora(Integer.parseInt(horaFim.split(":")[0]), Integer.parseInt(horaFim.split(":")[1]), 0)) == 0 &&
+					horaAulaHTTP.getDia().toString().equalsIgnoreCase(dia)) {
+				
+				resumo = horaAulaHTTP.getId().getAula().getId().getDisciplina().getTitulo() + " (" + horaAulaHTTP.getId().getAula().getId().getSala().getDescricao() + ")\n" + horaAulaHTTP.getId().getAula().getId().getProfessor().getNome();
+				
+			}
+		}
+		
+		return resumo;
+	}
+	
+
+
 	public void salvarGradeAula(){
 		
 		try {
@@ -142,7 +176,11 @@ public class GradeAulaMB {
 		
 		this.getHoraAula().setId(haPk);	
 		
-		this.getListaHoraAulas().add(this.getHoraAula());
+		
+		
+		this.getListaHoraAulas().add(this.getHoraAula()); //se liga nessa chamada
+		
+		
 		
 		RequestContext.getCurrentInstance().execute("fechaModalAula()");
 		
@@ -190,9 +228,12 @@ public class GradeAulaMB {
 	
 	public void addHorario(){
 		
-		this.getListaHorarios().add(getHorario());
+		this.listaHorarios.add(getHorario());
 		
 		this.horario = null;
+		
+		//Assim, a lista de horarios não será atualizada.
+		this.atualiza = false;
 		
 		RequestContext.getCurrentInstance().execute("fechaModalHorario()");
 		
@@ -216,27 +257,41 @@ public class GradeAulaMB {
 	
 
 	public List<Horario> getListaHorarios() {
-		
-		this.listaHorarios = new ArrayList<Horario>();
-		
-		for (HoraAula ha : this.getListaHoraAulas()) {
-			for (Horario ho : this.listaHorarios) {
-				
-				Horario horario = new Horario();
-				
-				if (!ho.equals(horario)) {
-					
-					horario.setHoraInicio(ha.getHoraInicio());
-					horario.setHoraFim(ha.getHoraFim());
-					
+
+		if (this.atualiza == true || this.listaHorarios == null) {
+			this.listaHorarios = new ArrayList<Horario>();
+			for (HoraAulaHTTP ha : this.getListaHoraAulaHTTP()) {
+
+				if (this.listaHorarios.size() > 0) {
+
+					for (Horario ho : this.listaHorarios) {
+
+						Horario horario = new Horario();
+						horario.setHoraInicio(Datas.convertStringTimeToDate(ha.getHoraInicio()));
+						horario.setHoraFim(Datas.convertStringTimeToDate(ha.getHoraFim()));
+
+						if (!ho.equals(horario)) {
+
+							this.listaHorarios.add(horario);
+
+						}
+
+					}
+
+				} else {
+
+					Horario horario = new Horario();
+					horario.setHoraInicio(Datas.convertStringTimeToDate(ha.getHoraInicio()));
+					horario.setHoraFim(Datas.convertStringTimeToDate(ha.getHoraFim()));
+
 					this.listaHorarios.add(horario);
-					
+
 				}
-			}
+
+			} 
 		}
-		
 		return listaHorarios;
-		
+
 	}
 
 
@@ -326,7 +381,37 @@ public class GradeAulaMB {
 	public void setHoraAula(HoraAula horaAula) {
 		this.horaAula = horaAula;
 	}
+	
+	
 
+	public HoraAulaHTTP getHoraAulaHTTP() {
+		return horaAulaHTTP;
+	}
+
+	public void setHoraAulaHTTP(HoraAulaHTTP horaAulaHTTP) {
+		this.horaAulaHTTP = horaAulaHTTP;
+	}
+
+	public List<HoraAulaHTTP> getListaHoraAulaHTTP() {
+		
+		Client c = new Client();
+		WebResource wr = c.resource(URLUtil.BUSCAR_HORAAULA_POR_ID_TURMA + this.getTurma().getId());
+		String jsonResult = wr.get(String.class);
+	    if (!jsonResult.equalsIgnoreCase("null")) {
+			Gson gson = new Gson();
+			
+			HoraAulaHTTP[] lista = gson.fromJson(jsonResult, HoraAulaHTTP[].class);
+			this.listaHoraAulaHTTP = Arrays.asList(lista);
+		}else{
+			this.listaHoraAulaHTTP = new ArrayList<HoraAulaHTTP>();
+		}
+		
+		return listaHoraAulaHTTP;
+	}
+
+	public void setListaHoraAulaHTTP(List<HoraAulaHTTP> listaHoraAulaHTTP) {
+		this.listaHoraAulaHTTP = listaHoraAulaHTTP;
+	}
 
 	public List<HoraAula> getListaHoraAulas() {
 		
@@ -450,6 +535,7 @@ public class GradeAulaMB {
 	public void setListaProfessoresPorDisciplina(List<Professor> listaProfessoresPorDisciplina) {
 		this.listaProfessoresPorDisciplina = listaProfessoresPorDisciplina;
 	}
+
 	
 	
 	

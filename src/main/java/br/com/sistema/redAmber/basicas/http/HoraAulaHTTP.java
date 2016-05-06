@@ -1,7 +1,5 @@
 package br.com.sistema.redAmber.basicas.http;
 
-import java.util.Date;
-
 import br.com.sistema.redAmber.basicas.enums.DiasSemana;
 import br.com.sistema.redAmber.basicas.enums.StatusHoraAula;
 
@@ -11,10 +9,9 @@ public class HoraAulaHTTP {
 	
 	private DiasSemana dia;
 	
+	private String horaInicio;
 	
-	private Date horaInicio;
-	
-	private Date horaFim;
+	private String horaFim;
 	
 	private StatusHoraAula status;
 
@@ -36,23 +33,19 @@ public class HoraAulaHTTP {
 		this.dia = dia;
 	}
 
-	
-
-
-
-	public Date getHoraInicio() {
+	public String getHoraInicio() {
 		return horaInicio;
 	}
 
-	public void setHoraInicio(Date horaInicio) {
+	public void setHoraInicio(String horaInicio) {
 		this.horaInicio = horaInicio;
 	}
 
-	public Date getHoraFim() {
+	public String getHoraFim() {
 		return horaFim;
 	}
 
-	public void setHoraFim(Date horaFim) {
+	public void setHoraFim(String horaFim) {
 		this.horaFim = horaFim;
 	}
 

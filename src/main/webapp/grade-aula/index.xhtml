@@ -210,20 +210,24 @@
 								<!-- Apenas para as colunas de aulas -->
 								<c:if test="#{(gradeAulaMB.colunas[i] eq 'Horários') == false}">
 									
-									<!-- Link de registro de aulas -->
-									<h:commandLink styleClass="btn btn-info btn-acoes" actionListener="#{gradeAulaMB.addAula}">
 									
-										<span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Aula
+										<!-- Link de registro de aulas -->
+										<h:commandLink styleClass="btn btn-info btn-acoes" actionListener="#{gradeAulaMB.addAula}">
+									
+											<span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Aula
 										
-										<f:param name="horarioParam" value="#{horario}" />
-										<f:param name="diaSemanaParam" value="#{gradeAulaMB.colunas[i]}" />
+											<f:param name="horarioParam" value="#{horario}" />
+											<f:param name="diaSemanaParam" value="#{gradeAulaMB.colunas[i]}" />
 										
-										<f:setPropertyActionListener value="#{horario}" target="#{gradeAulaMB.horario}"></f:setPropertyActionListener>
+											<f:setPropertyActionListener value="#{horario}" target="#{gradeAulaMB.horario}"></f:setPropertyActionListener>
 										
-										<f:ajax render=":form:AreaPersonalizacaoHorarioAula :formAddAula :tituloHoraAula" />
+											<f:ajax render=":form:AreaPersonalizacaoHorarioAula :formAddAula :tituloHoraAula" />
+											
+										</h:commandLink>
 										
-									</h:commandLink>
-
+										
+										<h:outputText value="#{horario} - #{gradeAulaMB.colunas[i]}" />
+											
 								</c:if>
 								
 							</h:column>

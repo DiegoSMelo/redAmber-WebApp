@@ -1,5 +1,6 @@
 package br.com.sistema.redAmber.basicas.http;
 
+import java.util.Calendar;
 import java.util.List;
 
 import br.com.sistema.redAmber.basicas.Disciplina;
@@ -19,10 +20,8 @@ public class ProfessorHTTP {
 	private String telefone;
 	
 	
-	/*
-	 * TIMESTAMP
-	 */
-	private String dataNascimento;
+	
+	private Calendar dataNascimento;
 	
 	private StatusUsuario status;
 	
@@ -80,13 +79,16 @@ public class ProfessorHTTP {
 		this.telefone = telefone;
 	}
 
-	public String getDataNascimento() {
-		return dataNascimento;
+
+	public List<Disciplina> getListaDisciplinas() {
+		return listaDisciplinas;
 	}
 
-	public void setDataNascimento(String dataNascimento) {
-		this.dataNascimento = dataNascimento;
+
+	public void setListaDisciplinas(List<Disciplina> listaDisciplinas) {
+		this.listaDisciplinas = listaDisciplinas;
 	}
+
 
 	public StatusUsuario getStatus() {
 		return status;
@@ -102,6 +104,16 @@ public class ProfessorHTTP {
 
 	public void setUsuario(Usuario usuario) {
 		this.usuario = usuario;
+	}
+
+
+	public Calendar getDataNascimento() {
+		return dataNascimento;
+	}
+
+
+	public void setDataNascimento(Calendar dataNascimento) {
+		this.dataNascimento = dataNascimento;
 	}
 	
 	
