@@ -219,14 +219,14 @@
 											<f:param name="horarioParam" value="#{horario}" />
 											<f:param name="diaSemanaParam" value="#{gradeAulaMB.colunas[i]}" />
 										
-											<f:setPropertyActionListener value="#{horario}" target="#{gradeAulaMB.horario}"></f:setPropertyActionListener>
+											<f:setPropertyActionListener value="#{horario}" target="#{gradeAulaMB.horario2}"></f:setPropertyActionListener>
 										
 											<f:ajax render=":form:AreaPersonalizacaoHorarioAula :formAddAula :tituloHoraAula" />
 											
 										</h:commandLink>
 										
 										
-										<h:outputText value="#{horario} - #{gradeAulaMB.colunas[i]}" />
+										<h:outputText styleClass="#{horario}**#{gradeAulaMB.colunas[i]}"  />
 											
 								</c:if>
 								
@@ -260,9 +260,17 @@
 
 					</h:commandLink>
 				</div>
+				
+				<div class="form-group">
+					<h:commandLink styleClass="btn btn-primary"
+						value="Atualizar"
+						actionListener="#{gradeAulaMB.carregaResumos}">
 
+						<f:ajax render="AreaPersonalizacaoHorarioAula"></f:ajax>
+
+					</h:commandLink>
+				</div>
 		
-
 
 </h:form>
 
@@ -270,6 +278,8 @@
 	<a4j:outputPanel ajaxRendered="true">
         <h:messages></h:messages>
     </a4j:outputPanel>
+    
+
     
 	</ui:define>
 </ui:composition>

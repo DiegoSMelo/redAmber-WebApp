@@ -60,5 +60,10 @@ function fechaModalAula(){
 	$('.modalAula').modal('hide');
 }
 
+function exibeResumoGradeAula(strClass, resumo){
+	
+	$("."+strClass).text(resumo);
+}
+
 
 

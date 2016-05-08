@@ -193,6 +193,14 @@ public class Datas {
 		
 		return null;
 	}
+    
+    public static String convertDateToStringTime(Date date){
+		
+    	DateFormat df = new SimpleDateFormat("HH:mm");
+    	
+    	
+		return df.format(date);
+	}
          
     public static void main(String[] args) {        
         Date data1 = Datas.criarData(01, 02, 2005);     
