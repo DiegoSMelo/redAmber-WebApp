@@ -76,9 +76,9 @@ public class GradeAulaMB {
 		for (HoraAulaHTTP horaAulaHTTP : this.getListaHoraAulaHTTP()) {
 			
 			String resumo = "";
-			String horaInicio = Datas.convertDateToStringTime(Datas.convertStringTimeToDate(horaAulaHTTP.getHoraInicio()));
-			String horaFim = Datas.convertDateToStringTime(Datas.convertStringTimeToDate(horaAulaHTTP.getHoraFim()));
-			String dia = horaAulaHTTP.getDia().toString();
+			String horaInicio = Datas.convertDateToStringTime(Datas.convertStringTimeToDate(horaAulaHTTP.getId().getHoraInicio()));
+			String horaFim = Datas.convertDateToStringTime(Datas.convertStringTimeToDate(horaAulaHTTP.getId().getHoraFim()));
+			String dia = horaAulaHTTP.getId().getDia().toString();
 			
 			String styleClass = horaInicio + "/" + horaFim + "**" + dia;
 			styleClass = styleClass.replace(":", "\\\\:");
@@ -188,7 +188,6 @@ public class GradeAulaMB {
 	
 	public void salvarHoraAula(){
 		
-		HoraAulaPK haPk = new HoraAulaPK();
 		AulaPK aulaPK = new AulaPK();
 		
 		aulaPK.setSala(this.getSala());
@@ -197,14 +196,10 @@ public class GradeAulaMB {
 		
 		this.getAula().setId(aulaPK);
 		
-		haPk.setTurma(this.getTurma());
-		haPk.setAula(this.getAula());
-		
-		this.getHoraAula().setId(haPk);	
-		
+		this.getHoraAula().getId().setTurma(this.getTurma());
+		this.getHoraAula().getId().setAula(this.getAula());
 		
 		this.getListaHoraAulas().add(this.getHoraAula()); //se liga nessa chamada
-		
 		
 		RequestContext.getCurrentInstance().execute("fechaModalAula()");
 		
@@ -218,6 +213,7 @@ public class GradeAulaMB {
 	
 	public void addAula(){
 		this.horaAula = new HoraAula();
+		this.horaAula.setId(new HoraAulaPK());
 		
 		Map<String,String> params = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap();
 	    String diaSemanaParam = params.get("diaSemanaParam");
@@ -230,14 +226,14 @@ public class GradeAulaMB {
 	    //get horario fim string
 	    String[] horarioFimSplit = horarioSplit[1].split(":");
 	    //get horario inicio date
-	    this.getHoraAula().setHoraInicio(Datas.criarHora(Integer.parseInt(horarioInicioSplit[0]), Integer.parseInt(horarioInicioSplit[1]), 00));
+	    this.getHoraAula().getId().setHoraInicio(Datas.criarHora(Integer.parseInt(horarioInicioSplit[0]), Integer.parseInt(horarioInicioSplit[1]), 00));
 	    //get horario fim date
-	    this.getHoraAula().setHoraFim(Datas.criarHora(Integer.parseInt(horarioFimSplit[0]), Integer.parseInt(horarioFimSplit[1]), 00));
+	    this.getHoraAula().getId().setHoraFim(Datas.criarHora(Integer.parseInt(horarioFimSplit[0]), Integer.parseInt(horarioFimSplit[1]), 00));
 	    
 	    //get dia da semana
 	    for (DiasSemana dia : DiasSemana.values()) {
 			if (dia.toString().equals(diaSemanaParam)) {
-				this.getHoraAula().setDia(dia);
+				this.getHoraAula().getId().setDia(dia);
 			}
 		}
 	    
@@ -267,9 +263,9 @@ public class GradeAulaMB {
 	 */
 	public void redirectIndex(){
 		try {
-			
+			this.listaHorarios = null;
 			FacesContext.getCurrentInstance().getExternalContext().redirect("/redAmber-WebApp/grade-aula/index.xhtml");	
-
+			
 		} catch (IOException e) {
 			
 			RequestContext.getCurrentInstance().execute("alert('"+e.getMessage()+"');");
@@ -290,8 +286,8 @@ public class GradeAulaMB {
 				
 					int gat = 0;
 					Horario horario = new Horario();
-					horario.setHoraInicio(Datas.convertStringTimeToDate(ha.getHoraInicio()));
-					horario.setHoraFim(Datas.convertStringTimeToDate(ha.getHoraFim()));
+					horario.setHoraInicio(Datas.convertStringTimeToDate(ha.getId().getHoraInicio()));
+					horario.setHoraFim(Datas.convertStringTimeToDate(ha.getId().getHoraFim()));
 					
 					for (Horario ho : this.listaHorarios) {
 						
@@ -440,9 +436,7 @@ public class GradeAulaMB {
 			HoraAula ha = new HoraAula();
 			Aula a = new Aula();
 			
-			ha.setDia(haHTTP.getDia());
-			ha.setHoraInicio(Datas.convertStringTimeToDate(haHTTP.getHoraInicio()));
-			ha.setHoraFim(Datas.convertStringTimeToDate(haHTTP.getHoraFim()));
+			
 			
 			HoraAulaPK haPk = new HoraAulaPK();
 			AulaPK aulaPK = new AulaPK();
@@ -467,6 +461,10 @@ public class GradeAulaMB {
 			
 			haPk.setTurma(haHTTP.getId().getTurma());
 			haPk.setAula(a);
+			
+			haPk.setDia(haHTTP.getId().getDia());
+			haPk.setHoraInicio(Datas.convertStringTimeToDate(haHTTP.getId().getHoraInicio()));
+			haPk.setHoraFim(Datas.convertStringTimeToDate(haHTTP.getId().getHoraFim()));
 			
 			ha.setId(haPk);	
 			
