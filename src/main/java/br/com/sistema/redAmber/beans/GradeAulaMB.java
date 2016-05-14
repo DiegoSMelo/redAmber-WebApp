@@ -282,6 +282,7 @@ public class GradeAulaMB {
 	    
 	    this.getHoraAula().setStatus(StatusHoraAula.ATIVA);
 	    
+	    this.carregaResumos();
 	    
 	    RequestContext.getCurrentInstance().execute("exibeModalAula()");
 	    

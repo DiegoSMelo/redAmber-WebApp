@@ -212,9 +212,9 @@
 									
 									
 										<!-- Link de registro de aulas -->
-										<h:commandLink styleClass="btn btn-info btn-acoes" actionListener="#{gradeAulaMB.addAula}">
+										<h:commandLink styleClass="btn btn-info btn-xs btn-acoes-grade-aulas" actionListener="#{gradeAulaMB.addAula}">
 									
-											<span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Aula
+											<span class="glyphicon glyphicon-option-horizontal" aria-hidden="true"></span>
 										
 											<f:param name="horarioParam" value="#{horario}" />
 											<f:param name="diaSemanaParam" value="#{gradeAulaMB.colunas[i]}" />
@@ -226,7 +226,7 @@
 										</h:commandLink>
 										
 										
-										<h:outputText styleClass="#{horario}**#{gradeAulaMB.colunas[i]}"  />
+										<p class="bg-info"><h:outputText styleClass="#{horario}**#{gradeAulaMB.colunas[i]}"  /></p>
 											
 								</c:if>
 								
