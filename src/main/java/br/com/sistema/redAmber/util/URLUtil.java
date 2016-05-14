@@ -81,12 +81,20 @@ public abstract class URLUtil {
 
 	public static final String SALVAR_PROFESSOR = BASE + prop.getProperty("url.salvar.professor");
 	
-	
+	/*
+	 * param ID DISCIPLINA
+	 */
+	public static final String LISTAR_PROFESSORES_POR_DISCIPLINA = BASE + prop.getProperty("url.lista.professores.por.disciplina");
 	
 	/*
 	 * param RG PROFESSOR
 	 */
 	public static final String BUSCAR_PROFESSOR_POR_RG = BASE + prop.getProperty("url.buscar.professor.por.rg");
+	
+	/*
+	 * param ID PROFESSOR
+	 */
+	public static final String BUSCAR_PROFESSOR_POR_ID = BASE + prop.getProperty("url.buscar.professor.por.id");
 	
 	public static final String LISTAR_FUNCIONARIOS = BASE + prop.getProperty("url.listar.funcionarios");
 	
@@ -149,5 +157,70 @@ public abstract class URLUtil {
 	 */
 	public static final String BUSCAR_TURMA_POR_ID = BASE + prop.getProperty("url.buscar.turma.por.id");
 	
+	/*
+	 * PARAM TOMBO
+	 */
+	public static final String BUSCAR_EQUIPAMENTO_POR_TOMBO = BASE + prop.getProperty("url.buscar.equipamento.por.tombo");
 	
+	/*
+	 * PARAM ID
+	 */
+	public static final String SALVAR_EQUIPAMENTO = BASE + prop.getProperty("url.salvar.equipamento");
+	
+	public static final String BUSCAR_EQUIPAMENTO_POR_ID = BASE + prop.getProperty("url.buscar.equipamento.por.id");
+	
+	public static final String LISTAR_EQUIPAMENTOS = BASE + prop.getProperty("url.listar.equipamentos");
+
+	/*
+	 * PARAM DESCRICAO
+	 */
+	public static final String BUSCAR_SALA_POR_DESCRICAO = BASE + prop.getProperty("url.buscar.sala.por.descricao");
+	
+	/*
+	 * PARAM ID
+	 */
+	public static final String SALVAR_SALA = BASE + prop.getProperty("url.salvar.sala");
+	
+	public static final String BUSCAR_SALA_POR_ID = BASE + prop.getProperty("url.buscar.sala.por.id");
+	
+	public static final String LISTAR_SALAS = BASE + prop.getProperty("url.listar.salas");
+	
+	
+	/*
+	 * PARAM ID_TURMA
+	 */
+	public static final String BUSCAR_HORAAULA_POR_ID_TURMA = BASE + prop.getProperty("url.buscar.hora-aula.por.id.turma");
+	
+	/*
+	 * PARAM: Objeto do tipo HoraAulaPK preenchido
+	 */
+	public static final String BUSCAR_HORAAULA_POR_HORAAULAPK = BASE + prop.getProperty("url.buscar.hora-aula.por.horaaulapk");
+	
+	
+	public static final String ADD_HORA_AULA = BASE + prop.getProperty("url.add.hora-aula");
+	
+	/*
+	 * PARAM POST: Objeto do tipo HoraAulaHTTP preenchido
+	 */
+	public static final String REMOVER_HORA_AULA = BASE + prop.getProperty("url.remover.hora-aula");
+	
+	/*
+	 * PARAM POST: OBJ TURMA
+	 */
+	public static final String REMOVER_HORA_AULA_POR_TURMA = BASE + prop.getProperty("url.remover.hora.aula.por.turma");
+	
+	
+	public static final String LISTAR_AULAS = BASE + prop.getProperty("url.listar.aulas");
+	
+	/*
+	 * PARAM: Objeto PK instanciado
+	 */
+	public static final String BUSCAR_AULA_POR_PK = BASE + prop.getProperty("url.buscar.aula.por.pk");
+	
+	public static final String ADD_AULA = BASE + prop.getProperty("url.add.aula");
+	
+	/*
+	 * PARAM POST: Objeto do tipo Aula preenchido
+	 */
+	public static final String REMOVER_AULA = BASE + prop.getProperty("url.remover.aula");
 }

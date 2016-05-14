@@ -6,22 +6,12 @@ package br.com.sistema.redAmber.util;
  
  
 import java.sql.Timestamp;
+import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
  
-/*
- * Created on 30/09/2005
- * Author: Francisco Nascimento
- */
- 
-/**
- * @author Francisco Nascimento
- *
- * To change the template for this generated type comment go to
- * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
- */
 public class Datas {
  
     /**
@@ -187,6 +177,30 @@ public class Datas {
     public static Timestamp obterTimestampAtual(){
         return new Timestamp(System.currentTimeMillis());  
     }
+    
+    public static Date convertStringTimeToDate(String horaStr){
+		
+		try {
+			
+		 DateFormat df = new SimpleDateFormat("hh:mm:ss a");
+	     
+		 Date date = df.parse(horaStr);
+		 return date;
+			
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+		
+		return null;
+	}
+    
+    public static String convertDateToStringTime(Date date){
+		
+    	DateFormat df = new SimpleDateFormat("HH:mm");
+    	
+    	
+		return df.format(date);
+	}
          
     public static void main(String[] args) {        
         Date data1 = Datas.criarData(01, 02, 2005);     

@@ -55,7 +55,10 @@ template="#{beanGeral.template}">
 		</h:commandLink>
 		
 
-	
+		<h:commandLink styleClass="btn btn-info btn-acoes" actionListener="#{gradeAulaMB.redirectIndex}">
+			Grade de aulas
+			<f:setPropertyActionListener value="#{turma}" target="#{gradeAulaMB.turma}"></f:setPropertyActionListener>
+		</h:commandLink>
 		
 		
 	</h:column>

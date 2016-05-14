@@ -6,6 +6,11 @@
  margin-left: 10px;
 }
 
+.btn-acoes-grade-aulas{
+ margin-left: -8px;
+ margin-top: -10px;
+}
+
 .areaPlus{
  margin-bottom: 15px;
 }
@@ -35,5 +40,13 @@
 }
 
 .indicatorDragDrop{
-    width: 45px;
+ width: 45px;
+}
+
+#btnAddHorario{
+ margin-left: -15px;
+}
+
+.btnModal{
+ margin-right: 150px;
 }

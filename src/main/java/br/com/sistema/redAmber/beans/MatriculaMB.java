@@ -366,6 +366,10 @@ public class MatriculaMB {
 		this.isPagAdd = isPagAdd;
 	}
 	
+	public TipoTurno[] getTurnos() {
+		return TipoTurno.values();
+	}
+	
 	public StatusMatricula[] getStatusMatricula() {
 		return StatusMatricula.values();
 	}

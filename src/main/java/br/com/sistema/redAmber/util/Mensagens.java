@@ -20,5 +20,10 @@ public class Mensagens {
 	public static String m13 = "Falha ao finalizar a matrícula";
 	public static String m14 = "O aluno já está matriculado nesse curso";
 	public static String m15 = "Escolha uma turma";
+	public static String m16 = "Equipamento já cadastrado";
+	public static String m17 = "Sala já cadastrada";
+	public static String m18 = "Erro ao salvar equipamento";
+	public static String m19 = "Erro ao salvar sala";
+	public static String m20 = "Grade de aulas salva com sucesso!";
 	
 }
