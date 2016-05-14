@@ -25,6 +25,10 @@ $(document).ready(function() {
 	
 	
 	
+	
+	$(".atualizarbtn").hide();
+	
+
 });
 
 

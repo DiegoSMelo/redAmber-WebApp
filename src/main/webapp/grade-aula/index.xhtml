@@ -262,7 +262,7 @@
 				</div>
 				
 				<div class="form-group">
-					<h:commandLink styleClass="btn btn-primary"
+					<h:commandLink styleClass="btn btn-primary atualizarbtn"
 						value="Atualizar"
 						actionListener="#{gradeAulaMB.carregaResumos}">
 
@@ -271,7 +271,6 @@
 					</h:commandLink>
 				</div>
 		
-
 </h:form>
 
 	
@@ -279,6 +278,10 @@
         <h:messages></h:messages>
     </a4j:outputPanel>
     
+    
+<script type="text/javascript">
+$(".atualizarbtn").click();
+</script>
 
     
 	</ui:define>

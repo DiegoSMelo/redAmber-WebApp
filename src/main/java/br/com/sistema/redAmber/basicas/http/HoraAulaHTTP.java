@@ -10,7 +10,6 @@ public class HoraAulaHTTP {
 	private StatusHoraAula status;
 
 	
-	
 	public HoraAulaPKHTTP getId() {
 		return id;
 	}

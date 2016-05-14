@@ -1,6 +1,8 @@
 package br.com.sistema.redAmber.beans;
 
 import java.io.IOException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -33,7 +35,11 @@ import br.com.sistema.redAmber.basicas.Sala;
 import br.com.sistema.redAmber.basicas.Turma;
 import br.com.sistema.redAmber.basicas.enums.DiasSemana;
 import br.com.sistema.redAmber.basicas.enums.StatusHoraAula;
+import br.com.sistema.redAmber.basicas.http.AulaHTTP;
+import br.com.sistema.redAmber.basicas.http.AulaPKHTTP;
 import br.com.sistema.redAmber.basicas.http.HoraAulaHTTP;
+import br.com.sistema.redAmber.basicas.http.HoraAulaPKHTTP;
+import br.com.sistema.redAmber.basicas.http.ProfessorHTTP;
 import br.com.sistema.redAmber.util.Datas;
 import br.com.sistema.redAmber.util.Mensagens;
 import br.com.sistema.redAmber.util.URLUtil;
@@ -44,6 +50,7 @@ public class GradeAulaMB {
 	
 	public Gson gson = new Gson();
 	public boolean atualiza = true;
+	public boolean atualizaListaHorariosHTTP = true;
 	
 	public Turma turma;
 	public List<String> colunas;
@@ -73,7 +80,12 @@ public class GradeAulaMB {
 	
 	public void carregaResumos(){
 		
-		for (HoraAulaHTTP horaAulaHTTP : this.getListaHoraAulaHTTP()) {
+		if (this.listaHoraAulaHTTP == null) {
+			this.atualizaListaHorariosHTTP = true;
+			this.getListaHoraAulaHTTP();
+		}
+		
+		for (HoraAulaHTTP horaAulaHTTP : this.listaHoraAulaHTTP) {
 			
 			String resumo = "";
 			String horaInicio = Datas.convertDateToStringTime(Datas.convertStringTimeToDate(horaAulaHTTP.getId().getHoraInicio()));
@@ -93,35 +105,6 @@ public class GradeAulaMB {
 		
 	}
 	
-	public String getResumoHoraAula(){
-		this.carregaResumos();
-		/*
-		Map<String,String> params = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap();
-	    String dia = params.get("diaSemanaParam2");
-	    String horario = params.get("horarioParam2");
-	    
-		
-		String resumo = "";
-		String[] horaSplit = horario.split("/");
-		String horaIni = horaSplit[0];
-		String horaFim = horaSplit[1];
-		
-		for (HoraAulaHTTP horaAulaHTTP : this.listaHoraAulaHTTP) {
-			
-			if (Datas.convertStringTimeToDate(horaAulaHTTP.getHoraInicio()).compareTo(Datas.criarHora(Integer.parseInt(horaIni.split(":")[0]), Integer.parseInt(horaIni.split(":")[1]), 0)) == 0 &&
-					Datas.convertStringTimeToDate(horaAulaHTTP.getHoraFim()).compareTo(Datas.criarHora(Integer.parseInt(horaFim.split(":")[0]), Integer.parseInt(horaFim.split(":")[1]), 0)) == 0 &&
-					horaAulaHTTP.getDia().toString().equalsIgnoreCase(dia)) {
-				
-				resumo = horaAulaHTTP.getId().getAula().getId().getDisciplina().getTitulo() + " (" + horaAulaHTTP.getId().getAula().getId().getSala().getDescricao() + ")\n" + horaAulaHTTP.getId().getAula().getId().getProfessor().getNome();
-				
-			}
-		}
-		*/
-		return "detalhes";
-	}
-	
-
-
 	
 	public void removerHoraAulaPorTurmaHTTP(Turma turma){
 		
@@ -155,6 +138,10 @@ public class GradeAulaMB {
 				this.salvarHoraAulaHTTP(ha);
 				
 			}
+			
+			this.listaHoraAulaHTTP = null;//para atualizar novamente
+			this.atualizaListaHorariosHTTP = true;//para atualizar novamente
+			this.carregaResumos();
 			
 			RequestContext.getCurrentInstance().execute("alert('" + Mensagens.m20 + "');");
 		
@@ -199,9 +186,65 @@ public class GradeAulaMB {
 		this.getHoraAula().getId().setTurma(this.getTurma());
 		this.getHoraAula().getId().setAula(this.getAula());
 		
-		this.getListaHoraAulas().add(this.getHoraAula()); //se liga nessa chamada
+		
+		
+		//convert horaaulahttp
+		
+		HoraAulaHTTP hah = new HoraAulaHTTP();
+		HoraAulaPKHTTP hahPK = new HoraAulaPKHTTP();
+		
+		AulaHTTP aulaHTTP = new AulaHTTP();
+		AulaPKHTTP aulaPKhttp = new AulaPKHTTP();
+		
+		ProfessorHTTP pHTTP = new ProfessorHTTP();
+		
+		hah.setStatus(this.getHoraAula().getStatus());
+		
+		aulaPKhttp.setDisciplina(this.getHoraAula().getId().getAula().getId().getDisciplina());
+		
+		pHTTP.setDataNascimento(this.getHoraAula().getId().getAula().getId().getProfessor().getDataNascimento());
+		pHTTP.setEmail(this.getHoraAula().getId().getAula().getId().getProfessor().getEmail());
+		pHTTP.setId(this.getHoraAula().getId().getAula().getId().getProfessor().getId());
+		pHTTP.setListaDisciplinas(this.getHoraAula().getId().getAula().getId().getProfessor().getListDisciplinas());
+		pHTTP.setNome(this.getHoraAula().getId().getAula().getId().getProfessor().getNome());
+		pHTTP.setRg(this.getHoraAula().getId().getAula().getId().getProfessor().getRg());
+		pHTTP.setStatus(this.getHoraAula().getId().getAula().getId().getProfessor().getStatus());
+		pHTTP.setTelefone(this.getHoraAula().getId().getAula().getId().getProfessor().getTelefone());
+		pHTTP.setUsuario(this.getHoraAula().getId().getAula().getId().getProfessor().getUsuario());
+		
+		aulaPKhttp.setProfessor(pHTTP);
+		aulaPKhttp.setDisciplina(this.getHoraAula().getId().getAula().getId().getDisciplina());
+		aulaPKhttp.setSala(this.getHoraAula().getId().getAula().getId().getSala());
+		
+		aulaHTTP.setId(aulaPKhttp);
+		
+		hahPK.setAula(aulaHTTP);
+		hahPK.setTurma(this.getHoraAula().getId().getTurma());
+		hahPK.setDia(this.getHoraAula().getId().getDia());
+		
+		
+		DateFormat df = new SimpleDateFormat("hh:mm:ss a");
+		
+		hahPK.setHoraInicio(df.format(this.getHoraAula().getId().getHoraInicio()));
+		hahPK.setHoraFim(df.format(this.getHoraAula().getId().getHoraFim()));
+		
+		hah.setId(hahPK);
+		
+		if (this.listaHoraAulaHTTP == null) {
+			this.getListaHoraAulaHTTP();
+		}
+		this.listaHoraAulaHTTP.add(hah);
+		this.atualizaListaHorariosHTTP = false;
+		//convert horaaulahttp
+		
+		if (this.listaHoraAulas == null) {
+			this.getListaHoraAulas();
+		}
+		this.listaHoraAulas.add(this.getHoraAula()); //se liga nessa chamada
 		
 		RequestContext.getCurrentInstance().execute("fechaModalAula()");
+		
+		this.carregaResumos();
 		
 		this.setAula(null);
 		this.setDisciplina(null);
@@ -409,16 +452,19 @@ public class GradeAulaMB {
 
 	public List<HoraAulaHTTP> getListaHoraAulaHTTP() {
 		
-		Client c = new Client();
-		WebResource wr = c.resource(URLUtil.BUSCAR_HORAAULA_POR_ID_TURMA + this.getTurma().getId());
-		String jsonResult = wr.get(String.class);
-	    if (!jsonResult.equalsIgnoreCase("null")) {
-			Gson gson = new Gson();
-			
-			HoraAulaHTTP[] lista = gson.fromJson(jsonResult, HoraAulaHTTP[].class);
-			this.listaHoraAulaHTTP = Arrays.asList(lista);
-		}else{
-			this.listaHoraAulaHTTP = new ArrayList<HoraAulaHTTP>();
+		if (this.atualizaListaHorariosHTTP == true) {
+			Client c = new Client();
+			WebResource wr = c.resource(URLUtil.BUSCAR_HORAAULA_POR_ID_TURMA + this.getTurma().getId());
+			String jsonResult = wr.get(String.class);
+			if (!jsonResult.equalsIgnoreCase("null")) {
+				Gson gson = new Gson();
+
+				HoraAulaHTTP[] lista = gson.fromJson(jsonResult, HoraAulaHTTP[].class);
+				this.listaHoraAulaHTTP = Arrays.asList(lista);
+				this.listaHoraAulaHTTP = new ArrayList<>(this.listaHoraAulaHTTP);
+			} else {
+				this.listaHoraAulaHTTP = new ArrayList<HoraAulaHTTP>();
+			} 
 		}
 		
 		return listaHoraAulaHTTP;
@@ -435,8 +481,6 @@ public class GradeAulaMB {
 			
 			HoraAula ha = new HoraAula();
 			Aula a = new Aula();
-			
-			
 			
 			HoraAulaPK haPk = new HoraAulaPK();
 			AulaPK aulaPK = new AulaPK();
