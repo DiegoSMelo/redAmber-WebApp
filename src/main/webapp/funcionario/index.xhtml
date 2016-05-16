@@ -1,76 +1,68 @@
 <ui:composition xmlns="http://www.w3.org/1999/xhtml"
-xmlns:ui="http://java.sun.com/jsf/facelets"
-xmlns:h="http://java.sun.com/jsf/html"
-xmlns:f="http://java.sun.com/jsf/core"
-xmlns:p="http://primefaces.org/ui"
-template="#{beanGeral.template}">
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui" template="#{beanGeral.template}">
 	<ui:define name="body">
 
-<h:form>
+		<h:form>
 
+			<ol class="breadcrumb">
+				<li>
+					<h:outputLink value="/redAmber-WebApp/home/index.xhtml">Página Inicial</h:outputLink>
+				</li>
+				<li class="active">Funcionários</li>
+			</ol>
 
+			<div class="areaPlus">
+				<h:commandLink actionListener="#{funcionarioMB.redirectAdd}" 
+					title="Adicionar Funcionário" styleClass="btn btn-success">
+					<span class="glyphicon glyphicon-plus" aria-hidden="true" /> Adicionar
+				</h:commandLink>
+			</div>
 
-<ol class="breadcrumb">
-  <li><h:outputLink value="/redAmber-WebApp/home/index.xhtml">Página Inicial</h:outputLink></li>
-  <li class="active">Funcionários</li>
-</ol>
+			<h:dataTable id="table-operadores"
+				styleClass="table table-hover table-bordered"
+				value="#{funcionarioMB.listaFuncionarios}" var="funcionario"
+				emptyMessage="Não há funcionários cadastrados">
 
+				<h:column>
+					<f:facet name="header">Tipo</f:facet>
+					<h:outputText value="#{funcionario.tipoFuncionarioString}" />
+				</h:column>
 
+				<h:column>
+					<f:facet name="header">Nome</f:facet>
+					<h:outputText value="#{funcionario.nome}" />
+				</h:column>
 
-<div class="areaPlus">
-	<h:commandLink actionListener="#{funcionarioMB.redirectAdd}" styleClass="btn btn-success">Adicionar</h:commandLink>
-</div>
+				<h:column>
+					<f:facet name="header">E-mail</f:facet>
+					<h:outputText value="#{funcionario.email}" />
+				</h:column>
 
+				<h:column>
+					<f:facet name="header">Telefone</f:facet>
+					<h:outputText value="#{funcionario.telefone}" />
+				</h:column>
 
+				<h:column>
+					<f:facet name="header">Status</f:facet>
+					<h:outputText value="#{funcionario.status}" />
+				</h:column>
 
-<h:dataTable id="table-operadores" styleClass="table table-hover table-bordered" value="#{funcionarioMB.listaFuncionarios}" var="funcionario" emptyMessage="Não há funcionários cadastrados">
-	
-	<h:column>	
-		<f:facet name="header">Tipo</f:facet>
-		<h:outputText value="#{funcionario.tipoFuncionarioString}"></h:outputText>
-	</h:column>
-	
-	<h:column>	
-		<f:facet name="header">Nome</f:facet>
-		<h:outputText value="#{funcionario.nome}"></h:outputText>
-	</h:column>
+				<h:column>
+					<f:facet name="header">Ações</f:facet>
 
-	<h:column>	
-		<f:facet name="header">E-mail</f:facet>
-		<h:outputText value="#{funcionario.email}"></h:outputText>
-	</h:column>
+					<h:commandLink styleClass="btn btn-info btn-acoes" title="Editar Funcionário"
+						actionListener="#{funcionarioMB.redirectEdit}">
+						<span class="glyphicon glyphicon-pencil" aria-hidden="true" />
+						<f:setPropertyActionListener value="#{funcionario}" 
+							target="#{funcionarioMB.funcionario}" />
+					</h:commandLink>
+				</h:column>
 
-	<h:column>	
-		<f:facet name="header">Telefone</f:facet>
-		<h:outputText value="#{funcionario.telefone}"></h:outputText>
-	</h:column>
-	
-	<h:column>	
-		<f:facet name="header">Status</f:facet>
-		<h:outputText value="#{funcionario.status}"></h:outputText>
-	</h:column>
-	
-	
-	<h:column>
-		<f:facet name="header">Ações</f:facet>
-		
-		<h:commandLink styleClass="btn btn-info btn-acoes" actionListener="#{funcionarioMB.redirectEdit}">
-			<span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>
-			<f:setPropertyActionListener value="#{funcionario}" target="#{funcionarioMB.funcionario}"></f:setPropertyActionListener>
-		</h:commandLink>
-		
-
-
-	
-		
-	
-		
-	</h:column>
-	
-	
-</h:dataTable>
-		
-</h:form>
-    		
+			</h:dataTable>
+		</h:form>
 	</ui:define>
 </ui:composition>

@@ -1,26 +1,22 @@
 package br.com.sistema.redAmber.basicas.enums;
 
 public enum StatusTurma {
-	
-	PENDENTE{
+	PENDENTE {
 		@Override
 		public String toString() {
-
 			return "Pendente";
 		}
 	},
-	ATIVO {
+	ATIVA {
 		@Override
 		public String toString() {
-
-			return "Ativo";
+			return "Ativa";
 		}
 	},
-	INATIVO {
+	INATIVA {
 		@Override
 		public String toString() {
-
-			return "Inativo";
+			return "Inativa";
 		}
 	}
 }

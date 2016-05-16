@@ -121,7 +121,7 @@ public class ReservaEquipamentoMB {
 				ClientResponse response = webResourcePost.type("application/json").post(ClientResponse.class,
 						this.getReservaEquipamento());
 				if (response.getStatus() == 200) {
-					FacesContext.getCurrentInstance().getExternalContext().redirect("/redAmber-WebApp/home/index.xhtml");
+					FacesContext.getCurrentInstance().getExternalContext().redirect("/redAmber-WebApp/reserva_equipamento/index.xhtml");
 				} else {
 					RequestContext.getCurrentInstance().execute("alert('" + Mensagens.m3 + "');");
 				}

@@ -6,7 +6,12 @@
 	<ui:define name="body">
 
 		<ol class="breadcrumb">
-	  		<li><h:outputLink value="/redAmber-WebApp/home/index.xhtml">Página Inicial</h:outputLink></li>
+	  		<li>
+	  			<h:outputLink value="/redAmber-WebApp/home/index.xhtml">Página Inicial</h:outputLink>
+	  		</li>
+	  		<li><h:outputLink value="/redAmber-WebApp/reserva_sala/index.xhtml">
+	  				Reservas de Sala</h:outputLink></li>
+			<li class="active">Editar Reserva de Sala</li>
 		</ol>
 
 		<h:form styleClass="form-horizontal" prependId="false">
@@ -19,7 +24,7 @@
 						value="#{reservaSalaMB.reservaSala.professor}"
 						requiredMessage="Informe o professor que deseja reservar a sala"
 						converter="professorConverter" immediate="true">
-						<f:selectItem itemValue="#{null}" itemLabel="Escolha o professor" />
+						<f:selectItem itemValue="#{null}" itemLabel="Escolha o Professor" />
 						<f:selectItems value="#{reservaSalaMB.listaProfessores}" var="professor"
 							itemValue="#{professor}" itemLabel="#{professor.nome}" />
 					</h:selectOneMenu>
@@ -34,7 +39,7 @@
 						value="#{reservaSalaMB.reservaSala.sala}"
 						requiredMessage="Informe a sala a ser reservada"
 						converter="salaConverter" immediate="true">
-						<f:selectItem itemValue="#{null}" itemLabel="Escolha a sala" />
+						<f:selectItem itemValue="#{null}" itemLabel="Escolha a Sala" />
 						<f:selectItems value="#{reservaSalaMB.listaSalas}" var="sala"
 							itemValue="#{sala}" itemLabel="Sala: #{sala.descricao} / 
 								Tipo: #{sala.tipoSala.toString()} / Capacidade:  
@@ -45,7 +50,7 @@
 			</div>
 
 			<div class="form-group">
-				<h:outputLabel value="Data da reserva" for="inputReserva"
+				<h:outputLabel value="Data da Reserva" for="inputReserva"
 					styleClass="col-sm-2 control-label"></h:outputLabel>
 				<div class="col-sm-10">
 					<h:inputText styleClass="form-control data" required="true" tabindex="1"
@@ -65,9 +70,10 @@
 						value="#{reservaSalaMB.reservaSala.horarioReserva}"
 						requiredMessage="Informe o horário para o qual a sala será reservada" 
 						converter="duracaoAulaConverter" immediate="true">
-						<f:selectItem itemValue="#{null}" itemLabel="Escolha o horário" />
-						<f:selectItems value="#{reservaSalaMB.listaHorarios}" var="horario"
-							itemValue="#{horario}" itemLabel="#{horario.getHoraInicioString()} - #{horario.getHoraFimString()}">
+						<f:selectItem itemValue="#{null}" itemLabel="Escolha o Horário" />
+						<f:selectItems value="#{reservaSalaMB.listaHorarios}" 
+							var="horario" itemValue="#{horario}" 
+							itemLabel="#{horario.getHoraInicioString()} - #{horario.getHoraFimString()}">
 						</f:selectItems>
 					</h:selectOneMenu>
 					<h:message styleClass="text-danger" for="inputHorario" id="inputHorarioMSG" />
@@ -109,11 +115,11 @@
 			
 			<div class="form-group">
 				<div class="col-sm-offset-2 col-sm-10">
-					<h:commandLink styleClass="btn btn-success btn-acoes"
+					<h:commandLink styleClass="btn btn-success" title="Salvar Atualizações"
 						actionListener="#{reservaSalaMB.salvar}">
-						<span class="glyphicon glyphicon-floppy-disk" aria-hidden="true"></span> Salvar
-						<f:ajax execute="inputResposta inputProfessor inputSala inputReserva inputHorario
-								inputObservacao inputStatus" />
+						<span class="glyphicon glyphicon-floppy-disk" aria-hidden="true" /> Salvar
+						<f:ajax execute="inputResposta inputProfessor inputSala inputReserva 
+							inputHorario inputObservacao inputStatus" />
 					</h:commandLink>
 				</div>
 			</div>

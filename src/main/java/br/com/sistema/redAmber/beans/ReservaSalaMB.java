@@ -121,7 +121,7 @@ public class ReservaSalaMB {
 				ClientResponse response = webResourcePost.type("application/json").post(ClientResponse.class,
 						this.getReservaSala());
 				if (response.getStatus() == 200) {
-					FacesContext.getCurrentInstance().getExternalContext().redirect("/redAmber-WebApp/home/index.xhtml");
+					FacesContext.getCurrentInstance().getExternalContext().redirect("/redAmber-WebApp/reserva_sala/index.xhtml");
 				} else {
 					RequestContext.getCurrentInstance().execute("alert('" + Mensagens.m3 + "');");
 				}

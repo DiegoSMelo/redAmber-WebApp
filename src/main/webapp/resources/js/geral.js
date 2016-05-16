@@ -6,6 +6,9 @@ $(document).ready(function() {
 	});
 
 	$(".data").mask("99/99/9999");
+	$(".hora").mask("99:99");
+	$(".inputRG").mask("999999?999");
+	$(".numero").mask("9?99999");
 	
 	jQuery(".telefone")
     .mask("(99) 9999-9999?9")
@@ -22,7 +25,7 @@ $(document).ready(function() {
         }  
     });
 	
-
+	
 	
 });
 
@@ -42,4 +45,22 @@ function esconde_bscAvancada(){
 	$("#bsc_avancada").hide("slow");
 	$(".area_input_busca").show("slow");
 }
+
+function exibeModalHorario(){
+	$('.modalHorario').modal('show');
+}
+
+function fechaModalHorario(){
+	$('.modalHorario').modal('hide');
+}
+
+function exibeModalAula(){
+	$('.modalAula').modal('show');
+}
+
+function fechaModalAula(){
+	$('.modalAula').modal('hide');
+}
+
+
 

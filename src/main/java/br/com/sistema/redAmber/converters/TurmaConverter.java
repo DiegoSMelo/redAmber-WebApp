@@ -20,7 +20,7 @@ public class TurmaConverter implements Converter {
 		
 		System.out.println("String -> Object");
 		
-		if (arg2.trim().equalsIgnoreCase("Escolha a turma") || arg2.trim().equals("") ||
+		if (arg2.trim().equalsIgnoreCase("Escolha a Turma") || arg2.trim().equals("") ||
 				arg2 == null || arg2.isEmpty()) {
 			return null;
 		}

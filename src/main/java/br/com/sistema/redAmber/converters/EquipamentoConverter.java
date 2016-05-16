@@ -19,7 +19,7 @@ public class EquipamentoConverter implements Converter {
 	public Object getAsObject(FacesContext arg0, UIComponent arg1, String arg2) {
 		System.out.println("String -> Object");
 		
-		if (arg2.trim().equalsIgnoreCase("Escolha o equipamento") || arg2.trim().equals("") || 
+		if (arg2.trim().equalsIgnoreCase("Escolha o Equipamento") || arg2.trim().equals("") || 
 				arg2 == null || arg2.isEmpty()) {
 			return null;
 		}

@@ -10,7 +10,7 @@ public class Grade {
 	private StatusGrade status;
 	
 	public boolean isAtivo(){
-		return this.getStatus().equals(StatusGrade.ATIVO);
+		return this.getStatus().equals(StatusGrade.ATIVA);
 	}
 	
 	public boolean isPendente(){
@@ -18,7 +18,7 @@ public class Grade {
 	}
 	
 	public boolean isInativo(){
-		return this.getStatus().equals(StatusGrade.INATIVO);
+		return this.getStatus().equals(StatusGrade.INATIVA);
 	}
 	
 

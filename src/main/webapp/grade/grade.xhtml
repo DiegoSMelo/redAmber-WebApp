@@ -4,70 +4,57 @@
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:p="http://primefaces.org/ui" template="#{beanGeral.template}">
 	<ui:define name="body">
-	
 
-
-<ol class="breadcrumb">
-  <li><h:outputLink value="/redAmber-WebApp/home/index.xhtml">Página Inicial</h:outputLink></li>
-  <li><h:outputLink value="/redAmber-WebApp/curso/index.xhtml">Cursos (<h:outputText value="#{gradeMB.curso.nome}"></h:outputText>)</h:outputLink></li>
-  <li> <p:commandLink actionListener="#{gradeMB.redirectIndex}">Grades</p:commandLink> </li>
-  <li class="active"><h:outputText value="#{gradeMB.grade.titulo}"></h:outputText></li>
-</ol>
-
-
+		<ol class="breadcrumb">
+			<li>
+				<h:outputLink value="/redAmber-WebApp/home/index.xhtml">Página Inicial</h:outputLink>
+			</li>
+			<li>
+				<h:outputLink value="/redAmber-WebApp/curso/index.xhtml">
+					Cursos (<h:outputText value="#{gradeMB.curso.nome}" />)
+				</h:outputLink>
+			</li>
+			<li><p:commandLink actionListener="#{gradeMB.redirectIndex}">Grades</p:commandLink>
+			</li>
+			<li class="active"><h:outputText value="#{gradeMB.grade.titulo}" /></li>
+		</ol>
 
 		<h:form styleClass="form-horizontal" prependId="false">
-		
+
 			<div class="form-group">
-			
-				<h:outputLabel value="Status da grade" for="inputStatus" styleClass="col-sm-2 control-label"></h:outputLabel>
-				
+				<h:outputLabel value="Status da Grade" for="inputStatus"
+					styleClass="col-sm-2 control-label" />
 				<div class="col-sm-10">
-				
-					<h:selectOneMenu id="inputStatus" styleClass="form-control" value="#{gradeMB.grade.status}">
-						<f:selectItems value="#{gradeMB.statusGrade}" var="status" itemValue="#{status}" />
+					<h:selectOneMenu id="inputStatus" styleClass="form-control"
+						value="#{gradeMB.grade.status}">
+						<f:selectItems value="#{gradeMB.statusGrade}" var="status"
+							itemValue="#{status}" />
 					</h:selectOneMenu>
-					
 				</div>
-				
 			</div>
-			
+
 			<div class="form-group">
-				<h:outputLabel value="Título da Grade"
-					for="inputTitulo"
-					styleClass="col-sm-2 control-label">
-				</h:outputLabel>
-				
+				<h:outputLabel value="Título da Grade" for="inputTitulo"
+					styleClass="col-sm-2 control-label" />
 				<div class="col-sm-10">
-					<h:inputText 
-					styleClass="form-control"
-					required="true" 
-					tabindex="1"
-					requiredMessage="Digite o título da grade." 
-					id="inputTitulo" 
-					value="#{gradeMB.grade.titulo}">
+					<h:inputText styleClass="form-control" required="true" tabindex="1"
+						requiredMessage="Digite o título da grade." id="inputTitulo"
+						value="#{gradeMB.grade.titulo}">
 					</h:inputText>
-					
-					<h:message styleClass="text-danger" for="inputTitulo"></h:message>
-					
+					<h:message styleClass="text-danger" for="inputTitulo" />
 				</div>
 			</div>
-		
-			
-			
+
 			<div class="form-group">
 				<div class="col-sm-offset-2 col-sm-10">
-					<h:commandButton 
-					styleClass="btn btn-default"
-					actionListener="#{gradeMB.salvarGrade}" value="Salvar">
-						
-							<f:ajax execute="inputStatus inputTitulo" />
-					</h:commandButton>
+					<h:commandLink styleClass="btn btn-success" title="Salvar Alterações"
+						actionListener="#{gradeMB.salvarGrade}">
+						<span class="glyphicon glyphicon-floppy-disk" aria-hidden="true" /> Salvar
+						<f:ajax execute="inputStatus inputTitulo" />
+					</h:commandLink>
 				</div>
 			</div>
 
-
 		</h:form>
-
 	</ui:define>
 </ui:composition>

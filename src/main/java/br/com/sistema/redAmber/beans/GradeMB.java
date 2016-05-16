@@ -34,7 +34,7 @@ public class GradeMB {
 	private Boolean isAdd;
 	
 	
-	public void salvar() {
+	public String salvar() {
 		try {
 			
 			// Create Jersey client
@@ -49,18 +49,19 @@ public class GradeMB {
 			this.getGrade().setCurso(this.getCurso());
 			
 			WebResource webResourcePost = client.resource(URLUtil.SALVAR_GRADE);
-			//ClientResponse response = 
+			ClientResponse response = 
 					webResourcePost.type("application/json").post(ClientResponse.class, this.getGrade());
-			/*
+
 			if (response.getStatus() == 200) {
 				FacesContext.getCurrentInstance().getExternalContext().redirect("/redAmber-WebApp/grade/index.xhtml");
 			} else {
 				RequestContext.getCurrentInstance().execute("alert('" + Mensagens.m3 + "');");
 			}
-			*/
+
 		} catch (Exception e) {
 			RequestContext.getCurrentInstance().execute("alert('" + Mensagens.m3 + "');");
 		}
+		return "";
 	}
 	
 	public void salvarGrade() {
@@ -78,7 +79,7 @@ public class GradeMB {
 		for (Grade grade : this.listaGrades) {
 			if (grade.getId() == idGrade) {
 				
-				grade.setStatus(StatusGrade.ATIVO);
+				grade.setStatus(StatusGrade.ATIVA);
 				
 				this.setGrade(grade);
 				this.salvar();
@@ -95,7 +96,7 @@ public class GradeMB {
 		for (Grade grade : this.listaGrades) {
 			if (grade.getId() == idGrade) {
 				
-				grade.setStatus(StatusGrade.INATIVO);
+				grade.setStatus(StatusGrade.INATIVA);
 				
 				this.setGrade(grade);
 				this.salvar();

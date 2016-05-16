@@ -1,24 +1,29 @@
 package br.com.sistema.redAmber.beans;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
+import javax.faces.event.ActionEvent;
 
 import org.primefaces.context.RequestContext;
 
 import com.google.gson.Gson;
 import com.sun.jersey.api.client.Client;
+import com.sun.jersey.api.client.ClientHandlerException;
 import com.sun.jersey.api.client.ClientResponse;
+import com.sun.jersey.api.client.UniformInterfaceException;
 import com.sun.jersey.api.client.WebResource;
 import com.sun.jersey.api.client.config.ClientConfig;
 import com.sun.jersey.api.client.config.DefaultClientConfig;
 import com.sun.jersey.api.json.JSONConfiguration;
 
 import br.com.sistema.redAmber.basicas.Aluno;
+import br.com.sistema.redAmber.basicas.BuscaAluno;
 import br.com.sistema.redAmber.basicas.enums.StatusUsuario;
 import br.com.sistema.redAmber.util.Mensagens;
 import br.com.sistema.redAmber.util.URLUtil;
@@ -28,9 +33,45 @@ import br.com.sistema.redAmber.util.URLUtil;
 public class AlunoMB {
 	
 	private Aluno aluno;
-	private List<Aluno> listaAlunos;
+	private List<Aluno> listaAlunos = new ArrayList<Aluno>();
 	private boolean isPagAdd;
+	private BuscaAluno buscaAluno;
+	private boolean flagTabela;
 	
+	public AlunoMB() {
+		this.aluno = new Aluno();
+		this.buscaAluno = new BuscaAluno();
+		this.buscaAluno.setNome("");
+		this.buscaAluno.setRg("");
+		this.setFlagTabela(true);
+	}
+	
+	public void atualizaLista(ActionEvent event) {
+		this.getListaAlunos();
+		if (this.listaAlunos.isEmpty()){
+			System.err.println("!!! LISTA VAZIA");
+			this.setFlagTabela(false);
+			if (this.flagTabela == false) {
+				System.err.println("!!! FLAG FALSA");
+			}
+			try {
+				FacesContext.getCurrentInstance().getExternalContext()
+				.redirect("/redAmber-WebApp/aluno/index.xhtml");
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		} else if (this.isFlagTabela()) {
+			System.err.println("FLAG VERDADEIRA");
+		} else {
+			this.setFlagTabela(true);
+			try {
+				FacesContext.getCurrentInstance().getExternalContext()
+				.redirect("/redAmber-WebApp/aluno/index.xhtml");
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+	}
 	
 	public void salvar(){
 		try {
@@ -113,17 +154,46 @@ public class AlunoMB {
 	}
 
 	public List<Aluno> getListaAlunos() {
-		
-		Client c = new Client();
-	    WebResource wr = c.resource(URLUtil.LISTAR_ALUNOS);
-	    String jsonResult = wr.get(String.class);
-	    if (!jsonResult.equalsIgnoreCase("null")) {
-			Gson gson = new Gson();
-			
-			Aluno[] lista = gson.fromJson(jsonResult, Aluno[].class);
-			this.listaAlunos = Arrays.asList(lista);
-		}
 	    
+		// Create Jersey client
+		ClientConfig clientConfig = new DefaultClientConfig();
+		clientConfig.getFeatures().put(JSONConfiguration.FEATURE_POJO_MAPPING, Boolean.TRUE);
+		Client client = Client.create(clientConfig);
+		
+		String jsonResult;
+		try {
+			WebResource webResourcePost = client.resource(URLUtil.BUSCAR_ALUNO_POR_NOME_RG);
+			ClientResponse response = webResourcePost.type("application/json").post(ClientResponse.class, 
+					this.getBuscaAluno());
+			if (response.getStatus() != 200) {
+				System.err.println("!! IF 1");
+				RequestContext.getCurrentInstance().execute("alert('" + Mensagens.m24 + "');");
+			}
+			jsonResult = response.getEntity(String.class);
+		    if (!jsonResult.equalsIgnoreCase("null")) {
+		    	System.err.println("!!! IF 2");
+		    	System.err.println("!!! RESULTADO: " + jsonResult);
+				Gson gson = new Gson();
+				
+				Aluno[] alunos = gson.fromJson(jsonResult, Aluno[].class);
+				if (alunos.length == 0) {
+					System.err.println("!!! IF 3 ALUNOS.LENGTH = 0");
+					this.listaAlunos = Arrays.asList(alunos);
+					return listaAlunos;
+				}
+				this.listaAlunos = Arrays.asList(alunos);
+				return listaAlunos;
+			}
+		} catch (UniformInterfaceException e1) {
+			RequestContext.getCurrentInstance().execute("alert('" + Mensagens.m24 + "');");
+			e1.printStackTrace();
+		} catch (ClientHandlerException e1) {
+			RequestContext.getCurrentInstance().execute("alert('" + Mensagens.m24 + "');");
+			e1.printStackTrace();
+		} catch (Exception e) {
+			RequestContext.getCurrentInstance().execute("alert('" + Mensagens.m24 + "');");
+			e.printStackTrace();
+		}
 		return listaAlunos;
 	}
 
@@ -142,5 +212,20 @@ public class AlunoMB {
 	public StatusUsuario[] getStatusUsuario() {
 		return StatusUsuario.values();
 	}
-	
+
+	public BuscaAluno getBuscaAluno() {
+		return buscaAluno;
+	}
+
+	public void setBuscaAluno(BuscaAluno buscaAluno) {
+		this.buscaAluno = buscaAluno;
+	}
+
+	public boolean isFlagTabela() {
+		return flagTabela;
+	}
+
+	public void setFlagTabela(boolean flagTabela) {
+		this.flagTabela = flagTabela;
+	}
 }

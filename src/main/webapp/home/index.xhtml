@@ -6,136 +6,24 @@
 		<h:form>
 
 			<ol class="breadcrumb">
-				<li><h:outputLink value="/redAmber-WebApp/home/index.xhtml">Página Inicial</h:outputLink></li>
-
+				<li>
+					<h:outputLink value="/redAmber-WebApp/home/index.xhtml">Página Inicial</h:outputLink>
+				</li>
 			</ol>
 			
-			<!-- Tabela de reservas de equipamentos -->
-			<h:dataTable id="table-reservas"
-				styleClass="table table-hover table-bordered"
-				value="#{reservaEquipamentoMB.listaReservas}" var="reserva"
-				emptyMessage="Não há reservadas cadastradas">
-				<f:facet name="header">Reservas de Equipamentos</f:facet>
-
-				<h:column>
-					<f:facet name="header">Requisição</f:facet>
-					<h:outputText value="#{reserva.dataRequisicao.getTime()}">
-						<f:convertDateTime timeZone="America/Recife" type="both" pattern="dd/MM/yyyy HH:mm"/>
-					</h:outputText>
-				</h:column>
-
-				<h:column>
-					<f:facet name="header">Professor</f:facet>
-					<h:outputText value="#{reserva.professor.nome}"></h:outputText>
-				</h:column>
-
-				<h:column>
-					<f:facet name="header">Equipamento</f:facet>
-					<h:outputText value="#{reserva.equip.descricao}"></h:outputText>
-				</h:column>
-				
-				<h:column>
-					<f:facet name="header">Data da Reserva</f:facet>
-					<h:outputText value="#{reserva.dataReserva.getTime()}">
-						<f:convertDateTime timeZone="America/Recife" type="date" pattern="dd/MM/yyyy"/>
-					</h:outputText>
-				</h:column>
-				
-				<h:column>
-					<f:facet name="header">Horário</f:facet>
-					<h:outputText value="#{reserva.horarioReserva.getHoraInicioString()} às 
-						#{reserva.horarioReserva.getHoraFimString()}">
-					</h:outputText>
-				</h:column>
-				
-				<h:column>
-					<f:facet name="header">Status</f:facet>
-					<h:outputText value="#{reserva.status}" />
-				</h:column>
-
-				<h:column>
-					<f:facet name="header">Ações</f:facet>
-
-					<h:commandLink styleClass="btn btn-primary btn-acoes"
-						actionListener="#{reservaEquipamentoMB.redirectApproval}">
-						<span class="glyphicon glyphicon-thumbs-up" aria-hidden="true"></span>
-						<span class="glyphicon glyphicon-thumbs-down" aria-hidden="true"></span>
-						<f:setPropertyActionListener value="#{reserva}"
-							target="#{reservaEquipamentoMB.reservaEquipamento}" />
-					</h:commandLink><span> </span>
-					<h:commandLink styleClass="btn btn-info btn-acoes"
-						actionListener="#{reservaEquipamentoMB.redirectEdit}">
-						<span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>
-						<f:setPropertyActionListener value="#{reserva}"
-							target="#{reservaEquipamentoMB.reservaEquipamento}" />
-					</h:commandLink>
-
-				</h:column>
-
-			</h:dataTable>
-			<p></p>
-			<!-- Tabela de reservas de salas -->			
-			<h:dataTable id="table-reservas-sala"
-				styleClass="table table-hover table-bordered"
-				value="#{reservaSalaMB.listaReservas}" var="reservaSala"
-				emptyMessage="Não há reservadas cadastradas">
-				<f:facet name="header">Reservas de Salas</f:facet>
-
-				<h:column>
-					<f:facet name="header">Requisição</f:facet>
-					<h:outputText value="#{reservaSala.dataRequisicao.getTime()}">
-						<f:convertDateTime timeZone="America/Recife" type="both" pattern="dd/MM/yyyy HH:mm"/>
-					</h:outputText>
-				</h:column>
-
-				<h:column>
-					<f:facet name="header">Professor</f:facet>
-					<h:outputText value="#{reservaSala.professor.nome}"></h:outputText>
-				</h:column>
-
-				<h:column>
-					<f:facet name="header">Sala</f:facet>
-					<h:outputText value="#{reservaSala.sala.descricao}"></h:outputText>
-				</h:column>
-				
-				<h:column>
-					<f:facet name="header">Data da Reserva</f:facet>
-					<h:outputText value="#{reservaSala.dataReserva.getTime()}">
-						<f:convertDateTime timeZone="America/Recife" type="date" pattern="dd/MM/yyyy"/>
-					</h:outputText>
-				</h:column>
-				
-				<h:column>
-					<f:facet name="header">Horário</f:facet>
-					<h:outputText value="#{reservaSala.horarioReserva.getHoraInicioString()} às 
-						#{reservaSala.horarioReserva.getHoraFimString()}">
-					</h:outputText>
-				</h:column>
-				
-				<h:column>
-					<f:facet name="header">Status</f:facet>
-					<h:outputText value="#{reservaSala.status}" />
-				</h:column>
-
-				<h:column>
-					<f:facet name="header">Ações</f:facet>
-
-					<h:commandLink styleClass="btn btn-primary btn-acoes"
-						actionListener="#{reservaSalaMB.redirectApproval}">
-						<span class="glyphicon glyphicon-thumbs-up" aria-hidden="true"></span>
-						<span class="glyphicon glyphicon-thumbs-down" aria-hidden="true"></span>
-						<f:setPropertyActionListener value="#{reservaSala}"
-							target="#{reservaSalaMB.reservaSala}" />
-					</h:commandLink><span> </span>
-					<h:commandLink styleClass="btn btn-info btn-acoes"
-						actionListener="#{reservaSalaMB.redirectEdit}">
-						<span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>
-						<f:setPropertyActionListener value="#{reservaSala}"
-							target="#{reservaSalaMB.reservaSala}" />
-					</h:commandLink>
-				</h:column>
-
-			</h:dataTable>
+			<h:panelGrid id="painel" columns="1" border="0">
+				<f:facet name="header">Resumo do dia</f:facet>
+				<p></p>
+				<h:commandLink title="Clique para ver os avisos dos professores"  
+					value="Avisos de Professores: #{paginaInicialMB.numeroAvisosProfessor}" 
+					actionListener="#{paginaInicialMB.redirectAvisoProfessor}" />
+				<h:commandLink title="Clique para para ver os pedidos de reserva de equipamentos"
+					value="Reservas de Equipamentos: #{paginaInicialMB.numeroReservasEquipamento}" 
+					actionListener="#{paginaInicialMB.redirectReservaEquipamento}" />
+				<h:commandLink title="Clique para ver os pedidos de reserva de salas"  
+					value="Reservas de Salas: #{paginaInicialMB.numeroReservasSala}" 
+					actionListener="#{paginaInicialMB.redirectReservaSala}" />
+			</h:panelGrid>
 
 		</h:form>
 	</ui:define>

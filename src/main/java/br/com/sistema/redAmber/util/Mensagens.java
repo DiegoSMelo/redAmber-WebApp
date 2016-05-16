@@ -5,7 +5,7 @@ public class Mensagens {
 	/**
 	 * Aluno não encontrado.
 	 */
-	public static String m1 = "Estamos autenticando o usuário. Só um instante...";
+	public static String m1 = "Estamos autenticando o usuário. Aguarde só um instante...";
 	public static String m2 = "Usuário não encontrado.";
 	public static String m3 = "Falha ao salvar.";
 	public static String m4 = "Aluno já cadastrado.";
@@ -27,4 +27,6 @@ public class Mensagens {
 	public static String m20 = "Equipamento já reservado para esse dia e horário.";
 	public static String m21 = "A data da reserva é anterior à data atual.";
 	public static String m22 = "Sala já reservada para esse dia e horário.";
+	public static String m23 = "Servidor indisponível, tente novamente.";
+	public static String m24 = "A busca não retornou resultado";
 }

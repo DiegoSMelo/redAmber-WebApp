@@ -20,7 +20,7 @@
 				<div class="col-sm-10">
 					<h:inputText required="true" tabindex="2"
 						requiredMessage="Digite a hora do início da aula"
-						styleClass="form-control" id="inputInicio"
+						styleClass="form-control hora" id="inputInicio"
 						value="#{duracaoAulaMB.duracaoAula.horaInicio}">
 							<f:convertDateTime type="time" timeZone="America/Recife" pattern="HH:mm" />
 						</h:inputText>
@@ -33,7 +33,7 @@
 				<h:outputLabel value="Hora do Fim" for="inputFim"
 					styleClass="col-sm-2 control-label"></h:outputLabel>
 				<div class="col-sm-10">
-					<h:inputText styleClass="form-control" tabindex="3" required="true"
+					<h:inputText styleClass="form-control hora" tabindex="3" required="true"
 						requiredMessage="Digite a hora do fim da aula" id="inputFim"
 						value="#{duracaoAulaMB.duracaoAula.horaFim}">
 						<f:convertDateTime type="time" timeZone="America/Recife" pattern="HH:mm" />
@@ -48,7 +48,8 @@
 					styleClass="col-sm-2 control-label" />
 				<div class="col-sm-10">
 					<h:selectOneMenu id="inputTurno" styleClass="form-control"
-						value="#{duracaoAulaMB.duracaoAula.turno}" tabindex="4">
+						value="#{duracaoAulaMB.duracaoAula.turno}" tabindex="4"
+						converter="tipoTurnoConverter">
 						<f:selectItems value="#{duracaoAulaMB.tipoTurno}"
 							var="turno" itemValue="#{turno}" />
 					</h:selectOneMenu>
@@ -60,7 +61,8 @@
 					styleClass="col-sm-2 control-label" />
 				<div class="col-sm-10">
 					<h:selectOneMenu id="inputStatus" styleClass="form-control"
-						value="#{duracaoAulaMB.duracaoAula.status}" tabindex="5">
+						value="#{duracaoAulaMB.duracaoAula.status}" tabindex="5"
+						converter="statusDuracaoAulaConverter">
 						<f:selectItems value="#{duracaoAulaMB.statusDuracaoAula}"
 							var="status" itemValue="#{status}" />
 					</h:selectOneMenu>
@@ -69,14 +71,15 @@
 
 			<div class="form-group">
 				<div class="col-sm-offset-2 col-sm-10">
-					<h:commandButton styleClass="btn btn-default" tabindex="6"
-						actionListener="#{duracaoAulaMB.salvar}" value="Salvar">
-
+					<h:commandLink styleClass="btn btn-success" tabindex="6"
+						actionListener="#{duracaoAulaMB.salvar}" title="Salvar Alterações">
+						<span class="glyphicon glyphicon-floppy-disk" aria-hidden="true" /> Salvar
 						<f:ajax execute="inputInicio inputFim inputTurno inputStatus"
 							render="inputInicioMSG inputFimMSG" />
-					</h:commandButton>
+					</h:commandLink>
 				</div>
 			</div>
+			
 		</h:form>
 	</ui:define>
 </ui:composition>

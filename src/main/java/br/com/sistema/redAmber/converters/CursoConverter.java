@@ -20,7 +20,7 @@ public class CursoConverter implements Converter {
 		
 		System.out.println("String -> Object");
 		
-		if (arg2.trim().equalsIgnoreCase("Escolha o curso") || arg2.trim().equals("") ||
+		if (arg2.trim().equalsIgnoreCase("Escolha o Curso") || arg2.trim().equals("") ||
 				arg2 == null || arg2.isEmpty()) {
 			return null;
 		}

@@ -1,0 +1,86 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core" template="#{beanGeral.template}">
+	<ui:define name="body">
+		<h:form>
+
+			<ol class="breadcrumb">
+				<li>
+					<h:outputLink value="/redAmber-WebApp/home/index.xhtml">Página Inicial</h:outputLink>
+				</li>
+	  			<li class="active">Listagem de Avisos dos Professores</li>
+			</ol>
+			
+			<div class="areaPlus">
+				<h:commandLink actionListener="#{avisoProfessorMB.redirectAdd}"
+					styleClass="btn btn-success" title="Enviar Aviso à Secretaria">
+					<span class="glyphicon glyphicon-plus" aria-hidden="true" /> Adicionar
+				</h:commandLink>
+			</div>
+			
+			<div align="center">
+				<h:outputLabel for="tabelaVazia" class="glyphicon glyphicon-alert bigWarningSign"
+					rendered="#{empty avisoProfessorMB.listaAvisoProfessor}" />
+				<br />
+				<h:outputText id="tabelaVazia" class="emptyTable"
+					rendered="#{empty avisoProfessorMB.listaAvisoProfessor}"
+					value="Ainda não há nenhum aviso de professor cadastrado.">
+				</h:outputText>
+			</div>
+			
+			<h:dataTable id="table-avisos"
+				styleClass="table table-hover table-bordered"
+				value="#{avisoProfessorMB.listaAvisoProfessor}" var="avisoProfessor"
+				emptyMessage="Não há avisos cadastrados"
+				rendered="#{not empty avisoProfessorMB.listaAvisoProfessor}">
+				<f:facet name="header">Avisos dos Professores</f:facet>
+				
+				<h:column>
+					<f:facet name="header">Data do Aviso</f:facet>
+					<h:outputText value="#{avisoProfessor.dataAviso.getTime()}">
+						<f:convertDateTime timeZone="America/Recife" type="both" 
+							pattern="dd/MM/yyyy HH:mm" />
+					</h:outputText>
+				</h:column>
+
+				<h:column>
+					<f:facet name="header">Professor</f:facet>
+					<h:outputText value="#{avisoProfessor.professor.nome}" />
+				</h:column>
+			
+				<h:column>
+					<f:facet name="header">Tipo</f:facet>
+					<h:outputText value="#{avisoProfessor.tipoAvisoProfessor}" />
+				</h:column>
+				
+				<h:column>
+					<f:facet name="header">Status</f:facet>
+					<h:outputText value="#{avisoProfessor.statusAvisoProfessor}" />
+				</h:column>
+				
+				<h:column>
+					<f:facet name="header">Ações</f:facet>
+
+					<h:commandLink styleClass="btn btn-info btn-acoes" title="Editar Aviso"
+						actionListener="#{avisoProfessorMB.redirectEdit}">
+						<span class="glyphicon glyphicon-pencil" aria-hidden="true" />
+						<f:setPropertyActionListener value="#{avisoProfessor}"
+							target="#{avisoProfessorMB.avisoProfessor}" />
+					</h:commandLink><span> </span>
+					<h:commandLink styleClass="btn btn-success" title="Receber Aviso"
+						actionListener="#{avisoProfessorMB.redirectApproval}">
+						<span class="glyphicon glyphicon-ok" aria-hidden="true" />
+						<f:setPropertyActionListener value="#{avisoProfessor}"
+							target="#{avisoProfessorMB.avisoProfessor}" />
+					</h:commandLink><span> </span>
+					<h:commandLink styleClass="btn btn-warning" title="Avisar aos Alunos"
+						actionListener="#{avisoProfessorMB.redirectAlert}">
+						<span class="glyphicon glyphicon-send" aria-hidden="true" /> Avisar Alunos
+					</h:commandLink>
+				</h:column>
+				
+			</h:dataTable>
+		</h:form>
+	</ui:define>
+</ui:composition>

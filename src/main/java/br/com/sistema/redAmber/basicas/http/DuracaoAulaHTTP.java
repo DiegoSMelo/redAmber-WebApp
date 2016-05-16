@@ -1,6 +1,6 @@
 package br.com.sistema.redAmber.basicas.http;
 
-import br.com.sistema.redAmber.basicas.enums.StatusHoraAula;
+import br.com.sistema.redAmber.basicas.enums.StatusDuracaoAula;
 import br.com.sistema.redAmber.basicas.enums.TipoTurno;
 
 public class DuracaoAulaHTTP {
@@ -9,7 +9,7 @@ public class DuracaoAulaHTTP {
 	private TipoTurno turno;
 	private String horaInicio;
 	private String horaFim;
-	private StatusHoraAula status;
+	private StatusDuracaoAula status;
 	
 	/*
 	 * Construtor padrão
@@ -29,7 +29,7 @@ public class DuracaoAulaHTTP {
 	 * Construtor com parâmetros (completo)
 	 */
 	public DuracaoAulaHTTP(Long id, TipoTurno turno, String horaInicio, String horaFim,
-			StatusHoraAula status) {
+			StatusDuracaoAula status) {
 		this.id = id;
 		this.turno = turno;
 		this.horaInicio = horaInicio;
@@ -72,11 +72,11 @@ public class DuracaoAulaHTTP {
 		this.horaFim = horaFim;
 	}
 
-	public StatusHoraAula getStatus() {
+	public StatusDuracaoAula getStatus() {
 		return status;
 	}
 
-	public void setStatus(StatusHoraAula status) {
+	public void setStatus(StatusDuracaoAula status) {
 		this.status = status;
 	}
 }

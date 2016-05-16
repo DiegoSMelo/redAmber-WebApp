@@ -4,80 +4,73 @@
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:p="http://primefaces.org/ui" template="#{beanGeral.template}">
 	<ui:define name="body">
-	
-
 
 		<ol class="breadcrumb">
 			<li><h:outputLink value="/redAmber-WebApp/home/index.xhtml">Página Inicial</h:outputLink></li>
-			<li><h:outputLink
-					value="/redAmber-WebApp/turma/index.xhtml">Turmas</h:outputLink></li>
+			<li><h:outputLink value="/redAmber-WebApp/turma/index.xhtml">Turmas</h:outputLink></li>
 			<li class="active">Adicionar Turma</li>
 		</ol>
+		
+		<div align="center">
+				<h:outputLabel for="tabelaVazia" class="glyphicon glyphicon-alert bigWarningSign"
+					rendered="#{empty cursoMB.listaCursos}" />
+				<br />
+				<h:outputText id="tabelaVazia" class="emptyTable" 
+					rendered="#{empty cursoMB.listaCursos}" 
+					value="É preciso que haja, pelo menos, um curso cadastrado para cadastrar uma turma.">
+				</h:outputText>
+			</div>
 
+		<h:form styleClass="form-horizontal" prependId="false"
+				rendered="#{not empty cursoMB.listaCursos}">
 
-
-
-		<h:form styleClass="form-horizontal"  prependId="false">
-			
 			<div class="form-group">
-				<h:outputLabel value="Turma" for="inputNome"
-					styleClass="col-sm-2 control-label"></h:outputLabel>
+				<h:outputLabel value="Nome da Turma" for="inputNome"
+					styleClass="col-sm-2 control-label" />
 				<div class="col-sm-10">
 					<h:inputText required="true" tabindex="2"
 						requiredMessage="Digite o nome da turma" styleClass="form-control"
-						id="inputNome" value="#{turmaMB.turma.nome}"></h:inputText>
-					<h:message styleClass="text-danger" for="inputNome" id="inputNomeMSG"></h:message>
+						id="inputNome" value="#{turmaMB.turma.nome}" />
+					<h:message styleClass="text-danger" for="inputNome"
+						id="inputNomeMSG" />
 				</div>
 			</div>
-			
-			<div class="form-group">
-			
-				<h:outputLabel value="Curso" for="inputCurso" styleClass="col-sm-2 control-label"></h:outputLabel>
-				
-				<div class="col-sm-10">
-				
-					<h:selectOneMenu id="inputCurso" styleClass="form-control" value="#{turmaMB.idCurso}">
-						<f:selectItems value="#{cursoMB.listaCursos}" var="curso" itemValue="#{curso.id}" itemLabel="#{curso.nome}"/>
-					</h:selectOneMenu>
-					
-				</div>
-				
-			</div>
-			
-			
-			<div class="form-group">
-			
-				<h:outputLabel value="Turno" for="inputTurno" styleClass="col-sm-2 control-label"></h:outputLabel>
-				
-				<div class="col-sm-10">
-				
-					<h:selectOneMenu id="inputTurno" styleClass="form-control" value="#{turmaMB.turma.turno}">
-						<f:selectItems value="#{turmaMB.tiposTurnos}" var="turno"
-						itemValue="#{turno}" />
-					</h:selectOneMenu>
-					
-				</div>
-				
-			</div>
-			
-			
-			
-			
-		
 
+			<div class="form-group">
+				<h:outputLabel value="Curso" for="inputCurso"
+					styleClass="col-sm-2 control-label" />
+				<div class="col-sm-10">
+					<h:selectOneMenu id="inputCurso" styleClass="form-control"
+						value="#{turmaMB.idCurso}">
+						<f:selectItems value="#{cursoMB.listaCursos}" var="curso"
+							itemValue="#{curso.id}" itemLabel="#{curso.nome}" />
+					</h:selectOneMenu>
+				</div>
+			</div>
+
+			<div class="form-group">
+				<h:outputLabel value="Turno" for="inputTurno"
+					styleClass="col-sm-2 control-label"></h:outputLabel>
+				<div class="col-sm-10">
+					<h:selectOneMenu id="inputTurno" styleClass="form-control"
+						value="#{turmaMB.turma.turno}">
+						<f:selectItems value="#{turmaMB.tiposTurnos}" var="turno"
+							itemValue="#{turno}" />
+					</h:selectOneMenu>
+				</div>
+			</div>
 
 			<div class="form-group">
 				<div class="col-sm-offset-2 col-sm-10">
-					<h:commandButton styleClass="btn btn-default" actionListener="#{turmaMB.salvar}" value="Salvar">
-						
-							<f:ajax execute="inputNome inputCurso inputTurno" render="inputNomeMSG"/>
-							
-					</h:commandButton>
+					<h:commandLink styleClass="btn btn-success"	title="Salvar Turma" 
+						actionListener="#{turmaMB.salvar}">
+						<span class="glyphicon glyphicon-floppy-disk" aria-hidden="true" /> Salvar
+						<f:ajax execute="inputNome inputCurso inputTurno"
+							render="inputNomeMSG" />
+					</h:commandLink>
 				</div>
 			</div>
 
-
 		</h:form>
-
 	</ui:define>
 </ui:composition>

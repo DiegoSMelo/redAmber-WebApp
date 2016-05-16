@@ -144,7 +144,7 @@ public class PeriodoMB implements DropListener{
 
 	public List<Disciplina> getListaDisciplinas() {
 		
-		if (this.listaDisciplinas == null) {
+		if (this.listaDisciplinas == null || this.listaDisciplinas.isEmpty()) {
 			Client c = new Client();
 			WebResource wr = c.resource(URLUtil.LISTAR_DISCIPLINAS);
 			String jsonResult = wr.get(String.class);

@@ -10,7 +10,7 @@ public enum TipoSala {
 	AULA {
 		@Override
 		public String toString() {
-			return "Sala de aula";
+			return "Sala de Aula";
 		}
 	},
 	ATELIE {

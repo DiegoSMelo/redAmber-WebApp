@@ -6,10 +6,12 @@
 	<ui:define name="body">
 
 		<ol class="breadcrumb">
-			<li><h:outputLink value="/redAmber-WebApp/home/index.xhtml">Página Inicial</h:outputLink></li>
+			<li>
+				<h:outputLink value="/redAmber-WebApp/home/index.xhtml">Página Inicial</h:outputLink>
+			</li>
 			<li><h:outputLink
 					value="/redAmber-WebApp/equipamento/index.xhtml">Equipamentos</h:outputLink></li>
-			<li class="active">Editar equipamento</li>
+			<li class="active">Editar Equipamento</li>
 		</ol>
 
 		<h:form styleClass="form-horizontal" prependId="false">
@@ -68,12 +70,12 @@
 
 			<div class="form-group">
 				<div class="col-sm-offset-2 col-sm-10">
-					<h:commandButton styleClass="btn btn-default"
-						actionListener="#{equipamentoMB.salvar}" value="Salvar">
-
+					<h:commandLink styleClass="btn btn-success" title="Salvar Alterações"
+						actionListener="#{equipamentoMB.salvar}">
+						<span class="glyphicon glyphicon-floppy-disk" aria-hidden="true" /> Salvar
 						<f:ajax execute="inputDescricao inputTombo inputSala inputStatus"
 							render="inputDescricaoMSG inputTomboMSG" />
-					</h:commandButton>
+					</h:commandLink>
 				</div>
 			</div>
 		</h:form>

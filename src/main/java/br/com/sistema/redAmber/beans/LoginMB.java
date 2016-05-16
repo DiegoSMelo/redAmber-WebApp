@@ -2,6 +2,8 @@ package br.com.sistema.redAmber.beans;
 
 import java.io.IOException;
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
@@ -31,7 +33,7 @@ public class LoginMB implements Serializable{
 	
 	private LoginHTTP login;
 	private Funcionario usuarioLogado;
-	
+	private List<Funcionario> funcionarioLogado;
 	
 	public void autenticar() {
 		if ((this.getLogin().getLogin() != null && this.getLogin().getSenha() != null)
@@ -111,4 +113,9 @@ public class LoginMB implements Serializable{
 		this.usuarioLogado = usuarioLogado;
 	}
 
+	public List<Funcionario> getFuncionarioLogado() {
+		funcionarioLogado = new ArrayList<Funcionario>();
+		funcionarioLogado.add(this.getUsuarioLogado());
+		return funcionarioLogado;
+	}
 }

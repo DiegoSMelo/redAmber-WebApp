@@ -4,7 +4,7 @@ import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-import br.com.sistema.redAmber.basicas.enums.StatusHoraAula;
+import br.com.sistema.redAmber.basicas.enums.StatusDuracaoAula;
 import br.com.sistema.redAmber.basicas.enums.TipoTurno;
 
 public class DuracaoAula implements Serializable {
@@ -17,7 +17,7 @@ public class DuracaoAula implements Serializable {
 	private TipoTurno turno;
 	private Date horaInicio;
 	private Date horaFim;
-	private StatusHoraAula status;
+	private StatusDuracaoAula status;
 	
 	/*
 	 * Construtor padrão
@@ -28,7 +28,7 @@ public class DuracaoAula implements Serializable {
 	 * Construtor com parâmetros
 	 */
 	public DuracaoAula(TipoTurno turno, Date horaInicio, Date horaFim,
-			StatusHoraAula status){
+			StatusDuracaoAula status){
 		this.turno = turno;
 		this.horaInicio = horaInicio;
 		this.horaFim = horaFim;
@@ -39,7 +39,7 @@ public class DuracaoAula implements Serializable {
 	 * Construtor com parâmetros (completo)
 	 */
 	public DuracaoAula(Long id, TipoTurno turno, Date horaInicio, Date horaFim,
-			StatusHoraAula status){
+			StatusDuracaoAula status){
 		this.id = id;
 		this.turno = turno;
 		this.horaInicio = horaInicio;
@@ -48,7 +48,7 @@ public class DuracaoAula implements Serializable {
 	}
 	
 	/*
-	 * Método que compara se dois objetos do tipo HoraAula são iguais
+	 * Método que compara se dois objetos do tipo DuracaoAula são iguais
 	 */
 	@Override
 	public boolean equals(Object obj) {
@@ -114,11 +114,11 @@ public class DuracaoAula implements Serializable {
 		this.horaFim = horaFim;
 	}
 
-	public StatusHoraAula getStatus() {
+	public StatusDuracaoAula getStatus() {
 		return status;
 	}
 
-	public void setStatus(StatusHoraAula status) {
+	public void setStatus(StatusDuracaoAula status) {
 		this.status = status;
 	}
 	

@@ -39,10 +39,7 @@ public class DuracaoAulaMB {
 	
 	public void salvar(ActionEvent event) {
 		
-		try {
-			System.out.println(duracaoAula.getHoraInicio().getTime());
-			System.out.println(duracaoAula.getHoraFim().getTime());
-			
+		try {			
 			DuracaoAula duracaoAulaExistente = null;
 			Client c = new Client();
 			WebResource wr = c.resource(URLUtil.BUSCAR_DURACAO_AULA_POR_HORA + 
@@ -56,6 +53,7 @@ public class DuracaoAulaMB {
 				Gson gson = new Gson();
 				duracaoAulaExistente = gson.fromJson(jsonResult, DuracaoAula.class);
 			}
+			
 			if ((this.isPagAdd() && duracaoAulaExistente == null) || !this.isPagAdd()) {
 				// Create Jersey client
 				ClientConfig clientConfig = new DefaultClientConfig();

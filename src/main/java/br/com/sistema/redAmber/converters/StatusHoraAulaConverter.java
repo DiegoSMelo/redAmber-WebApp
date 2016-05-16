@@ -5,9 +5,9 @@ import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
 import javax.faces.convert.FacesConverter;
 
-import br.com.sistema.redAmber.basicas.enums.TipoTurno;
+import br.com.sistema.redAmber.basicas.enums.StatusHoraAula;
 
-@FacesConverter(value="tipoTurnoConverter", forClass=TipoTurno.class)
+@FacesConverter(value="statusHoraAulaConverter", forClass=StatusHoraAula.class)
 public class StatusHoraAulaConverter implements Converter {
 
 	@Override
@@ -18,14 +18,11 @@ public class StatusHoraAulaConverter implements Converter {
 			return null;
 		}
 		try {
-			if (arg2.equalsIgnoreCase("Manhã")) {
-				return TipoTurno.MANHA;
+			if (arg2.equalsIgnoreCase("Ativa")) {
+				return StatusHoraAula.ATIVA;
 			}
-			if (arg2.equalsIgnoreCase("Tarde")) {
-				return TipoTurno.TARDE;
-			}
-			if (arg2.equalsIgnoreCase("Noite")) {
-				return TipoTurno.NOITE;
+			if (arg2.equalsIgnoreCase("Inativa")) {
+				return StatusHoraAula.INATIVA;
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -41,15 +38,12 @@ public class StatusHoraAulaConverter implements Converter {
 		{
 			return null;
 		}
-		TipoTurno tipo = (TipoTurno) arg2;
-		if (tipo.equals(TipoTurno.MANHA)) {
-			return TipoTurno.MANHA.toString();
+		StatusHoraAula status = (StatusHoraAula) arg2;
+		if (status.equals(StatusHoraAula.ATIVA)) {
+			return StatusHoraAula.ATIVA.toString();
 		}
-		if (tipo.equals(TipoTurno.TARDE)) {
-			return TipoTurno.TARDE.toString();
-		}
-		if (tipo.equals(TipoTurno.NOITE)) {
-			return TipoTurno.NOITE.toString();
+		if (status.equals(StatusHoraAula.INATIVA)) {
+			return StatusHoraAula.INATIVA.toString();
 		}
 		return null;
 	}

@@ -19,7 +19,7 @@ public class ProfessorConverter implements Converter {
 	public Object getAsObject(FacesContext arg0, UIComponent arg1, String arg2) {
 		System.out.println("String -> Object");
 		
-		if (arg2.trim().equalsIgnoreCase("Escolha o professor") || arg2.trim().equals("") || 
+		if (arg2.trim().equalsIgnoreCase("Escolha o Professor") || arg2.trim().equals("") || 
 				arg2 == null || arg2.isEmpty()) {
 			return null;
 		}

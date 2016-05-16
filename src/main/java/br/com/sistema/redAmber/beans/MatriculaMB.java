@@ -125,7 +125,7 @@ public class MatriculaMB {
 					this.getMatricula().setGrade(this.getGradeSelecionada());
 					this.getMatricula().setEntrada(this.getEntrada());
 					this.getMatricula().setTurma(this.getTurma());
-					this.getMatricula().setStatus(StatusMatricula.ATIVO);
+					this.getMatricula().setStatus(StatusMatricula.ATIVA);
 					
 					ClientConfig clientConfig = new DefaultClientConfig();
 					clientConfig.getFeatures().put(JSONConfiguration.FEATURE_POJO_MAPPING, Boolean.TRUE);
@@ -205,11 +205,12 @@ public class MatriculaMB {
 	 * Método que atualiza o código de uma matrícula previamente efetuada
 	 */
 	public String modificarCodigoMatricula() {
-		Date date = new Date();
-		Calendar cal = Calendar.getInstance();
-	    cal.setTime(date);
-	    
-		String paramAno = Integer.toString(cal.get(Calendar.YEAR));
+//		Date date = new Date();
+//		Calendar cal = Calendar.getInstance();
+//	    cal.setTime(date);
+//	    
+//		String paramAno = Integer.toString(cal.get(Calendar.YEAR));
+		String paramAno = this.getMatricula().getCodigoMatricula().substring(0, 4);
 		String paramAluno = String.format("%06d",this.getAluno().getId());
 		
 		String codigoMatricula = paramAno + this.getMatricula().getEntrada() + 

@@ -34,6 +34,10 @@ xmlns:f="http://java.sun.com/jsf/core">
             <li><h:outputLink value="/redAmber-WebApp/aluno/index.xhtml">Alunos</h:outputLink> </li>
             <li class="divider"></li>
             <li><h:commandLink actionListener="#{alunoMB.redirectAdd}">Adicionar</h:commandLink></li>
+            <li class="divider"></li>
+            <li><h:commandLink actionListener="#{avisoAlunoMB.redirectIndex}">Consultar Avisos aos Alunos</h:commandLink></li>
+            <li class="divider"></li>
+            <li><h:commandLink actionListener="#{avisoAlunoMB.redirectAdd}">Avisar Alunos</h:commandLink></li>
           </ul>
         </li>
       </ul>
@@ -45,6 +49,10 @@ xmlns:f="http://java.sun.com/jsf/core">
             <li><h:outputLink value="/redAmber-WebApp/professor/index.xhtml">Professores</h:outputLink> </li>
             <li class="divider"></li>
             <li><h:commandLink actionListener="#{professorMB.redirectAdd}">Adicionar</h:commandLink></li>
+            <li class="divider"></li>
+            <li><h:commandLink actionListener="#{avisoProfessorMB.redirectIndex}">Consultar Avisos dos Professores</h:commandLink></li>
+            <li class="divider"></li>
+            <li><h:commandLink actionListener="#{avisoProfessorMB.redirectAdd}">Avisar Secretaria</h:commandLink></li>
           </ul>
         </li>
       </ul>
@@ -101,6 +109,8 @@ xmlns:f="http://java.sun.com/jsf/core">
             <li class="divider"></li>
             <li><h:commandLink actionListener="#{salaMB.redirectAdd}">Adicionar</h:commandLink></li>
             <li class="divider"></li>
+            <li><h:commandLink actionListener="#{reservaSalaMB.redirectIndex}">Reservas de Sala</h:commandLink></li>
+            <li class="divider"></li>
             <li><h:commandLink actionListener="#{reservaSalaMB.redirectAdd}">Reservar</h:commandLink></li>
           </ul>
         </li>
@@ -114,8 +124,19 @@ xmlns:f="http://java.sun.com/jsf/core">
             <li class="divider"></li>
             <li><h:commandLink actionListener="#{equipamentoMB.redirectAdd}">Adicionar</h:commandLink></li>
             <li class="divider"></li>
+            <li><h:commandLink actionListener="#{reservaEquipamentoMB.redirectIndex}">Reservas de Equipamento</h:commandLink></li>
+            <li class="divider"></li>
             <li><h:commandLink actionListener="#{reservaEquipamentoMB.redirectAdd}">Reservar</h:commandLink></li>
           </ul>
+        </li>
+      </ul>
+
+      <ul class="nav navbar-nav">
+        <li class="dropdown">
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Integração<span class="caret"></span></a>
+          <ul class="dropdown-menu" role="menu">
+            <li><h:outputLink value="/redAmber-WebApp/teste_integracao/index.xhtml">Alunos Educa Mais</h:outputLink> </li>
+           </ul>
         </li>
       </ul>
 
@@ -145,7 +166,7 @@ xmlns:f="http://java.sun.com/jsf/core">
         </ul>
         
         
-     coordenador
+     <!-- coordenador -->
         
         
         
