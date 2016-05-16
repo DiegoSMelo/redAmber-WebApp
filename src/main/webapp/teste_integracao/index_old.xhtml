@@ -1,0 +1,42 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+xmlns:ui="http://java.sun.com/jsf/facelets"
+xmlns:h="http://java.sun.com/jsf/html"
+xmlns:f="http://java.sun.com/jsf/core"
+xmlns:p="http://primefaces.org/ui"
+template="#{beanGeral.template}">
+	<ui:define name="body">
+
+<h:form>
+
+
+
+<ol class="breadcrumb">
+  <li><h:outputLink value="/redAmber-WebApp/home/index.xhtml">Página Inicial</h:outputLink></li>
+  <li class="active">Integração Listando Bitches!!!</li>
+</ol>
+
+
+<h:dataTable id="table-operadores" styleClass="table table-hover table-bordered" value="#{testeIntegracaoMB.listaIntegracao}" var="aluno" emptyMessage="Não há alunos cadastrados">
+
+	<h:column>	
+		<f:facet name="header">Nome</f:facet>
+		<h:outputText value="#{aluno.nome_aluno}"></h:outputText>
+	</h:column>
+
+	<h:column>	
+		<f:facet name="header">E-mail</f:facet>
+		<h:outputText value="#{aluno.email_aluno}"></h:outputText>
+	</h:column>
+
+	<h:column>	
+		<f:facet name="header">Telefone</f:facet>
+		<h:outputText value="#{aluno.telefone_aluno}"></h:outputText>
+	</h:column>
+	
+	
+</h:dataTable>
+		
+</h:form>
+    		
+	</ui:define>
+</ui:composition>

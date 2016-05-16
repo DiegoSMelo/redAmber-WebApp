@@ -1,64 +1,71 @@
 <ui:composition xmlns="http://www.w3.org/1999/xhtml"
-xmlns:ui="http://java.sun.com/jsf/facelets"
-xmlns:h="http://java.sun.com/jsf/html"
-xmlns:f="http://java.sun.com/jsf/core"
-xmlns:p="http://primefaces.org/ui"
-template="#{beanGeral.template}">
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui" template="#{beanGeral.template}">
 	<ui:define name="body">
 
-<h:form>
+		<h:form>
 
-
-
-<ol class="breadcrumb">
-  <li><h:outputLink value="/redAmber-WebApp/home/index.xhtml">Página Inicial</h:outputLink></li>
-  <li><h:outputLink value="/redAmber-WebApp/professor/index.xhtml">Professores</h:outputLink></li>
-  <li class="active">Disciplinas lecionadas por <h:outputText value="#{professorMB.professor.nome}"></h:outputText></li>
-</ol>
-
-
-<h:dataTable id="table-disciplinas" styleClass="table table-hover table-bordered" value="#{disciplinaMB.listaDisciplinas}" var="disciplina" emptyMessage="Não há disciplinas cadastradas para este professor">
-
-	<h:column>	
-		<f:facet name="header">Título</f:facet>
-		<h:outputText value="#{disciplina.titulo}"></h:outputText>
-	</h:column>
-	
-	<h:column>	
-		<f:facet name="header">Descrição</f:facet>
-		<h:outputText value="#{disciplina.descricao}"></h:outputText>
-	</h:column>
-	
-	<h:column>	
-		<f:facet name="header">Ações</f:facet>
-		
-		
-		
-		<h:commandLink id="btnAdd" styleClass="btn btn-success btn-acoes"  rendered="#{professorMB.isDisciplinaJaAdd(disciplina.id) == false}"   
-				actionListener="#{professorMB.addDisciplina}">Adicionar
-				 
-			 <f:param value="#{disciplina.id}" name="idDisciplinaParam"/>
+			<ol class="breadcrumb">
+				<li>
+					<h:outputLink value="/redAmber-WebApp/home/index.xhtml">Página Inicial</h:outputLink>
+				</li>
+				<li><h:outputLink 
+						value="/redAmber-WebApp/professor/index.xhtml">Professores</h:outputLink></li>
+				<li class="active">Disciplinas Lecionadas por <h:outputText
+						value="#{professorMB.professor.nome}" /></li>
+			</ol>
 			
-			<!-- <f:ajax render="table-disciplinas" immediate="true" event="click"></f:ajax> -->
-		</h:commandLink>
-		
-		<h:commandLink id="btnRemove" styleClass="btn btn-danger btn-acoes" rendered="#{professorMB.isDisciplinaJaAdd(disciplina.id) == true}" 
-				actionListener="#{professorMB.removeDisciplina}">Remover
-				
-				
-			<f:param value="#{disciplina.id}" name="idDisciplinaParam"/>
-			 
-		   <!-- <f:ajax render="table-disciplinas" immediate="true" event="click"></f:ajax> -->
-		</h:commandLink>
-		
-		
-		
-		
-	</h:column>
-	
-</h:dataTable>
-		
-</h:form>
-    		
+			<div align="center">
+				<h:outputLabel for="tabelaVazia" class="glyphicon glyphicon-alert bigWarningSign"
+					rendered="#{empty disciplinaMB.listaDisciplinas}" />
+				<br />
+				<h:outputText id="tabelaVazia" class="emptyTable"
+					rendered="#{empty disciplinaMB.listaDisciplinas}"
+					value="Ainda não há disciplinas cadastradas.">
+				</h:outputText>
+			</div>
+
+			<h:dataTable id="table-disciplinas"
+				styleClass="table table-hover table-bordered"
+				value="#{disciplinaMB.listaDisciplinas}" var="disciplina"
+				rendered="#{not empty disciplinaMB.listaDisciplinas}"
+				emptyMessage="Não há disciplinas cadastradas para este professor">
+
+				<h:column>
+					<f:facet name="header">Sigla</f:facet>
+					<h:outputText value="#{disciplina.titulo}" />
+				</h:column>
+
+				<h:column>
+					<f:facet name="header">Nome</f:facet>
+					<h:outputText value="#{disciplina.descricao}" />
+				</h:column>
+
+				<h:column>
+					<f:facet name="header">Ações</f:facet>
+
+					<h:commandLink id="btnAdd" styleClass="btn btn-success btn-acoes"
+						rendered="#{professorMB.isDisciplinaJaAdd(disciplina.id) == false}"
+						actionListener="#{professorMB.addDisciplina}" 
+						title="Adicionar Disciplina ao Professor">
+						<span class="glyphicon glyphicon-plus" aria-hidden="true" /> Adicionar
+						<f:param value="#{disciplina.id}" name="idDisciplinaParam" />
+						<!-- <f:ajax render="table-disciplinas" immediate="true" event="click" /> -->
+					</h:commandLink>
+
+					<h:commandLink id="btnRemove" styleClass="btn btn-danger btn-acoes" 
+						rendered="#{professorMB.isDisciplinaJaAdd(disciplina.id) == true}" 
+						actionListener="#{professorMB.removeDisciplina}" 
+						title="Remover Disciplina do Professor">
+						<span class="glyphicon glyphicon-remove" aria-hidden="true" /> Remover
+						<f:param value="#{disciplina.id}" name="idDisciplinaParam" />
+						<!-- <f:ajax render="table-disciplinas" immediate="true" event="click" /> -->
+					</h:commandLink>
+				</h:column>
+
+			</h:dataTable>
+		</h:form>
 	</ui:define>
 </ui:composition>

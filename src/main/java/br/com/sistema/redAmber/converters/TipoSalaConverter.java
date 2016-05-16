@@ -22,7 +22,7 @@ public class TipoSalaConverter implements Converter {
 			if (value.equalsIgnoreCase("Laboratório")) {
 				return TipoSala.LAB;
 			}
-			if (value.equalsIgnoreCase("Sala de aula")) {
+			if (value.equalsIgnoreCase("Sala de Aula")) {
 				return TipoSala.AULA;
 			}
 			if (value.equalsIgnoreCase("Ateliê")) {

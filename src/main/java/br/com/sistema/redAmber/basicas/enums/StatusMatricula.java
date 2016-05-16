@@ -1,18 +1,16 @@
 package br.com.sistema.redAmber.basicas.enums;
 
 public enum StatusMatricula {
-	ATIVO {
+	ATIVA {
 		@Override
 		public String toString() {
-
-			return "ATIVO";
+			return "Ativa";
 		}
 	},
-	INATIVO {
+	INATIVA {
 		@Override
 		public String toString() {
-
-			return "INATIVO";
+			return "Inativa";
 		}
 	}
 }

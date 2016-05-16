@@ -18,8 +18,9 @@ public class GradeConverter implements Converter {
 	@Override
 	public Object getAsObject(FacesContext arg0, UIComponent arg1, String arg2) {
 		
+		System.out.println("String -> Object");
 		
-		if (arg2.trim().equalsIgnoreCase("Escolha a grade") || arg2.trim().equals("") ||
+		if (arg2.trim().equalsIgnoreCase("Escolha a Grade") || arg2.trim().equals("") ||
 				arg2 == null || arg2.isEmpty()) {
 			return null;
 		}
@@ -45,6 +46,7 @@ public class GradeConverter implements Converter {
 	@Override
 	public String getAsString(FacesContext arg0, UIComponent arg1, Object arg2) {
 		
+		System.out.println("Object -> String");
 		
 		Grade grade = (Grade) arg2;
 		if (grade == null || grade.getId() == null) {

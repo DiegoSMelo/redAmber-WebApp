@@ -1,0 +1,120 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui" template="#{beanGeral.template}">
+	<ui:define name="body">
+
+		<ol class="breadcrumb">
+	  		<li>
+	  			<h:outputLink value="/redAmber-WebApp/home/index.xhtml">Página Inicial</h:outputLink>
+	  		</li>
+	   		<li><h:outputLink 
+	   				value="/redAmber-WebApp/teste_integracao/index.xhtml">Alunos Educa Mais</h:outputLink></li>
+			<li><h:outputLink 
+					value="/redAmber-WebApp/matricula_integracao/index.xhtml">Matrículas</h:outputLink></li>
+	 		<li class="active">Matricular o Aluno <h:outputText 
+	 			value="#{matriculaIntegracaoMB.aluno.nome_aluno}" /></li>
+		</ol>
+		
+		<div align="center">
+			<h:outputLabel for="tabelaVazia" class="glyphicon glyphicon-alert bigWarningSign"
+				rendered="#{empty matriculaIntegracaoMB.listaGrades or 
+					empty matriculaIntegracaoMB.listaGrades or 
+					empty matriculaIntegracaoMB.listaTurmas}" />
+			<br />
+			<h:outputText id="tabelaVazia" class="emptyTable"
+				rendered="#{empty matriculaIntegracaoMB.listaGrades or 
+					empty matriculaIntegracaoMB.listaGrades or 
+					empty matriculaIntegracaoMB.listaTurmas}"
+				value="Para matricular um aluno, é preciso que haja, pelo menos, um curso, uma grade e
+					uma turma cadastrados na base de dados.">
+			</h:outputText>
+		</div>
+
+		<h:form styleClass="form-horizontal" prependId="false"
+				rendered="#{not empty matriculaIntegracaoMB.listaCursos and 
+					not empty matriculaIntegracaoMB.listaGrades and 
+					not empty matriculaIntegracaoMB.listaTurmas}">
+		
+			<div class="form-group">
+				<h:outputLabel value="Turno" for="inputTurno"
+					styleClass="col-sm-2 control-label" />
+				<div class="col-sm-2">
+					<h:selectOneMenu id="inputTurno" styleClass="form-control"
+						value="#{matriculaIntegracaoMB.turno}" converter="tipoTurnoConverter"
+							immediate="true" onchange="submit()"
+							valueChangeListener="#{matriculaIntegracaoMB.atualizarListaTurmas}">
+						<f:selectItems value="#{matriculaIntegracaoMB.turnos}" var="turno"
+							itemValue="#{turno}" itemLabel="#{turno}" />
+					</h:selectOneMenu>
+				</div>
+			</div>
+		
+			<div class="form-group">
+				<h:outputLabel value="Curso" for="inputCurso"
+					styleClass="col-sm-2 control-label" />
+				<div class="col-sm-5">
+					<h:selectOneMenu id="inputCurso" styleClass="form-control"
+						value="#{matriculaIntegracaoMB.idCurso}" onchange="submit()"
+						valueChangeListener="#{matriculaIntegracaoMB.atualizarListaGrades}">
+						<f:selectItem itemValue="#{null}" itemLabel="Escolha o Curso" />
+						<f:selectItems value="#{matriculaIntegracaoMB.listaCursos}" var="curso"
+							itemValue="#{curso.id}" itemLabel="#{curso.nome}" />
+					</h:selectOneMenu>
+				</div>
+			</div>
+
+			<div class="form-group">
+				<h:outputLabel value="Grade" for="inputGrade"
+					styleClass="col-sm-2 control-label" />
+				<div class="col-sm-2">
+					<h:selectOneMenu id="inputGrade" styleClass="form-control"
+						value="#{matriculaIntegracaoMB.matricula.grade}" converter="gradeConverter"
+						immediate="true">
+						<f:selectItem itemValue="#{null}" itemLabel="Escolha a Grade" />
+						<f:selectItems value="#{matriculaIntegracaoMB.listaGrades}" var="grade"
+							itemValue="#{grade}" itemLabel="#{grade.titulo}" />
+					</h:selectOneMenu>
+				</div>
+			</div>
+			
+			<div class="form-group">
+				<h:outputLabel value="Entrada" for="inputEntrada"
+					styleClass="col-sm-2 control-label" />
+				<div class="col-sm-2">
+					<h:selectOneMenu id="inputEntrada" styleClass="form-control"
+						value="#{matriculaIntegracaoMB.matricula.entrada}">
+						<f:selectItem itemValue="1" itemLabel="Primeira entrada" />
+						<f:selectItem itemValue="2" itemLabel="Segunda entrada" />
+					</h:selectOneMenu>
+				</div>
+			</div>
+			
+			<div class="form-group">
+				<h:outputLabel value="Turma" for="inputTurma"
+					styleClass="col-sm-2 control-label" />
+				<div class="col-sm-2">
+					<h:selectOneMenu id="inputTurma" styleClass="form-control"
+						value="#{matriculaIntegracaoMB.matricula.turma}" converter="turmaConverter"
+						immediate="true">
+						<f:selectItem itemValue="#{null}" itemLabel="Escolha a Turma" />
+						<f:selectItems value="#{matriculaIntegracaoMB.listaTurmas}" var="turma"
+							itemValue="#{turma}" itemLabel="#{turma.nome}" />
+					</h:selectOneMenu>
+				</div>
+			</div>
+			
+			<div class="form-group">
+				<div class="col-sm-offset-2 col-sm-10">
+					<h:commandLink styleClass="btn btn-success" title="Matricular Aluno"
+						actionListener="#{matriculaIntegracaoMB.salvarMatricula}">
+						<span class="glyphicon glyphicon-education" aria-hidden="true" /> Matricular
+						<f:ajax execute="inputCurso inputGrade inputEntrada inputTurno inputTurma" />
+					</h:commandLink>
+				</div>
+			</div>
+			
+		</h:form>
+	</ui:define>
+</ui:composition>

@@ -2,6 +2,8 @@ package br.com.sistema.redAmber.beans;
 
 import java.io.IOException;
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
@@ -25,72 +27,58 @@ import br.com.sistema.redAmber.util.URLUtil;
 
 @ManagedBean
 @SessionScoped
-public class LoginMB implements Serializable{
-	private static final long serialVersionUID = 1L;
+public class LoginMB implements Serializable {
 
-	
+	private static final long serialVersionUID = 1L;
 	private LoginHTTP login;
 	private Funcionario usuarioLogado;
-	
-	
+	private List<Funcionario> funcionarioLogado;
+
 	public void autenticar() {
 		if ((this.getLogin().getLogin() != null && this.getLogin().getSenha() != null)
 				&& (!this.getLogin().getLogin().equals("") && !this.getLogin().getSenha().equals(""))) {
-			
+
 			// Create Jersey client
-	        ClientConfig clientConfig = new DefaultClientConfig();
-	        clientConfig.getFeatures().put(JSONConfiguration.FEATURE_POJO_MAPPING, Boolean.TRUE);
-	        Client client = Client.create(clientConfig);
-	       
-	        WebResource webResourcePost = client.resource(URLUtil.LOGIN_FUNCIONARIO);
-	        ClientResponse response = webResourcePost.type("application/json").post(ClientResponse.class, this.getLogin());
-	        
-	        if (response.getStatus() == 200) {
-	        	
-	        	WebResource wr = client.resource(URLUtil.BUSCAR_FUNCIONARIO_POR_LOGIN + this.getLogin().getLogin());
+			ClientConfig clientConfig = new DefaultClientConfig();
+			clientConfig.getFeatures().put(JSONConfiguration.FEATURE_POJO_MAPPING, Boolean.TRUE);
+			Client client = Client.create(clientConfig);
+
+			WebResource webResourcePost = client.resource(URLUtil.LOGIN_FUNCIONARIO);
+			ClientResponse response = webResourcePost.type("application/json").post(ClientResponse.class,
+					this.getLogin());
+
+			if (response.getStatus() == 200) {
+
+				WebResource wr = client.resource(URLUtil.BUSCAR_FUNCIONARIO_POR_LOGIN + this.getLogin().getLogin());
 				String jsonResult = wr.get(String.class);
 				Gson gson = new Gson();
 				Funcionario f = gson.fromJson(jsonResult, Funcionario.class);
-				
-				
+
 				if (f.getStatus().toString().equals(StatusUsuario.ATIVO.toString())) {
-					
 					this.setUsuarioLogado(f);
 					RequestContext.getCurrentInstance().execute("loginSucess('" + Mensagens.m1 + "');");
-					
-				}else{
-					
+				} else {
 					RequestContext.getCurrentInstance().execute("loginError('" + Mensagens.m9 + "');");
-					
 				}
-				
-			}else{
-				
+			} else {
 				RequestContext.getCurrentInstance().execute("loginError('" + Mensagens.m2 + "');");
-				
 			}
-			
 		}
 	}
-	
-	public void logout()
-	{
+
+	public void logout() {
 		usuarioLogado = null;
-		
 		try {
 			FacesContext.getCurrentInstance().getExternalContext().redirect("/redAmber-WebApp/login.xhtml");
 		} catch (IOException e) {
-		
-			RequestContext.getCurrentInstance().execute("alert('"+e.getMessage()+"');");
+			RequestContext.getCurrentInstance().execute("alert('" + e.getMessage() + "');");
 		}
-		
 	}
-	
-	public boolean isLogado(){
+
+	public boolean isLogado() {
 		return this.usuarioLogado != null;
 	}
-	
-	
+
 	public LoginHTTP getLogin() {
 		if (this.login == null) {
 			this.login = new LoginHTTP();
@@ -103,7 +91,6 @@ public class LoginMB implements Serializable{
 	}
 
 	public Funcionario getUsuarioLogado() {
-		
 		return usuarioLogado;
 	}
 
@@ -111,4 +98,9 @@ public class LoginMB implements Serializable{
 		this.usuarioLogado = usuarioLogado;
 	}
 
+	public List<Funcionario> getFuncionarioLogado() {
+		funcionarioLogado = new ArrayList<Funcionario>();
+		funcionarioLogado.add(this.getUsuarioLogado());
+		return funcionarioLogado;
+	}
 }

@@ -13,12 +13,14 @@ import br.com.sistema.redAmber.basicas.Professor;
 import br.com.sistema.redAmber.util.URLUtil;
 
 @FacesConverter(value="professorConverter", forClass=Professor.class)
-public class ProfessorConverter implements Converter{
+public class ProfessorConverter implements Converter {
+
 	@Override
 	public Object getAsObject(FacesContext arg0, UIComponent arg1, String arg2) {
 		System.out.println("String -> Object");
 		
-		if (arg2.trim().equalsIgnoreCase("Nenhuma") || arg2.trim().equals("") || arg2 == null || arg2.isEmpty()) {
+		if (arg2.trim().equalsIgnoreCase("Escolha o Professor") || arg2.trim().equals("") || 
+				arg2 == null || arg2.isEmpty()) {
 			return null;
 		}
 		try {

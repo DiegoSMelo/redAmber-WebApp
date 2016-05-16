@@ -1,0 +1,85 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui" template="#{beanGeral.template}">
+	<ui:define name="body">
+
+		<ol class="breadcrumb">
+			<li><h:outputLink value="/redAmber-WebApp/home/index.xhtml">Página Inicial</h:outputLink></li>
+			<li><h:outputLink
+					value="/redAmber-WebApp/duracaoaula/index.xhtml">Durações de Aula</h:outputLink></li>
+			<li class="active">Editar Duração de Aula</li>
+		</ol>
+
+		<h:form styleClass="form-horizontal" prependId="false">
+
+			<div class="form-group">
+				<h:outputLabel value="Hora do Início" for="inputInicio"
+					styleClass="col-sm-2 control-label" />
+				<div class="col-sm-1">
+					<h:inputText required="true" tabindex="2"
+						requiredMessage="Digite a hora do início da aula."
+						styleClass="form-control hora" id="inputInicio"
+						value="#{duracaoAulaMB.duracaoAula.horaInicio}"
+						title="Informe a hora do início da aula. Ex: 08:00.">
+							<f:convertDateTime type="time" pattern="HH:mm" />
+						</h:inputText>
+					<h:message styleClass="text-danger" for="inputInicio" id="inputInicioMSG" />
+				</div>
+			</div>
+
+			<div class="form-group">
+				<h:outputLabel value="Hora do Fim" for="inputFim"
+					styleClass="col-sm-2 control-label"></h:outputLabel>
+				<div class="col-sm-1">
+					<h:inputText styleClass="form-control hora" tabindex="3" required="true"
+						requiredMessage="Digite a hora do fim da aula." id="inputFim"
+						value="#{duracaoAulaMB.duracaoAula.horaFim}"
+						title="Informe a hora do fim da aula. Ex: 09:30.">
+						<f:convertDateTime type="time" pattern="HH:mm" />
+					</h:inputText>
+					<h:message styleClass="text-danger" for="inputFim" id="inputFimMSG" />
+				</div>
+			</div>
+
+			<div class="form-group">
+				<h:outputLabel value="Turno" for="inputTurno"
+					styleClass="col-sm-2 control-label" />
+				<div class="col-sm-2">
+					<h:selectOneMenu id="inputTurno" styleClass="form-control"
+						value="#{duracaoAulaMB.duracaoAula.turno}" tabindex="4"
+						converter="tipoTurnoConverter">
+						<f:selectItems value="#{duracaoAulaMB.tipoTurno}"
+							var="turno" itemValue="#{turno}" />
+					</h:selectOneMenu>
+				</div>
+			</div>
+
+			<div class="form-group">
+				<h:outputLabel value="Status" for="inputStatus"
+					styleClass="col-sm-2 control-label" />
+				<div class="col-sm-2">
+					<h:selectOneMenu id="inputStatus" styleClass="form-control"
+						value="#{duracaoAulaMB.duracaoAula.status}" tabindex="5"
+						converter="statusDuracaoAulaConverter">
+						<f:selectItems value="#{duracaoAulaMB.statusDuracaoAula}"
+							var="status" itemValue="#{status}" />
+					</h:selectOneMenu>
+				</div>
+			</div>
+
+			<div class="form-group">
+				<div class="col-sm-offset-2 col-sm-10">
+					<h:commandLink styleClass="btn btn-success" tabindex="6"
+						actionListener="#{duracaoAulaMB.salvar}" title="Salvar Alterações">
+						<span class="glyphicon glyphicon-floppy-disk" aria-hidden="true" /> Salvar
+						<f:ajax execute="inputInicio inputFim inputTurno inputStatus"
+							render="inputInicioMSG inputFimMSG" />
+					</h:commandLink>
+				</div>
+			</div>
+			
+		</h:form>
+	</ui:define>
+</ui:composition>

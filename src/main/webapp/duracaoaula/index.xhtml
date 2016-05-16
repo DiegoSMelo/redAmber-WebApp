@@ -1,0 +1,84 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui" template="#{beanGeral.template}">
+	<ui:define name="body">
+
+		<h:form>
+
+			<ol class="breadcrumb">
+				<li><h:outputLink value="/redAmber-WebApp/home/index.xhtml">Página Inicial</h:outputLink></li>
+				<li class="active">Durações das Aulas</li>
+			</ol>
+
+			<div class="areaPlus">
+				<h:commandLink actionListener="#{duracaoAulaMB.redirectAdd}"
+					title="Adicionar Duração de Aula" styleClass="btn btn-success">
+					<span class="glyphicon glyphicon-plus" aria-hidden="true" /> Adicionar
+				</h:commandLink>
+			</div>
+			
+			<div align="center">
+				<h:outputLabel for="tabelaVazia" class="glyphicon glyphicon-alert bigWarningSign"
+					rendered="#{empty duracaoAulaMB.listaHorasAula}" />
+				<br />
+				<h:outputText id="tabelaVazia" class="emptyTable" 
+					rendered="#{empty duracaoAulaMB.listaHorasAula}" 
+					value="Ainda não há horários de aula cadastrados.">
+				</h:outputText>
+			</div>
+
+			<h:dataTable id="table-operadores"
+				styleClass="table table-hover table-bordered"
+				value="#{duracaoAulaMB.listaHorasAula}" var="duracaoAula"
+				rendered="#{not empty duracaoAulaMB.listaHorasAula}"
+				emptyMessage="Não há horários de aula cadastrados">
+
+				<h:column>
+					<f:facet name="header">ID</f:facet>
+					<h:outputText value="#{duracaoAula.id}" />
+				</h:column>
+
+				<h:column>
+					<f:facet name="header">Turno</f:facet>
+					<h:outputText value="#{duracaoAula.turno}" converter="tipoTurnoConverter" />
+				</h:column>
+
+				<h:column>
+					<f:facet name="header">Início</f:facet>
+					<h:outputText value="#{duracaoAula.horaInicio}">
+						<f:convertDateTime type="time" timeZone="America/Recife" pattern="HH:mm" />
+					</h:outputText>
+				</h:column>
+				
+				<h:column>
+					<f:facet name="header">Fim</f:facet>
+					<h:outputText value="#{duracaoAula.horaFim}">
+						<f:convertDateTime type="time" timeZone="America/Recife" pattern="HH:mm" />
+					</h:outputText>
+				</h:column>
+
+				<h:column>
+					<f:facet name="header">Status</f:facet>
+					<h:outputText value="#{duracaoAula.status}" converter="statusDuracaoAulaConverter" />
+				</h:column>
+
+				<h:column>
+					<f:facet name="header">Ações</f:facet>
+
+					<h:commandLink styleClass="btn btn-info btn-acoes" title="Editar Duração de Aula"
+						actionListener="#{duracaoAulaMB.redirectEdit}">
+						<span class="glyphicon glyphicon-pencil" aria-hidden="true" /> Editar
+						<f:setPropertyActionListener value="#{duracaoAula}"
+							target="#{duracaoAulaMB.duracaoAula}" />
+					</h:commandLink>
+
+				</h:column>
+
+			</h:dataTable>
+
+		</h:form>
+
+	</ui:define>
+</ui:composition>

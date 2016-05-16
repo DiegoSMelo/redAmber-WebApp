@@ -4,92 +4,65 @@
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:p="http://primefaces.org/ui" template="#{beanGeral.template}">
 	<ui:define name="body">
-	
 
 		<ol class="breadcrumb">
-			<li><h:outputLink value="/redAmber-WebApp/home/index.xhtml">Página Inicial</h:outputLink></li>
-			<li><h:outputLink value="/redAmber-WebApp/aluno/index.xhtml">Disciplinas</h:outputLink></li>
+			<li>
+				<h:outputLink value="/redAmber-WebApp/home/index.xhtml">Página Inicial</h:outputLink>
+			</li>
+			<li><h:outputLink value="/redAmber-WebApp/disciplina/index.xhtml">Disciplinas</h:outputLink></li>
 			<li class="active">Editar Disciplinas</li>
 		</ol>
 
-
-
 		<h:form styleClass="form-horizontal" prependId="false">
-		
+
 			<div class="form-group">
-				<h:outputLabel value="Título"
-					for="inputTitulo"
-					styleClass="col-sm-2 control-label">
-				</h:outputLabel>
-				
-				<div class="col-sm-10">
-					<h:inputText 
-					styleClass="form-control"
-					required="true" 
-					tabindex="1"
-					requiredMessage="Digite o título da disciplina" 
-					id="inputTitulo" 
-					value="#{disciplinaMB.disciplina.titulo}">
-					</h:inputText>
-					
-					<h:message styleClass="text-danger" for="inputTitulo" id="inputTituloMSG"></h:message>
-					
+				<h:outputLabel value="Sigla da Disciplina" for="inputTitulo"
+					styleClass="col-sm-2 control-label" />
+				<div class="col-sm-2">
+					<h:inputText styleClass="form-control" required="true" tabindex="1"
+						requiredMessage="Digite a sigla da disciplina" id="inputTitulo"
+						value="#{disciplinaMB.disciplina.titulo}" 
+						title="Informe a sigla da disciplina com letras maiúsculas. Ex: POO." />
+					<h:message styleClass="text-danger" for="inputTitulo" id="inputTituloMSG" />
 				</div>
 			</div>
-			
-			
+
+
 			<div class="form-group">
-				<h:outputLabel value="Descricao"
-					for="inputDescricao"
-					styleClass="col-sm-2 control-label">
-				</h:outputLabel>
-				
-				<div class="col-sm-10">
-					<h:inputText 
-					styleClass="form-control"
-					tabindex="2"
-					id="inputDescricao" 
-					value="#{disciplinaMB.disciplina.descricao}">
-					</h:inputText>
-					
-					<h:message styleClass="text-danger" for="inputDescricao" id="inputDescricaoMSG"></h:message>
-					
+				<h:outputLabel value="Nome da Disciplina" for="inputDescricao"
+					styleClass="col-sm-2 control-label" />
+				<div class="col-sm-5">
+					<h:inputText styleClass="form-control" tabindex="2"
+						requiredMessage="Digite o nome completo da disciplina"
+						id="inputDescricao" value="#{disciplinaMB.disciplina.descricao}" 
+						title="Informe o nome da disciplina. Ex: Programação Orientada a Objetos." />
+					<h:message styleClass="text-danger" for="inputDescricao" id="inputDescricaoMSG" />
 				</div>
 			</div>
-			
-			
+
 			<div class="form-group">
-			
-				<h:outputLabel value="Status" for="inputStatus" styleClass="col-sm-2 control-label"></h:outputLabel>
-				
-				<div class="col-sm-10">
-				
-					<h:selectOneMenu id="inputStatus" styleClass="form-control" value="#{disciplinaMB.disciplina.status}">
-						<f:selectItems value="#{disciplinaMB.statusDisciplina}" var="status" itemValue="#{status}" />
+				<h:outputLabel value="Status" for="inputStatus"
+					styleClass="col-sm-2 control-label" />
+				<div class="col-sm-2">
+					<h:selectOneMenu id="inputStatus" styleClass="form-control"
+						value="#{disciplinaMB.disciplina.status}">
+						<f:selectItems value="#{disciplinaMB.statusDisciplina}"
+							var="status" itemValue="#{status}" />
 					</h:selectOneMenu>
-					
 				</div>
-				
 			</div>
-			
-			
-			
-			
-					
+
 			<div class="form-group">
 				<div class="col-sm-offset-2 col-sm-10">
-					<h:commandButton 
-					styleClass="btn btn-default"
-					actionListener="#{disciplinaMB.salvar}" value="Salvar">
-					
-							<f:ajax execute="inputTitulo inputDescricao inputStatus" render="inputTituloMSG inputDescricaoMSG"/>
-							
-					</h:commandButton>
+					<h:commandLink styleClass="btn btn-success" title="Salvar Alterações"
+						actionListener="#{disciplinaMB.salvar}">
+						<span class="glyphicon glyphicon-floppy-disk" aria-hidden="true" /> Salvar
+						<f:ajax execute="inputTitulo inputDescricao inputStatus"
+							render="inputTituloMSG inputDescricaoMSG" />
+					</h:commandLink>
 				</div>
 			</div>
 
-
 		</h:form>
-
 	</ui:define>
 </ui:composition>

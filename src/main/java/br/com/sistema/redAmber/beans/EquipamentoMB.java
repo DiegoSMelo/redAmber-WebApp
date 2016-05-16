@@ -62,7 +62,7 @@ public class EquipamentoMB {
 					RequestContext.getCurrentInstance().execute("alert('" + Mensagens.m3 + "');");
 				}
 			} else {
-				RequestContext.getCurrentInstance().execute("alert('" + Mensagens.m18 + "');");
+				RequestContext.getCurrentInstance().execute("alert('" + Mensagens.m16 + "');");
 			}
 		} catch (Exception e) {
 			RequestContext.getCurrentInstance().execute("alert('" + Mensagens.m3 + "');");
