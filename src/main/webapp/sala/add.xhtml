@@ -1,0 +1,64 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui" template="#{beanGeral.template}">
+	<ui:define name="body">
+
+		<ol class="breadcrumb">
+			<li><h:outputLink value="/redAmber-WebApp/home/index.xhtml">Página Inicial</h:outputLink></li>
+			<li><h:outputLink
+					value="/redAmber-WebApp/sala/index.xhtml">Salas</h:outputLink></li>
+			<li class="active">Adicionar Sala</li>
+		</ol>
+
+		<h:form styleClass="form-horizontal" prependId="false">
+
+			<div class="form-group">
+				<h:outputLabel value="Nome da Sala" for="inputDescricao"
+					styleClass="col-sm-2 control-label" />
+				<div class="col-sm-2">
+					<h:inputText required="true" tabindex="1" requiredMessage="Digite o nome da sala." 
+						styleClass="form-control" id="inputDescricao" value="#{salaMB.sala.descricao}" 
+						title="Informe o nome da sala. Ex: A1, B2, C10, etc." />
+					<h:message styleClass="text-danger" for="inputDescricao" id="inputDescricaoMSG" />
+				</div>
+			</div>
+
+			<div class="form-group">
+				<h:outputLabel value="Capacidade" for="inputCapacidade"
+					styleClass="col-sm-2 control-label" />
+				<div class="col-sm-2">
+					<h:inputText styleClass="form-control numero" tabindex="2" required="true"
+						requiredMessage="Digite a capacidade de alunos da sala." id="inputCapacidade"
+						value="#{salaMB.sala.capacidadeAlunos}" 
+						title="Informe o número de alunos correspondente à capacidade da sala. Ex: 40 (alunos)." />
+					<h:message styleClass="text-danger" for="inputCapacidade" id="inputCapacidadeMSG" />
+				</div>
+			</div>
+
+			<div class="form-group">
+				<h:outputLabel value="Tipo da Sala" for="inputTipo"
+					styleClass="col-sm-2 control-label" />
+				<div class="col-sm-2">
+					<h:selectOneMenu id="inputTipo" styleClass="form-control"
+						value="#{salaMB.sala.tipoSala}">
+						<f:selectItems value="#{salaMB.tipoSala}" />
+					</h:selectOneMenu>
+				</div>
+			</div>
+
+			<div class="form-group">
+				<div class="col-sm-offset-2 col-sm-10">
+					<h:commandLink styleClass="btn btn-success" title="Salvar Sala"
+						actionListener="#{salaMB.salvar}">
+						<span class="glyphicon glyphicon-floppy-disk" aria-hidden="true" /> Salvar
+						<f:ajax execute="inputDescricao inputTipo inputCapacidade"
+							render="inputDescricaoMSG inputCapacidadeMSG" />
+					</h:commandLink>
+				</div>
+			</div>
+
+		</h:form>
+	</ui:define>
+</ui:composition>

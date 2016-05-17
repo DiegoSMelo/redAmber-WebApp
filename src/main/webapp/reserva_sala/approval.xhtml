@@ -1,0 +1,95 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui" template="#{beanGeral.template}">
+	<ui:define name="body">
+
+		<ol class="breadcrumb">
+	  		<li>
+	  			<h:outputLink value="/redAmber-WebApp/home/index.xhtml">Página Inicial</h:outputLink>
+	  		</li>
+	  		<li><h:outputLink 
+	  				value="/redAmber-WebApp/reserva_sala/index.xhtml">Reservas de Sala</h:outputLink></li>
+			<li class="active">Aprovação de Reserva de Sala</li>
+		</ol>
+
+		<h:form styleClass="form-horizontal" prependId="false">
+		
+			<div class="form-group">
+				<h:outputLabel value="Professor" for="inputProfessor"
+					styleClass="col-sm-2 control-label" />
+				<div class="col-sm-5">
+					<h:inputText styleClass="form-control" id="inputProfessor" readonly="true" 
+					value="#{reservaSalaMB.reservaSala.professor.nome}" />
+				</div>
+			</div>
+		
+			<div class="form-group">
+				<h:outputLabel value="Sala" for="inputSala"
+					styleClass="col-sm-2 control-label" />
+				<div class="col-sm-2">
+					<h:inputText styleClass="form-control" id="inputSala" readonly="true" 
+					value="#{reservaSalaMB.reservaSala.sala.descricao}" />
+				</div>
+			</div>
+
+			<div class="form-group">
+				<h:outputLabel value="Data da Reserva" for="inputReserva"
+					styleClass="col-sm-2 control-label" />
+				<div class="col-sm-2">
+					<h:inputText styleClass="form-control" id="inputReserva" readonly="true"
+						value="#{reservaSalaMB.reservaSala.dataReserva.time}">
+						<f:convertDateTime type="date" pattern="dd/MM/yyyy"/>
+					</h:inputText>
+				</div>
+			</div>
+
+			<div class="form-group">
+				<h:outputLabel value="Horário da Reserva" for="inputHorario"
+					styleClass="col-sm-2 control-label" />
+				<div class="col-sm-2">
+					<h:inputText styleClass="form-control" id="inputHorario" readonly="true"
+						value="#{reservaSalaMB.reservaSala.horarioReserva.getHorarioString()}">
+					</h:inputText>
+				</div>
+			</div>
+			
+			<div class="form-group">
+				<h:outputLabel value="Observação" for="inputObservacao"
+					styleClass="col-sm-2 control-label" />
+				<div class="col-sm-10">
+					<h:inputTextarea readonly="true" rows="10" tabindex="1" styleClass="form-control"
+						id="inputObservacao" value="#{reservaSalaMB.reservaSala.observacao}" />
+				</div>
+			</div>
+			
+			<div class="form-group">
+				<h:outputLabel value="Resposta" for="inputResposta"
+					styleClass="col-sm-2 control-label" />
+				<div class="col-sm-10">
+					<h:inputTextarea rows="10" tabindex="1" styleClass="form-control"
+						id="inputResposta" value="#{reservaSalaMB.reservaSala.resposta}" />
+				</div>
+			</div>
+			
+			<div class="form-group">
+				<div class="col-sm-offset-2 col-sm-10">
+					<h:commandLink styleClass="btn btn-success" title="Aprovar Reserva de Sala"
+						actionListener="#{reservaSalaMB.aprovarRequisicao}">
+						<span class="glyphicon glyphicon-thumbs-up" aria-hidden="true" /> Aprovar
+						<f:ajax execute="inputResposta inputProfessor inputSala inputReserva inputHorario
+								inputObservacao" />
+					</h:commandLink><span> </span>
+					<h:commandLink styleClass="btn btn-danger" title="Negar Reserva de Sala"
+						actionListener="#{reservaSalaMB.negarRequisicao}">
+						<span class="glyphicon glyphicon-thumbs-down" aria-hidden="true" /> Negar
+						<f:ajax execute="inputResposta inputProfessor inputSala inputReserva inputHorario
+								inputObservacao" />
+					</h:commandLink>
+				</div>
+			</div>
+			
+		</h:form>
+	</ui:define>
+</ui:composition>

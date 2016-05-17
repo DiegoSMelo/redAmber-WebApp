@@ -1,0 +1,70 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core" template="#{beanGeral.template}">
+	<ui:define name="body">
+		<h:form>
+
+			<ol class="breadcrumb">
+				<li>
+					<h:outputLink value="/redAmber-WebApp/home/index.xhtml">Página Inicial</h:outputLink>
+				</li>
+	  			<li class="active">Listagem de Avisos aos Alunos</li>
+			</ol>
+			
+			<div class="areaPlus">
+				<h:commandLink actionListener="#{avisoAlunoMB.redirectAdd}"
+					styleClass="btn btn-success" title="Enviar Aviso aos Alunos">
+					<span class="glyphicon glyphicon-plus" aria-hidden="true" /> Adicionar
+				</h:commandLink>
+			</div>
+			
+			<div align="center">
+				<h:outputLabel for="tabelaVazia" class="glyphicon glyphicon-alert bigWarningSign"
+					rendered="#{empty avisoAlunoMB.listaAvisoAluno}" />
+				<br />
+				<h:outputText id="tabelaVazia" class="emptyTable"
+					rendered="#{empty avisoAlunoMB.listaAvisoAluno}"
+					value="Ainda não há nenhum aviso da secretaria aos alunos cadastrado.">
+				</h:outputText>
+			</div>
+			
+			<h:dataTable id="table-avisos"
+				styleClass="table table-hover table-bordered"
+				value="#{avisoAlunoMB.listaAvisoAluno}" var="avisoAluno"
+				rendered="#{not empty avisoAlunoMB.listaAvisoAluno}"
+				emptyMessage="Não há avisos cadastrados">
+				<f:facet name="header">Avisos aos Alunos</f:facet>
+				
+				<h:column>
+					<f:facet name="header">Data do Aviso</f:facet>
+					<h:outputText value="#{avisoAluno.dataAviso.time}">
+						<f:convertDateTime type="both" pattern="dd/MM/yyyy HH:mm"/>
+					</h:outputText>
+				</h:column>
+
+				<h:column>
+					<f:facet name="header">Turma</f:facet>
+					<h:outputText value="#{avisoAluno.turma.nome}" />
+				</h:column>
+
+				<h:column>
+					<f:facet name="header">Funcionário</f:facet>
+					<h:outputText value="#{avisoAluno.funcionario.nome}" />
+				</h:column>
+				
+				<h:column>
+					<f:facet name="header">Ações</f:facet>
+
+					<h:commandLink styleClass="btn btn-info btn-acoes" title="Editar Aviso"
+						actionListener="#{avisoAlunoMB.redirectEdit}">
+						<span class="glyphicon glyphicon-pencil" aria-hidden="true" /> Editar
+						<f:setPropertyActionListener value="#{avisoAluno}"
+							target="#{avisoAlunoMB.avisoAluno}" />
+					</h:commandLink>
+				</h:column>
+				
+			</h:dataTable>
+		</h:form>
+	</ui:define>
+</ui:composition>
