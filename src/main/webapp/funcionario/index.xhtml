@@ -1,76 +1,126 @@
 <ui:composition xmlns="http://www.w3.org/1999/xhtml"
-xmlns:ui="http://java.sun.com/jsf/facelets"
-xmlns:h="http://java.sun.com/jsf/html"
-xmlns:f="http://java.sun.com/jsf/core"
-xmlns:p="http://primefaces.org/ui"
-template="#{beanGeral.template}">
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui" template="#{beanGeral.template}">
 	<ui:define name="body">
 
-<h:form>
+		<h:form>
 
+			<ol class="breadcrumb">
+				<li>
+					<h:outputLink value="/redAmber-WebApp/home/index.xhtml">Página Inicial</h:outputLink>
+				</li>
+				<li class="active">Funcionários</li>
+			</ol>
 
+			<div class="form-horizontal">
+			
+				<div class="form-group">
+					<h:outputLabel value="Pesquisar por:"
+						styleClass="col-sm-2 control-label" />
+				</div>
+				
+				<div class="form-group">
+					<h:outputLabel value="Nome do Funcionário" for="inputNome"
+						styleClass="col-sm-2 control-label" />
+					<div class="col-sm-5">
+						<h:inputText tabindex="1" styleClass="form-control"
+							id="inputNome" value="#{funcionarioMB.buscaFuncionario.nome}" />
+					</div>
+				</div>
+				
+				<div class="form-group">
+					<h:outputLabel value="RG do Funcionário" for="inputRG"
+						styleClass="col-sm-2 control-label" />
+					<div class="col-sm-2">
+						<h:inputText tabindex="2" styleClass="form-control inputRG"
+							id="inputRG" value="#{funcionarioMB.buscaFuncionario.rg}" 
+							title="Informe um RG com, no mínimo, 6 dígitos." />
+					</div>
+				</div>
+				
+				<div class="form-group">
+					<div class="col-sm-offset-2 col-sm-10">
+						<h:commandLink styleClass="btn btn-info" title="Pesquisar Funcionários"
+							actionListener="#{funcionarioMB.atualizaLista}">
+							<span class="glyphicon glyphicon-search" aria-hidden="true" /> Pesquisar
+							<f:ajax execute="inputNome inputRG" render="table-operadores semResultado" />
+						</h:commandLink>
+						<span> </span>
+						<h:commandLink actionListener="#{funcionarioMB.redirectAdd}"
+							styleClass="btn btn-success" title="Adicionar Funcionário">
+							<span class="glyphicon glyphicon-plus" aria-hidden="true" /> Adicionar
+						</h:commandLink>
+					</div>
+					<br />
+				</div>
+			</div>
+			
+			<div align="center">
+				<h:outputLabel for="tabelaVazia" class="glyphicon glyphicon-alert bigWarningSign"
+					rendered="#{empty funcionarioMB.listaFuncionarios and funcionarioMB.flagTabela == true}" />
+				<br />
+				<h:outputText id="tabelaVazia" class="emptyTable"
+					rendered="#{empty funcionarioMB.listaFuncionarios and funcionarioMB.flagTabela == true}"
+					value="Ainda não há funcionarios cadastrados.">
+				</h:outputText>
+			</div>
+			
+			<div align="center">
+				<h:outputLabel for="semResultado" class="glyphicon glyphicon-alert bigWarningSign"
+					rendered="#{funcionarioMB.flagTabela == false}" />
+				<br />
+				<h:outputText id="semResultado" class="emptyTable"
+					rendered="#{funcionarioMB.flagTabela == false}"
+					value="A consulta não trouxe resultados.">
+				</h:outputText>
+			</div>
 
-<ol class="breadcrumb">
-  <li><h:outputLink value="/redAmber-WebApp/home/index.xhtml">Página Inicial</h:outputLink></li>
-  <li class="active">Funcionários</li>
-</ol>
+			<h:dataTable id="table-operadores"
+				styleClass="table table-hover table-bordered"
+				value="#{funcionarioMB.listaFuncionarios}" var="funcionario"
+				rendered="#{not empty funcionarioMB.listaFuncionarios and funcionarioMB.flagTabela == true}"
+				emptyMessage="Não há funcionários cadastrados">
 
+				<h:column>
+					<f:facet name="header">Tipo</f:facet>
+					<h:outputText value="#{funcionario.tipoFuncionarioString}" />
+				</h:column>
 
+				<h:column>
+					<f:facet name="header">Nome</f:facet>
+					<h:outputText value="#{funcionario.nome}" />
+				</h:column>
 
-<div class="areaPlus">
-	<h:commandLink actionListener="#{funcionarioMB.redirectAdd}" styleClass="btn btn-success">Adicionar</h:commandLink>
-</div>
+				<h:column>
+					<f:facet name="header">E-mail</f:facet>
+					<h:outputText value="#{funcionario.email}" />
+				</h:column>
 
+				<h:column>
+					<f:facet name="header">Telefone</f:facet>
+					<h:outputText value="#{funcionario.telefone}" />
+				</h:column>
 
+				<h:column>
+					<f:facet name="header">Status</f:facet>
+					<h:outputText value="#{funcionario.status}"
+					converter="statusUsuarioConverter" />
+				</h:column>
 
-<h:dataTable id="table-operadores" styleClass="table table-hover table-bordered" value="#{funcionarioMB.listaFuncionarios}" var="funcionario" emptyMessage="Não há funcionários cadastrados">
-	
-	<h:column>	
-		<f:facet name="header">Tipo</f:facet>
-		<h:outputText value="#{funcionario.tipoFuncionarioString}"></h:outputText>
-	</h:column>
-	
-	<h:column>	
-		<f:facet name="header">Nome</f:facet>
-		<h:outputText value="#{funcionario.nome}"></h:outputText>
-	</h:column>
+				<h:column>
+					<f:facet name="header">Ações</f:facet>
 
-	<h:column>	
-		<f:facet name="header">E-mail</f:facet>
-		<h:outputText value="#{funcionario.email}"></h:outputText>
-	</h:column>
+					<h:commandLink styleClass="btn btn-info btn-acoes" title="Editar Funcionário"
+						actionListener="#{funcionarioMB.redirectEdit}">
+						<span class="glyphicon glyphicon-pencil" aria-hidden="true" /> Editar
+						<f:setPropertyActionListener value="#{funcionario}" 
+							target="#{funcionarioMB.funcionario}" />
+					</h:commandLink>
+				</h:column>
 
-	<h:column>	
-		<f:facet name="header">Telefone</f:facet>
-		<h:outputText value="#{funcionario.telefone}"></h:outputText>
-	</h:column>
-	
-	<h:column>	
-		<f:facet name="header">Status</f:facet>
-		<h:outputText value="#{funcionario.status}"></h:outputText>
-	</h:column>
-	
-	
-	<h:column>
-		<f:facet name="header">Ações</f:facet>
-		
-		<h:commandLink styleClass="btn btn-info btn-acoes" actionListener="#{funcionarioMB.redirectEdit}">
-			<span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>
-			<f:setPropertyActionListener value="#{funcionario}" target="#{funcionarioMB.funcionario}"></f:setPropertyActionListener>
-		</h:commandLink>
-		
-
-
-	
-		
-	
-		
-	</h:column>
-	
-	
-</h:dataTable>
-		
-</h:form>
-    		
+			</h:dataTable>
+		</h:form>
 	</ui:define>
 </ui:composition>

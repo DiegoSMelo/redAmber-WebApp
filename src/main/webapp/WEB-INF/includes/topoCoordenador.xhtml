@@ -1,120 +1,184 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
-	xmlns:ui="http://java.sun.com/jsf/facelets"
-	xmlns:h="http://java.sun.com/jsf/html"
-	xmlns:f="http://java.sun.com/jsf/core">
+xmlns:ui="http://java.sun.com/jsf/facelets"
+xmlns:h="http://java.sun.com/jsf/html"
+xmlns:f="http://java.sun.com/jsf/core">
 <ui:composition>
-	<h:form>
-		<nav class="navbar navbar-default">
-			<div class="container-fluid">
-				<!-- Brand and toggle get grouped for better mobile display -->
-				 <div class="navbar-header" align="center">    
-    <div align="center">
-     <img src='../resources/images/labelredAmber.png' height="40" alt='labeLogo' />
+<h:form>
+<nav class="navbar navbar-default">
+  <div class="container-fluid">
+    <!-- Brand and toggle get grouped for better mobile display -->
+    <div class="navbar-header">     
+ <div align="center">
+ <BR />
+     <img src='../resources/images/labelredAmber.png' height="20" alt='labeLogo' />
     </div> 
     </div>
 
-				<!-- Collect the nav links, forms, and other content for toggling -->
-				<div class="collapse navbar-collapse"
-					id="bs-example-navbar-collapse-1">
+    <!-- Collect the nav links, forms, and other content for toggling -->
+    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            
+      <ul class="nav navbar-nav">
+        <li class="dropdown">
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Funcionário<span class="caret"></span></a>
+          <ul class="dropdown-menu" role="menu">
+            <li><h:outputLink value="/redAmber-WebApp/funcionario/index.xhtml">Funcionários</h:outputLink> </li>
+            <li class="divider"></li>
+            <li><h:commandLink actionListener="#{funcionarioMB.redirectAdd}">Adicionar</h:commandLink></li>
+          </ul>
+        </li>
+      </ul>
 
+      <ul class="nav navbar-nav">
+        <li class="dropdown">
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Aluno<span class="caret"></span></a>
+          <ul class="dropdown-menu" role="menu">
+            <li><h:outputLink value="/redAmber-WebApp/aluno/index.xhtml">Alunos</h:outputLink> </li>
+            <li class="divider"></li>
+            <li><h:commandLink actionListener="#{alunoMB.redirectAdd}">Adicionar</h:commandLink></li>
+            <li class="divider"></li>
+            <li><h:commandLink actionListener="#{avisoAlunoMB.redirectIndex}">Consultar Avisos aos Alunos</h:commandLink></li>
+            <li class="divider"></li>
+            <li><h:commandLink actionListener="#{avisoAlunoMB.redirectAdd}">Avisar Alunos</h:commandLink></li>
+          </ul>
+        </li>
+      </ul>
 
-					<ul class="nav navbar-nav">
+       <ul class="nav navbar-nav">
+        <li class="dropdown">
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Professor<span class="caret"></span></a>
+          <ul class="dropdown-menu" role="menu">
+            <li><h:outputLink value="/redAmber-WebApp/professor/index.xhtml">Professores</h:outputLink> </li>
+            <li class="divider"></li>
+            <li><h:commandLink actionListener="#{professorMB.redirectAdd}">Adicionar</h:commandLink></li>
+            <li class="divider"></li>
+            <li><h:commandLink actionListener="#{avisoProfessorMB.redirectIndex}">Consultar Avisos dos Professores</h:commandLink></li>
+            <li class="divider"></li>
+            <li><h:commandLink actionListener="#{avisoProfessorMB.redirectAdd}">Avisar Secretaria</h:commandLink></li>
+          </ul>
+        </li>
+      </ul>
 
-						<li class="dropdown"><a href="#" class="dropdown-toggle"
-							data-toggle="dropdown" role="button" aria-expanded="false">Aluno<span
-								class="caret"></span></a>
-							<ul class="dropdown-menu" role="menu">
-								<li><h:outputLink
-										value="/redAmber-WebApp/aluno/index.xhtml">Alunos</h:outputLink>
-								</li>
-								<li class="divider"></li>
-								<li><h:commandLink actionListener="#{alunoMB.redirectAdd}">Adicionar</h:commandLink></li>
-							</ul></li>
-					</ul>
+       <ul class="nav navbar-nav">
+        <li class="dropdown">
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Disciplina<span class="caret"></span></a>
+          <ul class="dropdown-menu" role="menu">
+            <li><h:outputLink value="/redAmber-WebApp/disciplina/index.xhtml">Disciplinas</h:outputLink> </li>
+            <li class="divider"></li>
+            <li><h:commandLink actionListener="#{disciplinaMB.redirectAdd}">Adicionar</h:commandLink></li>
+          </ul>
+        </li>
+      </ul>
+      
+      <ul class="nav navbar-nav">
+        <li class="dropdown">
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Curso<span class="caret"></span></a>
+          <ul class="dropdown-menu" role="menu">
+            <li><h:outputLink value="/redAmber-WebApp/curso/index.xhtml">Cursos</h:outputLink> </li>
+            <li class="divider"></li>
+            <li><h:commandLink actionListener="#{cursoMB.redirectAdd}">Adicionar</h:commandLink></li>
+          </ul>
+        </li>
+      </ul>
+      
+      <ul class="nav navbar-nav">
+        <li class="dropdown">
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Turma<span class="caret"></span></a>
+          <ul class="dropdown-menu" role="menu">
+            <li><h:outputLink value="/redAmber-WebApp/turma/index.xhtml">Turmas</h:outputLink> </li>
+            <li class="divider"></li>
+            <li><h:commandLink actionListener="#{turmaMB.redirectAdd}">Adicionar</h:commandLink></li>
+          </ul>
+        </li>
+      </ul>
 
+      <ul class="nav navbar-nav">        
+        <li class="dropdown">
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Duração da Aula<span class="caret"></span></a>
+          <ul class="dropdown-menu" role="menu">
+            <li><h:outputLink value="/redAmber-WebApp/duracaoaula/index.xhtml">Durações das Aulas</h:outputLink> </li>
+            <li class="divider"></li>
+            <li><h:commandLink actionListener="#{duracaoAulaMB.redirectAdd}">Adicionar</h:commandLink></li>
+          </ul>
+        </li>
+      </ul>
 
+      <ul class="nav navbar-nav">
+        <li class="dropdown">
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Sala<span class="caret"></span></a>
+          <ul class="dropdown-menu" role="menu">
+            <li><h:outputLink value="/redAmber-WebApp/sala/index.xhtml">Salas</h:outputLink> </li>
+            <li class="divider"></li>
+            <li><h:commandLink actionListener="#{salaMB.redirectAdd}">Adicionar</h:commandLink></li>
+            <li class="divider"></li>
+            <li><h:commandLink actionListener="#{reservaSalaMB.redirectIndex}">Reservas de Sala</h:commandLink></li>
+            <li class="divider"></li>
+            <li><h:commandLink actionListener="#{reservaSalaMB.redirectAdd}">Reservar</h:commandLink></li>
+          </ul>
+        </li>
+      </ul>
 
-					<ul class="nav navbar-nav">
+      <ul class="nav navbar-nav">
+        <li class="dropdown">
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Equipamento<span class="caret"></span></a>
+          <ul class="dropdown-menu" role="menu">
+            <li><h:outputLink value="/redAmber-WebApp/equipamento/index.xhtml">Equipamentos</h:outputLink> </li>
+            <li class="divider"></li>
+            <li><h:commandLink actionListener="#{equipamentoMB.redirectAdd}">Adicionar</h:commandLink></li>
+            <li class="divider"></li>
+            <li><h:commandLink actionListener="#{reservaEquipamentoMB.redirectIndex}">Reservas de Equipamento</h:commandLink></li>
+            <li class="divider"></li>
+            <li><h:commandLink actionListener="#{reservaEquipamentoMB.redirectAdd}">Reservar</h:commandLink></li>
+          </ul>
+        </li>
+      </ul>
 
-						<li class="dropdown"><a href="#" class="dropdown-toggle"
-							data-toggle="dropdown" role="button" aria-expanded="false">Funcionário<span
-								class="caret"></span></a>
-							<ul class="dropdown-menu" role="menu">
-								<li><h:outputLink
-										value="/redAmber-WebApp/funcionario/index.xhtml">Funcionários</h:outputLink>
-								</li>
-								<li class="divider"></li>
-								<li><h:commandLink
-										actionListener="#{funcionarioMB.redirectAdd}">Adicionar</h:commandLink></li>
-							</ul></li>
-					</ul>
+      <ul class="nav navbar-nav">
+        <li class="dropdown">
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Integração<span class="caret"></span></a>
+          <ul class="dropdown-menu" role="menu">
+            <li><h:outputLink value="/redAmber-WebApp/teste_integracao/index.xhtml">Alunos Educa Mais</h:outputLink> </li>
+           </ul>
+        </li>
+      </ul>
 
+       <ul class="nav navbar-nav navbar-right">
 
-					<ul class="nav navbar-nav">
-
-						<li class="dropdown"><a href="#" class="dropdown-toggle"
-							data-toggle="dropdown" role="button" aria-expanded="false">Disciplina<span
-								class="caret"></span></a>
-							<ul class="dropdown-menu" role="menu">
-								<li><h:outputLink
-										value="/redAmber-WebApp/disciplina/index.xhtml">Disciplinas</h:outputLink>
-								</li>
-								<li class="divider"></li>
-								<li><h:commandLink
-										actionListener="#{disciplinaMB.redirectAdd}">Adicionar</h:commandLink></li>
-							</ul></li>
-					</ul>
-
-
-					<ul class="nav navbar-nav">
-
-						<li class="dropdown"><a href="#" class="dropdown-toggle"
-							data-toggle="dropdown" role="button" aria-expanded="false">Professor<span
-								class="caret"></span></a>
-							<ul class="dropdown-menu" role="menu">
-								<li><h:outputLink
-										value="/redAmber-WebApp/professor/index.xhtml">Professores</h:outputLink>
-								</li>
-								<li class="divider"></li>
-								<li><h:commandLink
-										actionListener="#{professorMB.redirectAdd}">Adicionar</h:commandLink></li>
-							</ul></li>
-					</ul>
-
-					<ul class="nav navbar-nav">
-
-						<li class="dropdown"><a href="#" class="dropdown-toggle"
-							data-toggle="dropdown" role="button" aria-expanded="false">Curso<span
-								class="caret"></span></a>
-							<ul class="dropdown-menu" role="menu">
-								<li><h:outputLink
-										value="/redAmber-WebApp/curso/index.xhtml">Cursos</h:outputLink>
-								</li>
-								<li class="divider"></li>
-								<li><h:commandLink actionListener="#{cursoMB.redirectAdd}">Adicionar</h:commandLink></li>
-							</ul></li>
-					</ul>
-
-
-					<ul class="nav navbar-nav">
-
-						<li class="dropdown"><a href="#" class="dropdown-toggle"
-							data-toggle="dropdown" role="button" aria-expanded="false">Turma<span
-								class="caret"></span></a>
-							<ul class="dropdown-menu" role="menu">
-								<li><h:outputLink
-										value="/redAmber-WebApp/turma/index.xhtml">Turmas</h:outputLink>
-								</li>
-								<li class="divider"></li>
-								<li><h:commandLink actionListener="#{turmaMB.redirectAdd}">Adicionar</h:commandLink></li>
-							</ul></li>
-					</ul>
-
-				</div>
-				<!-- /.navbar-collapse -->
-			</div>
-			<!-- /.container-fluid -->
-		</nav>
-	</h:form>
+           <li class="dropdown">
+       		  
+      		    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"> <h:outputText value="#{loginMB.usuarioLogado.nome}" /> <span class="caret"></span></a>      		   
+      		    <ul class="dropdown-menu" role="menu">
+     		       <li><a href="#"><h:outputText value="#{loginMB.usuarioLogado.usuario.login}" /></a></li>
+     		       
+       		     <li class="divider"></li>
+       		     
+       		     <li>	
+       		     
+       		     	<div class="botao-dropdown"> 
+						<h:commandLink actionListener="#{loginMB.logout}">
+							<span class="glyphicon glyphicon-off" aria-hidden="true"></span> Sair
+						</h:commandLink>
+						
+					</div>
+				</li>
+       		   </ul>
+      					
+           </li>
+           
+        </ul>
+        
+        
+     <!-- coordenador -->
+        
+        
+        
+        
+        
+        
+        
+        
+    </div><!-- /.navbar-collapse -->
+  </div><!-- /.container-fluid -->
+</nav>
+</h:form>
 </ui:composition>
 </html>

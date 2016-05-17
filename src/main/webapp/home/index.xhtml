@@ -1,17 +1,30 @@
 <ui:composition xmlns="http://www.w3.org/1999/xhtml"
-xmlns:ui="http://java.sun.com/jsf/facelets"
-xmlns:h="http://java.sun.com/jsf/html"
-xmlns:f="http://java.sun.com/jsf/core"
-template="#{beanGeral.template}">
-
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core" template="#{beanGeral.template}">
 	<ui:define name="body">
-<h:form>	
+		<h:form>
 
-<ol class="breadcrumb">
-  <li><h:outputLink value="/redAmber-WebApp/home/index.xhtml">Página Inicial</h:outputLink></li>
-  
-</ol>
- 
-</h:form>		
+			<ol class="breadcrumb">
+				<li>
+					<h:outputLink value="/redAmber-WebApp/home/index.xhtml">Página Inicial</h:outputLink>
+				</li>
+			</ol>
+			
+			<h:panelGrid id="painel" columns="1" border="0">
+				<f:facet name="header">Resumo do dia</f:facet>
+				<p></p>
+				<h:commandLink title="Clique para ver os avisos dos professores"  
+					value="Avisos de Professores: #{paginaInicialMB.numeroAvisosProfessor}" 
+					actionListener="#{paginaInicialMB.redirectAvisoProfessor}" />
+				<h:commandLink title="Clique para para ver os pedidos de reserva de equipamentos"
+					value="Reservas de Equipamentos: #{paginaInicialMB.numeroReservasEquipamento}" 
+					actionListener="#{paginaInicialMB.redirectReservaEquipamento}" />
+				<h:commandLink title="Clique para ver os pedidos de reserva de salas"  
+					value="Reservas de Salas: #{paginaInicialMB.numeroReservasSala}" 
+					actionListener="#{paginaInicialMB.redirectReservaSala}" />
+			</h:panelGrid>
+
+		</h:form>
 	</ui:define>
 </ui:composition>

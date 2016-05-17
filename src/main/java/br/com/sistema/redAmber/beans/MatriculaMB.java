@@ -27,7 +27,9 @@ import br.com.sistema.redAmber.basicas.Aluno;
 import br.com.sistema.redAmber.basicas.Curso;
 import br.com.sistema.redAmber.basicas.Grade;
 import br.com.sistema.redAmber.basicas.Matricula;
+import br.com.sistema.redAmber.basicas.Turma;
 import br.com.sistema.redAmber.basicas.enums.StatusMatricula;
+import br.com.sistema.redAmber.basicas.enums.TipoTurno;
 import br.com.sistema.redAmber.util.Mensagens;
 import br.com.sistema.redAmber.util.URLUtil;
 
@@ -43,25 +45,32 @@ public class MatriculaMB {
 	private Grade gradeSelecionada;
 	private List<Grade> listaGrades;
 	private Integer entrada;
+	private Turma turma;
+	private List<Turma> listaTurmas;
+	private TipoTurno turno;
 	private boolean isPagAdd;
 	
-	public void redirectIndex(){
+	public void redirectIndex() {
 		try {
-			
+			matricula = new Matricula();
+			cursoSelecionado = null;
+			gradeSelecionada = new Grade();
+			entrada = null;
+			turma = new Turma();
+			turno = null;
+			this.setPagAdd(false);
 			FacesContext.getCurrentInstance().getExternalContext().redirect("/redAmber-WebApp/matricula/index.xhtml");
-
 		} catch (IOException e) {
 			RequestContext.getCurrentInstance().execute("alert('"+e.getMessage()+"');");
 		}
 	}
 	
-	public void redirectAdd(){
+	public void redirectAdd() {
 		try {
 			this.setPagAdd(true);
 			this.setMatricula(new Matricula());
 			this.matricula.setAluno(this.getAluno());
 			FacesContext.getCurrentInstance().getExternalContext().redirect("/redAmber-WebApp/matricula/add.xhtml");
-
 		} catch (IOException e) {
 			RequestContext.getCurrentInstance().execute("alert('"+e.getMessage()+"');");
 		}
@@ -85,6 +94,8 @@ public class MatriculaMB {
 		if (this.getGradeSelecionada() == null) {
 			RequestContext.getCurrentInstance().execute("alert('" + Mensagens.m12 + "');");
 			//return null;
+		} else if (this.getTurma() == null) {
+			RequestContext.getCurrentInstance().execute("alert('" + Mensagens.m15 + "');");
 		} else {
 			try {
 				String codigoMatricula = gerarCodigoMatricula();
@@ -113,7 +124,8 @@ public class MatriculaMB {
 					this.getMatricula().setDataMatricula(cal);
 					this.getMatricula().setGrade(this.getGradeSelecionada());
 					this.getMatricula().setEntrada(this.getEntrada());
-					this.getMatricula().setStatus(StatusMatricula.ATIVO);
+					this.getMatricula().setTurma(this.getTurma());
+					this.getMatricula().setStatus(StatusMatricula.ATIVA);
 					
 					ClientConfig clientConfig = new DefaultClientConfig();
 					clientConfig.getFeatures().put(JSONConfiguration.FEATURE_POJO_MAPPING, Boolean.TRUE);
@@ -125,13 +137,13 @@ public class MatriculaMB {
 					if (response.getStatus() == 200) {
 						redirectIndex();
 					} else {
-						RequestContext.getCurrentInstance().execute("alert('" + Mensagens.m13 + "');");
+						RequestContext.getCurrentInstance().execute("alert('" + Mensagens.m23 + "');");
 					}
 				} else if (matriculaJaExiste != null) {
 					RequestContext.getCurrentInstance().execute("alert('" + Mensagens.m14 + "');");
 				}
 			} catch (Exception e) {
-				RequestContext.getCurrentInstance().execute("alert('" + Mensagens.m13 + "');");
+				RequestContext.getCurrentInstance().execute("alert('" + Mensagens.m23 + "');");
 				e.printStackTrace();
 			}
 			//return null;
@@ -163,6 +175,8 @@ public class MatriculaMB {
 
 		if (this.getMatricula().getGrade() == null) {
 			RequestContext.getCurrentInstance().execute("alert('" + Mensagens.m12 + "');");
+		} else if (this.getMatricula().getTurma() == null) {
+			RequestContext.getCurrentInstance().execute("alert('" + Mensagens.m15 + "');");
 		} else {
 			try {
 				String novoCodigoMatricula = modificarCodigoMatricula();
@@ -177,10 +191,10 @@ public class MatriculaMB {
 				if (response.getStatus() == 200) {
 					redirectIndex();
 				} else {
-					RequestContext.getCurrentInstance().execute("alert('" + Mensagens.m13 + "');");
+					RequestContext.getCurrentInstance().execute("alert('" + Mensagens.m23 + "');");
 				}
 			} catch (Exception e) {
-				RequestContext.getCurrentInstance().execute("alert('" + Mensagens.m13 + "');");
+				RequestContext.getCurrentInstance().execute("alert('" + Mensagens.m23 + "');");
 				e.printStackTrace();
 			}
 			//return null;
@@ -191,11 +205,12 @@ public class MatriculaMB {
 	 * Método que atualiza o código de uma matrícula previamente efetuada
 	 */
 	public String modificarCodigoMatricula() {
-		Date date = new Date();
-		Calendar cal = Calendar.getInstance();
-	    cal.setTime(date);
-	    
-		String paramAno = Integer.toString(cal.get(Calendar.YEAR));
+//		Date date = new Date();
+//		Calendar cal = Calendar.getInstance();
+//	    cal.setTime(date);
+//	    
+//		String paramAno = Integer.toString(cal.get(Calendar.YEAR));
+		String paramAno = this.getMatricula().getCodigoMatricula().substring(0, 4);
 		String paramAluno = String.format("%06d",this.getAluno().getId());
 		
 		String codigoMatricula = paramAno + this.getMatricula().getEntrada() + 
@@ -207,7 +222,6 @@ public class MatriculaMB {
 	public void atualizarListaGrades(ValueChangeEvent event) {
 		try {
 			this.cursoSelecionado = Long.parseLong(event.getNewValue().toString());
-			System.out.println("NOME DO CURSO: " + this.getCursoSelecionado());
 			Client c = new Client();
 			WebResource wr = c.resource(URLUtil.LISTAR_GRADES_POR_CURSO + this.getCursoSelecionado());
 			String jsonResult = wr.get(String.class);
@@ -216,6 +230,32 @@ public class MatriculaMB {
 				
 				Grade[] lista = gson.fromJson(jsonResult, Grade[].class);
 				this.setListaGrades(Arrays.asList(lista));
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public void atualizarListaTurmas(ValueChangeEvent event) {
+		
+		try {
+			this.turno = (TipoTurno) event.getNewValue();
+			Client c = new Client();
+			WebResource wr = null;
+			if (this.getCursoSelecionado() == null) {
+				wr = c.resource(URLUtil.LISTAR_TURMAS);
+			} else {
+				wr = c.resource(URLUtil.LISTAR_TURMAS_POR_CURSO_TURNO + 
+						URLEncoder.encode(getCursoSelecionado().toString(),
+								java.nio.charset.StandardCharsets.UTF_8.toString()) + "/" + 
+						this.getTurno().name());
+			}
+			String jsonResult = wr.get(String.class);
+		    if (!jsonResult.equalsIgnoreCase("null")) {
+				Gson gson = new Gson();
+				
+				Turma[] lista = gson.fromJson(jsonResult, Turma[].class);
+				this.setListaTurmas(Arrays.asList(lista));
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -324,6 +364,58 @@ public class MatriculaMB {
 
 	public void setEntrada(Integer entrada) {
 		this.entrada = entrada;
+	}
+	
+	public Turma getTurma() {
+		return turma;
+	}
+	
+	public void setTurma(Turma turma) {
+		this.turma = turma;
+	}
+	
+	public List<Turma> getListaTurmas() {
+		
+		try {
+			setListaTurmas(null);
+			Client c = new Client();
+			WebResource wr = null;
+			if (this.getCursoSelecionado() == null) {
+				wr = c.resource(URLUtil.LISTAR_TURMAS);
+			} else {
+				wr = c.resource(URLUtil.LISTAR_TURMAS_POR_CURSO_TURNO + 
+						URLEncoder.encode(getCursoSelecionado().toString(),
+								java.nio.charset.StandardCharsets.UTF_8.toString()) + "/" + 
+						URLEncoder.encode(getTurno().toString(),
+								java.nio.charset.StandardCharsets.UTF_8.toString()));
+			}
+			String jsonResult = wr.get(String.class);
+			if (!jsonResult.equalsIgnoreCase("null")) {
+				Gson gson = new Gson();
+				
+				Turma[] lista = gson.fromJson(jsonResult, Turma[].class);
+				this.listaTurmas = Arrays.asList(lista);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return listaTurmas;
+	}
+	
+	public void setListaTurmas(List<Turma> listaTurmas) {
+		this.listaTurmas = listaTurmas;
+	}
+	
+	public TipoTurno getTurno() {
+		return turno;
+	}
+	
+	public void setTurno(TipoTurno turno) {
+		this.turno = turno;
+	}
+	
+	public TipoTurno[] getTurnos() {
+		return TipoTurno.values();
 	}
 	
 	public boolean isPagAdd() {

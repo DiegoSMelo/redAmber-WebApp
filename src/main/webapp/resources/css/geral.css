@@ -6,6 +6,11 @@
  margin-left: 10px;
 }
 
+.btn-acoes-grade-aulas{
+ margin-left: -8px;
+ margin-top: -10px;
+}
+
 .areaPlus{
  margin-bottom: 15px;
 }
@@ -32,4 +37,26 @@
 .form-periodo{
  margin-left: 16px;
  margin-right: -16px;
+}
+
+.indicatorDragDrop{
+ width: 45px;
+}
+
+#btnAddHorario{
+ margin-left: -15px;
+}
+
+.btnModal{
+ margin-right: 150px;
+}
+
+.emptyTable {
+ font-size: 15px;
+ color: red;
+}
+
+.bigWarningSign {
+ font-size: 50px;
+ color: red;
 }
