@@ -62,8 +62,14 @@
 				
 				<h:column>
 					<f:facet name="header">Ações</f:facet>
-
-					<h:commandLink styleClass="btn btn-success" title="Receber Aviso"
+					
+					
+					<h:commandLink styleClass="btn btn-success" title="Aviso Recebido" disabled="true"
+						rendered="#{avisoProfessorMB.verificarStatus(avisoProfessor.id) == false}">
+						<span class="glyphicon glyphicon-thumbs-up" aria-hidden="true" /> Recebido
+					</h:commandLink><span> </span>
+					<h:commandLink styleClass="btn btn-primary" title="Receber Aviso"
+						rendered="#{avisoProfessorMB.verificarStatus(avisoProfessor.id) == true}"
 						actionListener="#{avisoProfessorMB.redirectApproval}">
 						<span class="glyphicon glyphicon-ok" aria-hidden="true" /> Receber
 						<f:setPropertyActionListener value="#{avisoProfessor}"

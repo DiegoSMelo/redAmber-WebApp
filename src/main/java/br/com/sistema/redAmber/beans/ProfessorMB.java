@@ -26,6 +26,7 @@ import com.sun.jersey.api.json.JSONConfiguration;
 import br.com.sistema.redAmber.basicas.BuscaProfessor;
 import br.com.sistema.redAmber.basicas.Disciplina;
 import br.com.sistema.redAmber.basicas.Professor;
+import br.com.sistema.redAmber.basicas.Usuario;
 import br.com.sistema.redAmber.basicas.enums.StatusUsuario;
 import br.com.sistema.redAmber.util.Mensagens;
 import br.com.sistema.redAmber.util.URLUtil;
@@ -38,10 +39,12 @@ public class ProfessorMB {
 	private List<Professor> listaProfessores;
 	private boolean isPagAdd;
 	private Disciplina disciplina;
+	private Usuario usuario;
 	private BuscaProfessor buscaProfessor;
 	private boolean flagTabela;
 	private boolean flagDisciplina;
-
+	private String senhaConfirmacao;
+	
 	public ProfessorMB() {
 		this.professor = new Professor();
 		this.disciplina = new Disciplina();
@@ -50,6 +53,17 @@ public class ProfessorMB {
 		this.buscaProfessor.setRg("");
 		this.setFlagTabela(true);
 		this.setFlagDisciplina(false);
+		usuario = new Usuario();
+	}
+
+	public void adicionarLoginProfessor(ActionEvent event) {
+		if (!this.getSenhaConfirmacao().equals(this.getUsuario().getSenha())) {
+			RequestContext.getCurrentInstance().execute("alert('" + Mensagens.m29 + "');");
+		} else {
+			this.getUsuario().setId(this.getProfessor().getId());
+			this.getProfessor().setUsuario(this.getUsuario());
+			this.salvar();
+		}
 	}
 	
 	public void atualizaLista(ActionEvent event) {
@@ -211,6 +225,15 @@ public class ProfessorMB {
 		}
 	}
 
+	public void redirectAddUser() {
+		try {
+			this.setPagAdd(false);
+			FacesContext.getCurrentInstance().getExternalContext().redirect("/redAmber-WebApp/professor/user.xhtml");
+		} catch (IOException e) {
+			RequestContext.getCurrentInstance().execute("alert('" + e.getMessage() + "');");
+		}
+	}
+	
 	public Professor getProfessor() {
 		if (this.professor.getListDisciplinas() == null) {
 			this.professor.setListDisciplinas(new ArrayList<Disciplina>());
@@ -276,6 +299,17 @@ public class ProfessorMB {
 	public void setDisciplina(Disciplina disciplina) {
 		this.disciplina = disciplina;
 	}
+	
+	public Usuario getUsuario() {
+		if (this.professor.getUsuario() != null) {
+			this.usuario = this.getProfessor().getUsuario();
+		}
+		return usuario;
+	}
+
+	public void setUsuario(Usuario usuario) {
+		this.usuario = usuario;
+	}
 
 	public StatusUsuario[] getStatusUsuario() {
 		return StatusUsuario.values();
@@ -303,5 +337,13 @@ public class ProfessorMB {
 
 	public void setFlagDisciplina(boolean flagDisciplina) {
 		this.flagDisciplina = flagDisciplina;
+	}
+
+	public String getSenhaConfirmacao() {
+		return senhaConfirmacao;
+	}
+
+	public void setSenhaConfirmacao(String senhaConfirmacao) {
+		this.senhaConfirmacao = senhaConfirmacao;
 	}
 }

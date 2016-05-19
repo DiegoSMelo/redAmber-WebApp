@@ -11,7 +11,7 @@
 					<h:outputLink value="/redAmber-WebApp/home/index.xhtml">Página Inicial</h:outputLink>
 				</li>
 				<li><h:outputLink 
-						value="/redAmber-WebApp/teste_integracao/index.xhtml">Alunos</h:outputLink>
+						value="/redAmber-WebApp/aluno/index.xhtml">Alunos</h:outputLink>
 				</li>
 				<li class="active">Matrículas do Aluno <h:outputText 
 					value="#{matriculaNewMB.aluno.nome}" />
@@ -55,6 +55,11 @@
 					<f:facet name="header">Grade</f:facet>
 					<h:outputText value="#{matricula.grade.titulo}" />
 				</h:column>
+				
+				<h:column>
+					<f:facet name="header">Turma</f:facet>
+					<h:outputText value="#{matricula.turma.nome}" />
+				</h:column>
 
 				<h:column>
 					<f:facet name="header">Data de Matrícula</f:facet>
@@ -77,6 +82,8 @@
 						<span class="glyphicon glyphicon-pencil" aria-hidden="true" /> Editar
 						<f:setPropertyActionListener value="#{matricula}" 
 							target="#{matriculaNewMB.matricula}" />
+						<f:setPropertyActionListener value="#{matricula.grade.curso.id}" 
+							target="#{matriculaNewMB.idComparacao}" />
 					</h:commandLink>
 
 				</h:column>

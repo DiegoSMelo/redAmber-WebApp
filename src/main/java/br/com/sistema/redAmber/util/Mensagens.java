@@ -11,7 +11,7 @@ public class Mensagens {
 	public static String m4 = "Aluno já cadastrado.";
 	public static String m5 = "Professor já cadastrado.";
 	public static String m6 = "Funcionário já cadastrado.";
-	public static String m7 = "Disciplina já cadastrada.";
+	public static String m7 = "Disciplina já cadastrada para este curso.";
 	public static String m8 = "Curso já cadastrado.";
 	public static String m9 = "Este usuário encontra-se inativo. Entre em contato com a coordenação.";
 	public static String m10 = "Erro ao salvar período.";
@@ -33,6 +33,8 @@ public class Mensagens {
 	public static String m26 = "Sala já reservada para esse dia e horário.";
 	public static String m27 = "Servidor indisponível, tente novamente.";
 	public static String m28 = "A busca não retornou resultado";
+	public static String m29 = "A senha de confirmação não confere com a primeira.";
+	public static String m30 = "Login e/ou senha vazios.";
 	
 	
 	//

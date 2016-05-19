@@ -25,6 +25,7 @@ import com.sun.jersey.api.json.JSONConfiguration;
 
 import br.com.sistema.redAmber.basicas.Aluno;
 import br.com.sistema.redAmber.basicas.BuscaAluno;
+import br.com.sistema.redAmber.basicas.Usuario;
 import br.com.sistema.redAmber.basicas.enums.StatusUsuario;
 import br.com.sistema.redAmber.util.Mensagens;
 import br.com.sistema.redAmber.util.URLUtil;
@@ -38,6 +39,8 @@ public class AlunoMB {
 	private boolean isPagAdd;
 	private BuscaAluno buscaAluno;
 	private boolean flagTabela;
+	private Usuario usuario;
+	private String senhaConfirmacao;
 
 	public AlunoMB() {
 		this.aluno = new Aluno();
@@ -45,6 +48,7 @@ public class AlunoMB {
 		this.buscaAluno.setNome("");
 		this.buscaAluno.setRg("");
 		this.setFlagTabela(true);
+		usuario = new Usuario();
 	}
 	
 	public void atualizaLista(ActionEvent event) {
@@ -66,6 +70,16 @@ public class AlunoMB {
 		}
 	}
 
+	public void adicionarLoginAluno(ActionEvent event) {
+		if (!this.getSenhaConfirmacao().equals(this.getUsuario().getSenha())) {
+			RequestContext.getCurrentInstance().execute("alert('" + Mensagens.m29 + "');");
+		} else {
+			this.getUsuario().setId(this.getAluno().getId());
+			this.getAluno().setUsuario(this.getUsuario());
+			this.salvar();
+		}
+	}
+	
 	public void salvar() {
 		try {
 			Aluno alunoJaExiste = null;
@@ -129,6 +143,15 @@ public class AlunoMB {
 		}
 	}
 
+	public void redirectAddUser() {
+		try {
+			this.setPagAdd(false);
+			FacesContext.getCurrentInstance().getExternalContext().redirect("/redAmber-WebApp/aluno/user.xhtml");
+		} catch (IOException e) {
+			RequestContext.getCurrentInstance().execute("alert('" + e.getMessage() + "');");
+		}
+	}
+	
 	public Aluno getAluno() {
 		return aluno;
 	}
@@ -203,5 +226,24 @@ public class AlunoMB {
 
 	public void setFlagTabela(boolean flagTabela) {
 		this.flagTabela = flagTabela;
+	}
+
+	public Usuario getUsuario() {
+		if (this.aluno.getUsuario() != null) {
+			this.usuario = this.getAluno().getUsuario();
+		}
+		return usuario;
+	}
+
+	public void setUsuario(Usuario usuario) {
+		this.usuario = usuario;
+	}
+
+	public String getSenhaConfirmacao() {
+		return senhaConfirmacao;
+	}
+
+	public void setSenhaConfirmacao(String senhaConfirmacao) {
+		this.senhaConfirmacao = senhaConfirmacao;
 	}
 }

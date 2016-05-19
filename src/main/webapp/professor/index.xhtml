@@ -112,6 +112,12 @@
 						<f:setPropertyActionListener value="#{professor}" 
 							target="#{professorMB.professor}" />
 					</h:commandLink>
+					
+					<h:commandLink styleClass="btn btn-warning btn-acoes"
+						actionListener="#{professorMB.redirectAddUser}" title="Adicionar Login/Senha">
+						<span class="glyphicon glyphicon-road" aria-hidden="true" /> Acesso
+						<f:setPropertyActionListener value="#{professor}" target="#{professorMB.professor}" />
+					</h:commandLink>
 
 					<h:commandLink styleClass="btn btn-info btn-acoes" 
 						title="Disciplinas Ministradas pelo Professor"

@@ -35,6 +35,16 @@ public class AvisoProfessorMB {
 	private List<Professor> listaProfessores;
 	private boolean isPagAdd;
 	
+	public boolean verificarStatus(Long id) {
+		int gat = 0;
+		for (AvisoProfessor aviso : this.listaAvisoProfessor) {
+			if (aviso.getId() == id && aviso.getStatusAvisoProfessor() == StatusAvisoProfessor.ENVIADO) {
+				gat = 1;
+			}
+		}
+		return gat == 1;
+	}
+	
 	public void salvar() {
 		
 		try {

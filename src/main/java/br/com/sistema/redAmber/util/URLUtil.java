@@ -10,15 +10,15 @@ public abstract class URLUtil {
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	//                                           SUMÁRIO                                         //
 	///////////////////////////////////////////////////////////////////////////////////////////////
-	// URL BASE    -> LINHAS:  37 ~  39 / EQUIPAMENTO                       -> LINHAS: 246 ~ 263 //
-	// ALUNO       -> LINHAS:  41 ~  66 / SALA                              -> LINHAS: 265 ~ 282 //
-	// FUNCIONÁRIO -> LINHAS:  68 ~  97 / DURAÇÃO DE AULA                   -> LINHAS: 284 ~ 301 //
-	// PROFESSOR   -> LINHAS:  99 ~ 124 / RESERVA DE EQUIPAMENTO            -> LINHAS: 303 ~ 324 //
-	// MATRÍCULA   -> LINHAS: 126 ~ 149 / RESERVA DE SALA                   -> LINHAS: 326 ~ 347 //
-	// CURSO       -> LINHAS: 151 ~ 168 / AVISO DO PROFESSOR                -> LINHAS: 349 ~ 364 //
-	// DISCIPLINA  -> LINHAS: 170 ~ 187 / AVISO AO ALUNO                    -> LINHAS: 366 ~ 379 //
-	// TURMA       -> LINHAS: 189 ~ 206 / MATRÍCULA-INTEGRAÇÃO (EDUCA MAIS) -> LINHAS: 381 ~ 406 //
-	// GRADE       -> LINHAS: 208 ~ 244 / HORÁRIO DAS AULAS                 -> LINHAS: 408 ~ 443 // 
+	// URL BASE    -> LINHAS:  37 ~  39 / EQUIPAMENTO                       -> LINHAS: 254 ~ 271 //
+	// ALUNO       -> LINHAS:  41 ~  66 / SALA                              -> LINHAS: 273 ~ 290 //
+	// FUNCIONÁRIO -> LINHAS:  68 ~  97 / DURAÇÃO DE AULA                   -> LINHAS: 292 ~ 309 //
+	// PROFESSOR   -> LINHAS:  99 ~ 124 / RESERVA DE EQUIPAMENTO            -> LINHAS: 311 ~ 332 //
+	// MATRÍCULA   -> LINHAS: 126 ~ 149 / RESERVA DE SALA                   -> LINHAS: 334 ~ 355 //
+	// CURSO       -> LINHAS: 151 ~ 168 / AVISO DO PROFESSOR                -> LINHAS: 357 ~ 374 //
+	// DISCIPLINA  -> LINHAS: 170 ~ 195 / AVISO AO ALUNO                    -> LINHAS: 376 ~ 389 //
+	// TURMA       -> LINHAS: 197 ~ 214 / MATRÍCULA-INTEGRAÇÃO (EDUCA MAIS) -> LINHAS: 391 ~ 416 //
+	// GRADE       -> LINHAS: 216 ~ 252 / HORÁRIO DAS AULAS                 -> LINHAS: 418 ~ 453 // 
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	
 	private static Properties prop;
@@ -26,7 +26,7 @@ public abstract class URLUtil {
 		try {
 			prop = new Properties();
 			prop.load(new FileInputStream(
-					"C:/Users/acmorais/Desktop/Eclipse (Projeto Clone)/workspace/redAmber-WebApp/src/main/resources/url.properties"));
+					"C:/Users/acmorais/workspace/repo/redAmber-WebApp/src/main/resources/url.properties"));
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
@@ -178,11 +178,19 @@ public abstract class URLUtil {
 	 */
 	public static final String BUSCAR_DISCIPLINA_POR_TITULO = BASE + prop.getProperty("url.buscar.disciplina.por.titulo");
 	/*
+	 * param TITULO_DISCIPLINA & ID_CURSO (GET)
+	 */
+	public static final String BUSCAR_DISCIPLINA_POR_TITULO_E_CURSO = BASE + prop.getProperty("url.buscar.disciplina.por.titulo.e.curso");
+	/*
 	 * param DISCIPLINA (POST)
 	 */
 	public static final String SALVAR_DISCIPLINA = BASE + prop.getProperty("url.salvar.disciplina");
 
-	public static final String LISTAR_DISCIPLINAS = BASE + prop.getProperty("url.lista.disciplinas");	
+	public static final String LISTAR_DISCIPLINAS = BASE + prop.getProperty("url.lista.disciplinas");
+	/*
+	 * param ID_CURSO (GET)
+	 */
+	public static final String LISTAR_DISCIPLINAS_POR_CURSO = BASE + prop.getProperty("url.buscar.disciplinas.por.curso");
 	
 	//////////////////////////////////////////////
 
@@ -358,6 +366,8 @@ public abstract class URLUtil {
 	public static final String SALVAR_AVISO_PROFESSOR = BASE + prop.getProperty("url.salvar.aviso.do.professor");
 
 	public static final String LISTAR_AVISOS_PROFESSORES = BASE + prop.getProperty("url.listar.avisos.do.professor");
+	
+	public static final String LISTAR_AVISOS_PROFESSORES_PENDENTES = BASE + prop.getProperty("url.listar.avisos.do.professor.pendentes");
 
 	public static final String NUMERO_AVISOS_PROFESSORES_HOJE = BASE + prop.getProperty("url.numero.de.avisos.de.professores.do.dia");	
 	

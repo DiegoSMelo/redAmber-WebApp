@@ -40,14 +40,39 @@
 					<h:message styleClass="text-danger" for="inputDescricao" id="inputDescricaoMSG" />
 				</div>
 			</div>
-
+			
+			<div class="form-group">
+				<h:outputLabel value="Curso" for="inputCurso"
+					styleClass="col-sm-2 control-label" />
+				<div class="col-sm-5">
+					<h:selectOneMenu id="inputCurso" styleClass="form-control" required="true"
+						requiredMessage="Escolha o curso do qual a disciplina pertence." 
+						value="#{disciplinaMB.disciplina.curso}" converter="cursoConverter">
+						<f:selectItem itemValue="#{null}" itemLabel="Escolha o Curso" />
+						<f:selectItems value="#{disciplinaMB.listaCursos}" var="curso"
+							itemValue="#{curso}" itemLabel="#{curso.nome}" />
+					</h:selectOneMenu>
+					<h:message styleClass="text-danger" for="inputCurso" id="inputCursoMSG" />					
+				</div>
+			</div>
+			
+			<div class="form-group">
+				<h:outputLabel value="Conteúdo Programático" for="inputConteudo"
+					styleClass="col-sm-2 control-label" />
+				<div class="col-sm-10">
+					<h:inputTextarea rows="10" styleClass="form-control" tabindex="2"
+						id="inputConteudo" value="#{disciplinaMB.disciplina.conteudoProgramatico}" 
+						title="Informe o conteúdo programático da disciplina. Ex: Herança, Polimorfismo, etc." />
+				</div>
+			</div>
+			
 			<div class="form-group">
 				<div class="col-sm-offset-2 col-sm-10">
 					<h:commandLink styleClass="btn btn-success" title="Salvar Disciplina"
 						actionListener="#{disciplinaMB.salvar}">
 						<span class="glyphicon glyphicon-floppy-disk" aria-hidden="true" /> Salvar
-						<f:ajax execute="inputTitulo inputDescricao"
-							render="inputTituloMSG inputDescricaoMSG" />
+						<f:ajax execute="inputTitulo inputDescricao inputCurso inputConteudo"
+							render="inputTituloMSG inputDescricaoMSG inputCursoMSG" />
 					</h:commandLink>
 				</div>
 			</div>

@@ -1,28 +1,32 @@
 package br.com.sistema.redAmber.basicas;
 
+import java.io.Serializable;
+
 import br.com.sistema.redAmber.basicas.enums.StatusDisciplina;
 
-public class Disciplina {
+public class Disciplina implements Serializable {
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private Long id;
-	
 	private String titulo;
-	
-	
 	private String descricao;
-	
+	private String conteudoProgramatico;
+	private Curso curso;
 	private StatusDisciplina status;
 	
-	public Disciplina() {
-		
-	}
+	public Disciplina() {}
 	
-	
-	public Disciplina(Long id, String titulo, String descricao, StatusDisciplina status) {
+	public Disciplina(Long id, String titulo, String descricao, String conteudoProgramatico, 
+			Curso curso, StatusDisciplina status) {
 		super();
 		this.id = id;
 		this.titulo = titulo;
 		this.descricao = descricao;
+		this.conteudoProgramatico = conteudoProgramatico;
+		this.curso = curso;
 		this.status = status;
 	}
 
@@ -42,23 +46,15 @@ public class Disciplina {
 		if (this.getClass() != obj.getClass()) {
 			return false;
 		}
-		
 		try {
-			
 			Disciplina other = (Disciplina) obj;
 			if (other.getId() != null && other.getId().intValue() == this.getId().intValue()) {
 				return true;
 			}
-			if (other.getTitulo() != null && other.getTitulo().equalsIgnoreCase(this.getTitulo())) {
-				return true;
-			}
-			
 		} catch (NullPointerException e) {
 			return false;
 		}
-		
 		return false;
-		
 	}
 	
 	public Long getId() {
@@ -84,6 +80,22 @@ public class Disciplina {
 
 	public void setDescricao(String descricao) {
 		this.descricao = descricao;
+	}
+	
+	public String getConteudoProgramatico() {
+		return conteudoProgramatico;
+	}
+	
+	public void setConteudoProgramatico(String conteudoProgramatico) {
+		this.conteudoProgramatico = conteudoProgramatico;
+	}
+	
+	public Curso getCurso() {
+		return curso;
+	}
+	
+	public void setCurso(Curso curso) {
+		this.curso = curso;
 	}
 
 	public StatusDisciplina getStatus() {

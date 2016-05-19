@@ -15,34 +15,36 @@
 
 			<div class="form-group">
 				<h:outputLabel value="Nome da Turma" for="inputNome"
-					styleClass="col-sm-2 control-label"></h:outputLabel>
+					styleClass="col-sm-2 control-label" />
 				<div class="col-sm-2">
 					<h:inputText required="true" tabindex="2"
-						requiredMessage="Digite o nome da turma." styleClass="form-control"
-						id="inputNome" value="#{turmaMB.turma.nome}" 
+						requiredMessage="Digite o nome da turma."
+						styleClass="form-control" id="inputNome"
+						value="#{turmaMB.turma.nome}"
 						title="Informe o nome da turma no formato sigla + período + turno + turma. Ex: ADS1MA, RC2NB, etc." />
-					<h:message styleClass="text-danger" for="inputNome" id="inputNomeMSG" />
+					<h:message styleClass="text-danger" for="inputNome"
+						id="inputNomeMSG" />
 				</div>
 			</div>
 
 			<div class="form-group">
 				<h:outputLabel value="Curso" for="inputCurso"
-					styleClass="col-sm-2 control-label"></h:outputLabel>
+					styleClass="col-sm-2 control-label" />
 				<div class="col-sm-5">
 					<h:selectOneMenu id="inputCurso" styleClass="form-control"
-						value="#{turmaMB.idCurso}">
-						<f:selectItems value="#{cursoMB.listaCursos}" var="curso"
-							itemValue="#{curso.id}" itemLabel="#{curso.nome}" />
+						value="#{turmaMB.turma.curso}" converter="cursoConverter">
+						<f:selectItems value="#{turmaMB.listaCursos}" var="curso"
+							itemValue="#{curso}" itemLabel="#{curso.nome}" />
 					</h:selectOneMenu>
 				</div>
 			</div>
 
 			<div class="form-group">
 				<h:outputLabel value="Turno" for="inputTurno"
-					styleClass="col-sm-2 control-label"></h:outputLabel>
+					styleClass="col-sm-2 control-label" />
 				<div class="col-sm-2">
 					<h:selectOneMenu id="inputTurno" styleClass="form-control"
-						value="#{turmaMB.turma.turno}">
+						value="#{turmaMB.turma.turno}" converter="tipoTurnoConverter">
 						<f:selectItems value="#{turmaMB.tiposTurnos}" var="turno"
 							itemValue="#{turno}" />
 					</h:selectOneMenu>
@@ -51,10 +53,10 @@
 
 			<div class="form-group">
 				<h:outputLabel value="Status" for="inputStatus"
-					styleClass="col-sm-2 control-label"></h:outputLabel>
+					styleClass="col-sm-2 control-label" />
 				<div class="col-sm-2">
 					<h:selectOneMenu id="inputStatus" styleClass="form-control"
-						value="#{turmaMB.turma.status}">
+						value="#{turmaMB.turma.status}" converter="statusTurmaConverter">
 						<f:selectItems value="#{turmaMB.statusTurma}" var="status"
 							itemValue="#{status}" />
 					</h:selectOneMenu>
@@ -63,8 +65,8 @@
 
 			<div class="form-group">
 				<div class="col-sm-offset-2 col-sm-10">
-					<h:commandLink styleClass="btn btn-success" title="Salvar Alterações"
-						actionListener="#{turmaMB.salvar}">
+					<h:commandLink styleClass="btn btn-success"
+						title="Salvar Alterações" actionListener="#{turmaMB.salvar}">
 						<span class="glyphicon glyphicon-floppy-disk" aria-hidden="true" /> Salvar
 						<f:ajax execute="inputNome inputCurso inputTurno inputStatus"
 							render="inputNomeMSG" />

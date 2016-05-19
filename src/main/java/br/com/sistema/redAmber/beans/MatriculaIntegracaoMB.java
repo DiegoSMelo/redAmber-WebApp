@@ -2,6 +2,7 @@ package br.com.sistema.redAmber.beans;
 
 import java.io.IOException;
 import java.net.URLEncoder;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -44,6 +45,7 @@ public class MatriculaIntegracaoMB {
 	private List<Turma> listaTurmas;
 	private TipoTurno turno; // selecionado
 	private boolean isPagAdd;
+	private Long idComparacao;
 	
 	public void redirectIndex() {
 		try {
@@ -79,6 +81,27 @@ public class MatriculaIntegracaoMB {
 	}
 	
 	/*
+	 * Método chamado internamente para salvar a matrícula de um aluno (tanto para inserior ou editar).
+	 */
+	public void salvar() {
+		
+		this.getMatricula().setIdAluno(this.getAluno().getId_aluno());
+		
+		ClientConfig clientConfig = new DefaultClientConfig();
+		clientConfig.getFeatures().put(JSONConfiguration.FEATURE_POJO_MAPPING, Boolean.TRUE);
+		Client client = Client.create(clientConfig);
+		
+		WebResource webResourcePost = client.resource(URLUtil.SALVAR_MATRICULA_INTEGRACAO);
+		ClientResponse response = webResourcePost.type("application/json").post(ClientResponse.class,
+				this.getMatricula());
+		if (response.getStatus() == 200) {
+			redirectIndex();
+		} else {
+			RequestContext.getCurrentInstance().execute("alert('" + Mensagens.m23 + "');");
+		}
+	}
+	
+	/*
 	 * Método que salva a matrícula de um aluno.
 	 */
 	public void salvarMatricula(ActionEvent event) {
@@ -88,8 +111,6 @@ public class MatriculaIntegracaoMB {
 			RequestContext.getCurrentInstance().execute("alert('" + Mensagens.m15 + "');");
 		} else {
 			try {
-				//String codigoMatricula = gerarCodigoMatricula();
-				
 				MatriculaIntegracao matriculaJaExiste = null;
 				Client c = new Client();
 				WebResource wr = c.resource(URLUtil.BUSCAR_MATRICULA_INTEGRACAO_POR_ALUNO_CURSO + 
@@ -104,25 +125,33 @@ public class MatriculaIntegracaoMB {
 					matriculaJaExiste = gson.fromJson(jsonResult, MatriculaIntegracao.class);
 				}
 				
-				if ((this.isPagAdd() && matriculaJaExiste == null) || !this.isPagAdd()) {
-					
-					this.getMatricula().setIdAluno(this.getAluno().getId_aluno());
-					//this.getMatricula().setCodigoMatricula(codigoMatricula);
-					
-					ClientConfig clientConfig = new DefaultClientConfig();
-					clientConfig.getFeatures().put(JSONConfiguration.FEATURE_POJO_MAPPING, Boolean.TRUE);
-					Client client = Client.create(clientConfig);
-					
-					WebResource webResourcePost = client.resource(URLUtil.SALVAR_MATRICULA_INTEGRACAO);
-					ClientResponse response = webResourcePost.type("application/json").post(ClientResponse.class,
-							this.getMatricula());
-					if (response.getStatus() == 200) {
-						redirectIndex();
-					} else {
-						RequestContext.getCurrentInstance().execute("alert('" + Mensagens.m23 + "');");
-					}
-				} else {
+				if (this.isPagAdd() && matriculaJaExiste == null) {
+					this.salvar();
+				} else if (this.isPagAdd() && matriculaJaExiste != null) {
 					RequestContext.getCurrentInstance().execute("alert('" + Mensagens.m14 + "');");
+				}
+				
+				if (!this.isPagAdd()) {
+					System.err.println("ID DO CURSO ESCOLHIDO: " + this.matricula.getGrade().getCurso().getId());
+					System.err.println("________ID COMPARAÇÃO: " + this.getIdComparacao());
+					if (this.matricula.getGrade().getCurso().getId() == this.getIdComparacao()) {
+						this.salvar();
+					} else {
+						List<Curso> cursos = new ArrayList<Curso>();
+						for (MatriculaIntegracao matric : this.getListaMatriculas()) {
+							cursos.add(matric.getGrade().getCurso());
+							System.err.println("ID DO ALUNO: " + matric.getIdAluno());
+							System.err.println("ID DOS CURSOS DO ALUNO: " + matric.getGrade().getCurso().getId());
+							System.err.println("NOME DOS CURSOS DO ALUNO: " + matric.getGrade().getCurso().getNome());
+						}
+						System.err.println("ID DO CURSO DA LISTA: " + cursos.get(0).getId());
+						System.err.println("LISTA CONTÉM? " + cursos.contains(this.matricula.getGrade().getCurso()));
+						if (!cursos.contains(this.matricula.getGrade().getCurso())) {
+							this.salvar();
+						} else {
+							RequestContext.getCurrentInstance().execute("alert('" + Mensagens.m14 + "');");
+						}
+					}
 				}
 			} catch (Exception e) {
 				RequestContext.getCurrentInstance().execute("alert('" + Mensagens.m23 + "');");
@@ -311,5 +340,13 @@ public class MatriculaIntegracaoMB {
 	
 	public StatusMatricula[] getStatusMatricula() {
 		return StatusMatricula.values();
+	}
+	
+	public Long getIdComparacao() {
+		return idComparacao;
+	}
+
+	public void setIdComparacao(Long idComparacao) {
+		this.idComparacao = idComparacao;
 	}
 }

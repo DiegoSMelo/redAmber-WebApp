@@ -13,25 +13,40 @@ public class DisciplinaHTTP {
 	private Long id;
 	private String titulo;
 	private String descricao;
+	private String conteudoProgramatico;
+	private CursoHTTP curso;
 	private StatusDisciplina status;
 	
-
-
-	public DisciplinaHTTP(Long id, String titulo, String descricao, StatusDisciplina status) {
+	public DisciplinaHTTP() {}
+	
+	public DisciplinaHTTP(Long id, String titulo, String descricao, String conteudoProgramatico, 
+			CursoHTTP curso, StatusDisciplina status) {
 		
 		this.id = id;
 		this.titulo = titulo;
 		this.descricao = descricao;
+		this.conteudoProgramatico = conteudoProgramatico;
+		this.curso = curso;
 		this.status = status;
-		
 	}
-
+	
+	/*
+	 * Getters and setters
+	 */
 	public Long getId() {
 		return id;
 	}
 
 	public void setId(Long id) {
 		this.id = id;
+	}
+
+	public String getTitulo() {
+		return titulo;
+	}
+
+	public void setTitulo(String titulo) {
+		this.titulo = titulo;
 	}
 
 	public String getDescricao() {
@@ -42,6 +57,22 @@ public class DisciplinaHTTP {
 		this.descricao = descricao;
 	}
 
+	public String getConteudoProgramatico() {
+		return conteudoProgramatico;
+	}
+
+	public void setConteudoProgramatico(String conteudoProgramatico) {
+		this.conteudoProgramatico = conteudoProgramatico;
+	}
+
+	public CursoHTTP getCurso() {
+		return curso;
+	}
+
+	public void setCurso(CursoHTTP curso) {
+		this.curso = curso;
+	}
+
 	public StatusDisciplina getStatus() {
 		return status;
 	}
@@ -49,13 +80,4 @@ public class DisciplinaHTTP {
 	public void setStatus(StatusDisciplina status) {
 		this.status = status;
 	}
-
-	public String getTitulo() {
-		return titulo;
-	}
-
-	public void setTitulo(String titulo) {
-		this.titulo = titulo;
-	}
-	
 }

@@ -7,8 +7,8 @@ public class Grade {
 	private Long id;
 	private Curso curso;
 	private String titulo;
+	private boolean vigente;
 	private StatusGrade status;
-	
 	
 	public boolean isAtivo(){
 		return this.getStatus().equals(StatusGrade.ATIVA);
@@ -55,6 +55,22 @@ public class Grade {
 		this.curso = curso;
 	}
 
+	public String getTitulo() {
+		return titulo;
+	}
+
+	public void setTitulo(String titulo) {
+		this.titulo = titulo;
+	}
+	
+	public boolean isVigente() {
+		return vigente;
+	}
+	
+	public void setVigente(boolean vigente) {
+		this.vigente = vigente;
+	}
+	
 	public StatusGrade getStatus() {
 		return status;
 	}
@@ -62,12 +78,4 @@ public class Grade {
 	public void setStatus(StatusGrade status) {
 		this.status = status;
 	}
-
-	public String getTitulo() {
-		return titulo;
-	}
-
-	public void setTitulo(String titulo) {
-		this.titulo = titulo;
-	}	
 }
