@@ -41,7 +41,8 @@
 				<div class="col-sm-2">
 					<h:inputText styleClass="form-control" id="inputReserva" readonly="true" 
 						value="#{reservaEquipamentoMB.reservaEquipamento.dataReserva.time}">
-						<f:convertDateTime type="date" pattern="dd/MM/yyyy"/>
+						<f:convertDateTime type="date" timeZone="America/Recife" 
+							pattern="dd/MM/yyyy"/>
 					</h:inputText>
 				</div>
 			</div>

@@ -24,6 +24,7 @@ import com.sun.jersey.api.json.JSONConfiguration;
 
 import br.com.sistema.redAmber.basicas.BuscaFuncionario;
 import br.com.sistema.redAmber.basicas.Funcionario;
+import br.com.sistema.redAmber.basicas.Usuario;
 import br.com.sistema.redAmber.basicas.enums.StatusUsuario;
 import br.com.sistema.redAmber.basicas.enums.TipoFuncionario;
 import br.com.sistema.redAmber.util.Mensagens;
@@ -38,6 +39,8 @@ public class FuncionarioMB {
 	private boolean isPagAdd;
 	private BuscaFuncionario buscaFuncionario;
 	private boolean flagTabela;
+	private Usuario usuario;
+	private String senhaConfirmacao;
 	
 	public FuncionarioMB() {
 		this.funcionario = new Funcionario();
@@ -45,6 +48,7 @@ public class FuncionarioMB {
 		this.buscaFuncionario.setNome("");
 		this.buscaFuncionario.setRg("");
 		this.setFlagTabela(true);
+		this.usuario = new Usuario();
 	}
 	
 	public void atualizaLista(ActionEvent event) {
@@ -63,6 +67,16 @@ public class FuncionarioMB {
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
+		}
+	}
+	
+	public void adicionarLoginFuncionario(ActionEvent event) {
+		if (!this.getSenhaConfirmacao().equals(this.getUsuario().getSenha())) {
+			RequestContext.getCurrentInstance().execute("alert('" + Mensagens.m29 + "');");
+		} else {
+			this.getUsuario().setId(this.getFuncionario().getId());
+			this.getFuncionario().setUsuario(this.getUsuario());
+			this.salvar();
 		}
 	}
 	
@@ -89,7 +103,8 @@ public class FuncionarioMB {
 						this.getFuncionario());
 
 				if (response.getStatus() == 200) {
-					FacesContext.getCurrentInstance().getExternalContext().redirect("/redAmber-WebApp/funcionario/index.xhtml");
+					this.redirectIndex();
+					//FacesContext.getCurrentInstance().getExternalContext().redirect("/redAmber-WebApp/funcionario/index.xhtml");
 				} else {
 					RequestContext.getCurrentInstance().execute("alert('" + Mensagens.m3 + "');");
 				}			
@@ -98,6 +113,20 @@ public class FuncionarioMB {
 			}
 		} catch (Exception e) {
 			RequestContext.getCurrentInstance().execute("alert('" + Mensagens.m3 + "');");
+		}
+	}
+	
+	/**
+	 * Redireciona para a página de cadastro.
+	 */
+	public void redirectIndex() {
+		try {
+			this.setUsuario(new Usuario());
+			this.setSenhaConfirmacao("");
+			this.setPagAdd(false);
+			FacesContext.getCurrentInstance().getExternalContext().redirect("/redAmber-WebApp/funcionario/index.xhtml");
+		} catch (IOException e) {
+			
 		}
 	}
 	
@@ -119,14 +148,34 @@ public class FuncionarioMB {
 	 * Redireciona para a página de edição.
 	 */
 	public void redirectEdit(){
-		try {
+		try {		
 			this.setPagAdd(false);
 			FacesContext.getCurrentInstance().getExternalContext().redirect("/redAmber-WebApp/funcionario/edit.xhtml");
 		} catch (IOException e) {
 			RequestContext.getCurrentInstance().execute("alert('"+e.getMessage()+"');");
 		}
-	}	
-
+	}
+	
+	/**
+	 * Adiciona/atualiza login e senha de um funcionário
+	 */
+	public void redirectAddUser() {
+		try {
+			if (this.getFuncionario().getUsuario() == null) {
+				this.usuario = new Usuario();
+			} else {
+				this.setUsuario(this.funcionario.getUsuario());
+			}
+			this.setPagAdd(false);
+			FacesContext.getCurrentInstance().getExternalContext().redirect("/redAmber-WebApp/funcionario/user.xhtml");
+		} catch (IOException e) {
+			RequestContext.getCurrentInstance().execute("alert('" + e.getMessage() + "');");
+		}
+	}
+	
+	/**
+	 * Getters and setters
+	 */
 	public Funcionario getFuncionario() {
 		return funcionario;
 	}
@@ -205,5 +254,24 @@ public class FuncionarioMB {
 
 	public void setFlagTabela(boolean flagTabela) {
 		this.flagTabela = flagTabela;
+	}
+
+	public Usuario getUsuario() {
+		if (this.funcionario.getUsuario() != null) {
+			this.usuario = this.getFuncionario().getUsuario();
+		}
+		return usuario;
+	}
+
+	public void setUsuario(Usuario usuario) {
+		this.usuario = usuario;
+	}
+
+	public String getSenhaConfirmacao() {
+		return senhaConfirmacao;
+	}
+
+	public void setSenhaConfirmacao(String senhaConfirmacao) {
+		this.senhaConfirmacao = senhaConfirmacao;
 	}
 }

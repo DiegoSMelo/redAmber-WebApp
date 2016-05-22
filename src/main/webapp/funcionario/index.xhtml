@@ -118,6 +118,13 @@
 						<f:setPropertyActionListener value="#{funcionario}" 
 							target="#{funcionarioMB.funcionario}" />
 					</h:commandLink>
+					
+					<h:commandLink styleClass="btn btn-warning btn-acoes"
+						actionListener="#{funcionarioMB.redirectAddUser}" title="Adicionar Login/Senha">
+						<span class="glyphicon glyphicon-road" aria-hidden="true" /> Acesso
+						<f:setPropertyActionListener value="#{funcionario}" 
+							target="#{funcionarioMB.funcionario}" />
+					</h:commandLink>
 				</h:column>
 
 			</h:dataTable>

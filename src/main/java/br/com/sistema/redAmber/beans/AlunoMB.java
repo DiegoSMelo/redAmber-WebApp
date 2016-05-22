@@ -103,8 +103,8 @@ public class AlunoMB {
 						this.getAluno());
 
 				if (response.getStatus() == 200) {
-					FacesContext.getCurrentInstance().getExternalContext()
-							.redirect("/redAmber-WebApp/aluno/index.xhtml");
+					this.redirectIndex();
+					//FacesContext.getCurrentInstance().getExternalContext().redirect("/redAmber-WebApp/aluno/index.xhtml");
 				} else {
 					RequestContext.getCurrentInstance().execute("alert('" + Mensagens.m3 + "');");
 				}
@@ -115,7 +115,21 @@ public class AlunoMB {
 			RequestContext.getCurrentInstance().execute("alert('" + Mensagens.m3 + "');");
 		}
 	}
-
+	
+	/**
+	 * Redireciona para a página de cadastro.
+	 */
+	public void redirectIndex() {
+		try {
+			this.setUsuario(new Usuario());
+			this.setSenhaConfirmacao("");
+			this.setPagAdd(false);
+			FacesContext.getCurrentInstance().getExternalContext().redirect("/redAmber-WebApp/aluno/index.xhtml");
+		} catch (IOException e) {
+			
+		}
+	}
+	
 	/**
 	 * Cria um novo objeto para o Aluno e redireciona para a página de cadastro.
 	 */
@@ -143,8 +157,16 @@ public class AlunoMB {
 		}
 	}
 
+	/**
+	 * Adiciona/atualiza login e senha de um funcionário
+	 */
 	public void redirectAddUser() {
 		try {
+			if (this.getAluno().getUsuario() == null) {
+				this.usuario = new Usuario();
+			} else {
+				this.setUsuario(this.aluno.getUsuario());
+			}
 			this.setPagAdd(false);
 			FacesContext.getCurrentInstance().getExternalContext().redirect("/redAmber-WebApp/aluno/user.xhtml");
 		} catch (IOException e) {
@@ -152,6 +174,9 @@ public class AlunoMB {
 		}
 	}
 	
+	/**
+	 * Getters and setters
+	 */
 	public Aluno getAluno() {
 		return aluno;
 	}

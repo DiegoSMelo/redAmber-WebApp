@@ -21,8 +21,9 @@
 					<h:inputText required="true" tabindex="2"
 						requiredMessage="Digite a hora do início da aula."
 						styleClass="form-control hora" id="inputInicio"
+						title="Informe a hora do início da aula. Ex: 08:00."
 						value="#{duracaoAulaMB.duracaoAula.horaInicio}"
-						title="Informe a hora do início da aula. Ex: 08:00.">
+						converterMessage="Informe a hora do início da aula. Ex: 08:00.">
 							<f:convertDateTime type="time" pattern="HH:mm" />
 						</h:inputText>
 					<h:message styleClass="text-danger" for="inputInicio" id="inputInicioMSG" />
@@ -35,8 +36,9 @@
 				<div class="col-sm-1">
 					<h:inputText styleClass="form-control hora" tabindex="3" required="true"
 						requiredMessage="Digite a hora do fim da aula." id="inputFim"
+						title="Informe a hora do início da aula. Ex: 09:30."
 						value="#{duracaoAulaMB.duracaoAula.horaFim}"
-						title="Informe a hora do fim da aula. Ex: 09:30.">
+						converterMessage="Informe a hora do fim da aula. Ex: 09:30.">
 						<f:convertDateTime type="time" pattern="HH:mm" />
 					</h:inputText>
 					<h:message styleClass="text-danger" for="inputFim" id="inputFimMSG" />

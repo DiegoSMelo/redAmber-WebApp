@@ -57,7 +57,8 @@
 				<h:column>
 					<f:facet name="header">Data de Matrícula</f:facet>
 					<h:outputText value="#{matricula.dataMatricula.time}">
-						<f:convertDateTime type="date" pattern="dd/MM/yyyy" />
+						<f:convertDateTime type="date" timeZone="America/Recife" 
+							pattern="dd/MM/yyyy" />
 					</h:outputText>
 				</h:column>
 

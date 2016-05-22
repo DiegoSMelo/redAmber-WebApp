@@ -111,10 +111,10 @@ public class ProfessorMB {
 						this.getProfessor());
 
 				if (response.getStatus() == 200) {
-						if (!this.flagDisciplina) {
-							FacesContext.getCurrentInstance().getExternalContext()
-								.redirect("/redAmber-WebApp/professor/index.xhtml");
-						}
+					if (!this.flagDisciplina) {
+						this.redirectIndex();
+						//FacesContext.getCurrentInstance().getExternalContext().redirect("/redAmber-WebApp/professor/index.xhtml");
+					}
 				} else {
 					RequestContext.getCurrentInstance().execute("alert('" + Mensagens.m3 + "');");
 				}
@@ -179,6 +179,20 @@ public class ProfessorMB {
 	}
 
 	/**
+	 * Redireciona para a página de cadastro.
+	 */
+	public void redirectIndex() {
+		try {
+			this.setUsuario(new Usuario());
+			this.setSenhaConfirmacao("");
+			this.setPagAdd(false);
+			FacesContext.getCurrentInstance().getExternalContext().redirect("/redAmber-WebApp/professor/index.xhtml");
+		} catch (IOException e) {
+			
+		}
+	}
+	
+	/**
 	 * Cria um novo objeto para o Professor e redireciona para a página de
 	 * cadastro.
 	 */
@@ -225,8 +239,16 @@ public class ProfessorMB {
 		}
 	}
 
+	/**
+	 * Adiciona/atualiza login e senha de um funcionário
+	 */
 	public void redirectAddUser() {
 		try {
+			if (this.getProfessor().getUsuario() == null) {
+				this.usuario = new Usuario();
+			} else {
+				this.setUsuario(this.professor.getUsuario());
+			}
 			this.setPagAdd(false);
 			FacesContext.getCurrentInstance().getExternalContext().redirect("/redAmber-WebApp/professor/user.xhtml");
 		} catch (IOException e) {
@@ -234,6 +256,9 @@ public class ProfessorMB {
 		}
 	}
 	
+	/**
+	 * Getters and setters
+	 */
 	public Professor getProfessor() {
 		if (this.professor.getListDisciplinas() == null) {
 			this.professor.setListDisciplinas(new ArrayList<Disciplina>());

@@ -32,7 +32,8 @@
 				<div class="col-sm-2">
 					<h:inputText styleClass="form-control" tabindex="1" readonly="true" 
 						id="inputDataAviso" value="#{avisoProfessorMB.avisoProfessor.dataAviso.time}">
-						<f:convertDateTime type="date" pattern="dd/MM/yyyy HH:mm" />
+						<f:convertDateTime type="date" timeZone="America/Recife" 
+							pattern="dd/MM/yyyy HH:mm" />
 					</h:inputText>
 				</div>
 			</div>
