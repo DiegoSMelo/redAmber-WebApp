@@ -80,12 +80,13 @@
 							<a4j:outputPanel layout="block" styleClass="rf-ind-drag areaDrag">
 								<rich:dragSource type="dis" dragValue="#{disc}"
 									dragIndicator="indicator" />
-								<h:outputText value="#{disc.titulo}" />
+								<h:outputText value="#{disc.titulo}" title="#{disc.descricao}" />
 							</a4j:outputPanel>
 						</h:column>
 
 						<f:facet name="footer">
 							<a4j:commandButton action="#{periodoMB.reset}" value="Limpar"
+								title="Remover todas as disciplinas dos períodos desta grade" 
 								render="AreaPersonalizacaoPeriodos" />
 						</f:facet>
 

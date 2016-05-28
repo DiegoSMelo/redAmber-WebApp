@@ -12,27 +12,111 @@
 	  			<li class="active">Listagem das Reservas de Salas</li>
 			</ol>
 			
-			<div class="areaPlus">
-				<h:commandLink actionListener="#{reservaSalaMB.redirectAdd}"
-					styleClass="btn btn-success" title="Reservar Sala">
-					<span class="glyphicon glyphicon-plus" aria-hidden="true" /> Adicionar
-				</h:commandLink>
+			<div class="form-horizontal">
+			
+				<div class="form-group">
+					<h:outputLabel value="Pesquisar por:"
+						styleClass="col-sm-2 control-label" />
+				</div>
+				
+				<div class="form-group">
+					<h:outputLabel value="Professor" for="inputProfessor"
+						styleClass="col-sm-2 control-label" />
+					<div class="col-sm-6">
+						<h:selectOneMenu id="inputProfessor" styleClass="form-control" tabindex="1" 
+							value="#{reservaSalaMB.buscaReserva.idProfessor}">
+							<f:selectItem itemValue="#{null}" itemLabel="Escolha o Professor" />
+							<f:selectItems value="#{reservaSalaMB.listaProfessores}" var="professor"
+								itemValue="#{professor.id}" itemLabel="#{professor.nome}" />
+							<f:selectItem itemValue="#{null}" itemLabel="Todos" />
+						</h:selectOneMenu>
+					</div>
+				</div>
+				
+				<div class="form-group">
+					<h:outputLabel value="Data da Requisição" for="inputDataRequisicao"
+						styleClass="col-sm-2 control-label" />
+					<div class="col-sm-2">
+						<h:inputText styleClass="form-control data" tabindex="2"
+							title="Informe uma data válida no formato 'dia/mês/ano'."
+							id="inputDataRequisicao" value="#{reservaSalaMB.buscaReserva.dataRequisicao}"
+							converterMessage="Informe uma data válida no formato 'dia/mês/ano'.">
+							<f:convertDateTime type="date" pattern="dd/MM/yyyy" />
+						</h:inputText>
+						<h:message styleClass="text-danger" for="inputDataRequisicao" 
+							id="inputDataRequisicaoMSG" />
+					</div>
+					<h:outputLabel value="Data da Reserva" for="inputDataReserva"
+						styleClass="col-sm-2 control-label" />
+					<div class="col-sm-2">
+						<h:inputText styleClass="form-control data" tabindex="3"
+							title="Informe uma data válida no formato 'dia/mês/ano'."
+							id="inputDataReserva" value="#{reservaSalaMB.buscaReserva.dataReserva}"
+							converterMessage="Informe uma data válida no formato 'dia/mês/ano'.">
+							<f:convertDateTime type="date" pattern="dd/MM/yyyy" />
+						</h:inputText>
+						<h:message styleClass="text-danger" for="inputDataReserva" 
+							id="inputDataReservaMSG" />
+					</div>
+				</div>
+
+				<div class="form-group">
+					<h:outputLabel value="Status da Reserva" for="inputStatusReserva"
+						styleClass="col-sm-2 control-label" />
+					<div class="col-sm-2">
+						<h:selectOneMenu id="inputStatusReserva" styleClass="form-control" tabindex="4"
+							value="#{reservaSalaMB.buscaReserva.status}" 
+							converter="statusReservaConverter">
+							<f:selectItem itemValue="#{null}" itemLabel="Escolha o Status" />
+							<f:selectItems value="#{reservaSalaMB.statusReservas}" 
+								var="status" itemValue="#{status}" itemLabel="#{status}" />
+							<f:selectItem itemValue="#{null}" itemLabel="Todos" />
+						</h:selectOneMenu>
+					</div>
+				</div>
+
+				<div class="form-group">
+					<div class="col-sm-offset-2 col-sm-10">
+						<h:commandLink styleClass="btn btn-info" title="Pesquisar Reservas de Sala"
+							actionListener="#{reservaSalaMB.atualizaLista}" tabindex="5">
+							<span class="glyphicon glyphicon-search" aria-hidden="true" /> Pesquisar
+							<f:ajax execute="inputProfessor inputStatusReserva inputDataRequisicao 
+								inputDataReserva" render="table-reservas-sala semResultado 
+								inputDataRequisicaoMSG inputDataReservaMSG" />
+						</h:commandLink>
+						<span> </span>
+						<h:commandLink actionListener="#{reservaSalaMB.redirectAdd}"
+							styleClass="btn btn-success" title="Reservar Sala" tabindex="6">
+							<span class="glyphicon glyphicon-plus" aria-hidden="true" /> Adicionar
+						</h:commandLink>
+					</div>
+					<br />
+				</div>
 			</div>
 			
 			<div align="center">
 				<h:outputLabel for="tabelaVazia" class="glyphicon glyphicon-alert bigWarningSign"
-					rendered="#{empty reservaSalaMB.listaReservas}" />
+					rendered="#{empty reservaSalaMB.listaReservas and reservaSalaMB.flagTabela == true}" />
 				<br />
 				<h:outputText id="tabelaVazia" class="emptyTable" 
-					rendered="#{empty reservaSalaMB.listaReservas}" 
+					rendered="#{empty reservaSalaMB.listaReservas and reservaSalaMB.flagTabela == true}" 
 					value="Ainda não há reservas de sala cadastradas.">
 				</h:outputText>
 			</div>
+
+			<div align="center">
+				<h:outputLabel for="semResultado" class="glyphicon glyphicon-alert bigWarningSign"
+					rendered="#{reservaSalaMB.flagTabela == false}" />
+				<br />
+				<h:outputText id="semResultado" class="emptyTable"
+					rendered="#{reservaSalaMB.flagTabela == false}"
+					value="A consulta não trouxe resultados.">
+				</h:outputText>
+			</div>
 			
-			<h:dataTable id="table-reservas-sala"
-				styleClass="table table-hover table-bordered"
+			<h:dataTable id="table-reservas-sala" styleClass="table table-hover table-bordered"
 				value="#{reservaSalaMB.listaReservas}" var="reservaSala"
-				rendered="#{not empty reservaSalaMB.listaReservas}"
+				rendered="#{not empty reservaSalaMB.listaReservas and reservaSalaMB.flagTabela == true}"
 				emptyMessage="Não há reservadas cadastradas">
 				<f:facet name="header">Reservas de Salas</f:facet>
 
@@ -46,12 +130,12 @@
 
 				<h:column>
 					<f:facet name="header">Professor</f:facet>
-					<h:outputText value="#{reservaSala.professor.nome}"></h:outputText>
+					<h:outputText value="#{reservaSala.professor.nome}" />
 				</h:column>
 
 				<h:column>
 					<f:facet name="header">Sala</f:facet>
-					<h:outputText value="#{reservaSala.sala.descricao}"></h:outputText>
+					<h:outputText value="#{reservaSala.sala.descricao}" />
 				</h:column>
 				
 				<h:column>
@@ -79,14 +163,14 @@
 					<f:facet name="header">Ações</f:facet>
 
 					<h:commandLink styleClass="btn btn-primary btn-acoes" title="Aprovar/Negar Reserva de Sala"
-						actionListener="#{reservaSalaMB.redirectApproval}">
+						actionListener="#{reservaSalaMB.redirectApproval}" tabindex="7">
 						<span class="glyphicon glyphicon-thumbs-up" aria-hidden="true" />
 						<span class="glyphicon glyphicon-thumbs-down" aria-hidden="true" />
 						<f:setPropertyActionListener value="#{reservaSala}"
 							target="#{reservaSalaMB.reservaSala}" />
 					</h:commandLink><span> </span>
 					<h:commandLink styleClass="btn btn-info btn-acoes" title="Editar Reserva de Sala"
-						actionListener="#{reservaSalaMB.redirectEdit}">
+						actionListener="#{reservaSalaMB.redirectEdit}" tabindex="7">
 						<span class="glyphicon glyphicon-pencil" aria-hidden="true" /> Editar
 						<f:setPropertyActionListener value="#{reservaSala}"
 							target="#{reservaSalaMB.reservaSala}" />

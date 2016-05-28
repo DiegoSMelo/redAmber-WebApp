@@ -7,6 +7,7 @@ import java.util.List;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
+import javax.faces.event.ActionEvent;
 
 import org.primefaces.context.RequestContext;
 
@@ -33,6 +34,35 @@ public class TurmaMB {
 	private List<Turma> listaTurmas;
 	private List<Curso> listaCursos;
 	private boolean isPagAdd;
+	private Curso curso;
+	private TipoTurno turno;
+	private boolean flagTabela;
+	
+	public TurmaMB() {
+		turma = new Turma();
+		curso = new Curso();
+		turno = null;
+		this.setFlagTabela(true);
+	}
+	
+	public void atualizaLista(ActionEvent event) {
+		this.getListaTurmas();
+		if (this.listaTurmas.isEmpty()) {
+			this.setFlagTabela(false);
+			try {
+				FacesContext.getCurrentInstance().getExternalContext().redirect("/redAmber-WebApp/turma/index.xhtml");
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		} else {
+			this.setFlagTabela(true);
+			try {
+				FacesContext.getCurrentInstance().getExternalContext().redirect("/redAmber-WebApp/turma/index.xhtml");
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+	}
 	
 	public void salvar() {
 
@@ -90,7 +120,10 @@ public class TurmaMB {
 			RequestContext.getCurrentInstance().execute("alert('" + e.getMessage() + "');");
 		}
 	}
-
+	
+	/**
+	 * Getters and setters
+	 */
 	public Turma getTurma() {
 		return turma;
 	}
@@ -101,8 +134,24 @@ public class TurmaMB {
 
 	public List<Turma> getListaTurmas() {
 
+		String paramIdCurso = "";
+		String paramTurno = "";
+		
+		if (this.getTurno() == null) {
+			paramTurno = "null";
+		} else {
+			paramTurno = String.valueOf(this.getTurno());
+		}
+		
+		if (this.getCurso() == null || this.getCurso().getId() == null) {
+			paramIdCurso = "null";
+		} else {
+			paramIdCurso = String.valueOf(this.getCurso().getId());
+		}
+		
 		Client c = new Client();
-		WebResource wr = c.resource(URLUtil.LISTAR_TURMAS);
+		WebResource wr = c.resource(URLUtil.LISTAR_TURMAS_POR_CURSO_TURNO + paramIdCurso + "/" + 
+				paramTurno);
 		String jsonResult = wr.get(String.class);
 		if (!jsonResult.equalsIgnoreCase("null")) {
 			Gson gson = new Gson();
@@ -110,7 +159,6 @@ public class TurmaMB {
 			Turma[] lista = gson.fromJson(jsonResult, Turma[].class);
 			this.listaTurmas = Arrays.asList(lista);
 		}
-
 		return listaTurmas;
 	}
 
@@ -150,5 +198,29 @@ public class TurmaMB {
 
 	public StatusTurma[] getStatusTurma() {
 		return StatusTurma.values();
+	}
+
+	public Curso getCurso() {
+		return curso;
+	}
+
+	public void setCurso(Curso curso) {
+		this.curso = curso;
+	}
+
+	public TipoTurno getTurno() {
+		return turno;
+	}
+
+	public void setTurno(TipoTurno turno) {
+		this.turno = turno;
+	}
+
+	public boolean isFlagTabela() {
+		return flagTabela;
+	}
+
+	public void setFlagTabela(boolean flagTabela) {
+		this.flagTabela = flagTabela;
 	}
 }

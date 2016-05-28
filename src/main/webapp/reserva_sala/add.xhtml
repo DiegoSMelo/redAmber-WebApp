@@ -36,7 +36,7 @@
 					styleClass="col-sm-2 control-label" />
 				<div class="col-sm-5">
 					<h:selectOneMenu required="true" id="inputProfessor" styleClass="form-control"
-						value="#{reservaSalaMB.reservaSala.professor}"
+						value="#{reservaSalaMB.reservaSala.professor}" tabindex="1"
 						requiredMessage="Informe o professor que deseja reservar a sala."
 						converter="professorConverter" immediate="true">
 						<f:selectItem itemValue="#{null}" itemLabel="Escolha o Professor" />
@@ -51,7 +51,7 @@
 				<h:outputLabel value="Sala" for="inputSala" styleClass="col-sm-2 control-label" />
 				<div class="col-sm-5">
 					<h:selectOneMenu required="true" id="inputSala" styleClass="form-control"
-						value="#{reservaSalaMB.reservaSala.sala}"
+						value="#{reservaSalaMB.reservaSala.sala}" tabindex="2" 
 						requiredMessage="Informe a sala a ser reservada."
 						converter="salaConverter" immediate="true">
 						<f:selectItem itemValue="#{null}" itemLabel="Escolha a Sala" />
@@ -68,7 +68,7 @@
 				<h:outputLabel value="Data da Reserva" for="inputReserva"
 					styleClass="col-sm-2 control-label" />
 				<div class="col-sm-2">
-					<h:inputText styleClass="form-control data" required="true" tabindex="1"
+					<h:inputText styleClass="form-control data" required="true" tabindex="3"
 						requiredMessage="Informe a data desejada para a reserva da sala."
 						title="Informe uma data válida no formato 'dia/mês/ano'."
 						id="inputReserva" value="#{reservaSalaMB.reservaSala.dataReserva.time}"
@@ -84,7 +84,7 @@
 					styleClass="col-sm-2 control-label" />
 				<div class="col-sm-2">
 					<h:selectOneMenu required="true" id="inputHorario" styleClass="form-control"
-						value="#{reservaSalaMB.reservaSala.horarioReserva}"
+						value="#{reservaSalaMB.reservaSala.horarioReserva}" tabindex="4" 
 						requiredMessage="Informe o horário para o qual a sala será reservada." 
 						converter="duracaoAulaConverter" immediate="true">
 						<f:selectItem itemValue="#{null}" itemLabel="Escolha o Horário" />
@@ -101,16 +101,15 @@
 				<h:outputLabel value="Observações" for="inputObservacao"
 					styleClass="col-sm-2 control-label" />
 				<div class="col-sm-10">
-					<h:inputTextarea rows="10" tabindex="1" styleClass="form-control"
-						id="inputObservacao"
-						value="#{reservaSalaMB.reservaSala.observacao}" />
+					<h:inputTextarea rows="10" tabindex="5" styleClass="form-control"
+						id="inputObservacao" value="#{reservaSalaMB.reservaSala.observacao}" />
 				</div>
 			</div>
 			
 			<div class="form-group">
 				<div class="col-sm-offset-2 col-sm-10">
 					<h:commandLink styleClass="btn btn-success" title="Reservar Sala"
-						actionListener="#{reservaSalaMB.salvar}">
+						actionListener="#{reservaSalaMB.salvar}" tabindex="6">
 						<span class="glyphicon glyphicon-floppy-disk" aria-hidden="true" /> Reservar
 						<f:ajax execute="inputProfessor inputSala inputReserva inputHorario
 							inputObservacao" render="inputProfessorMSG inputSalaMSG

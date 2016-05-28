@@ -36,6 +36,33 @@ public class DuracaoAulaMB {
 	private DuracaoAulaHTTP duracaoAulaHTTP;
 	private List<DuracaoAula> listaHorasAula;
 	private boolean isPagAdd;
+	private TipoTurno turno;
+	private boolean flagTabela;
+	
+	public DuracaoAulaMB() {
+		duracaoAula = new DuracaoAula();
+		turno = null;
+		this.setFlagTabela(true);
+	}
+	
+	public void atualizaLista(ActionEvent event) {
+		this.getListaHorasAula();
+		if (this.listaHorasAula.isEmpty()) {
+			this.setFlagTabela(false);
+			try {
+				FacesContext.getCurrentInstance().getExternalContext().redirect("/redAmber-WebApp/duracaoaula/index.xhtml");
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		} else {
+			this.setFlagTabela(true);
+			try {
+				FacesContext.getCurrentInstance().getExternalContext().redirect("/redAmber-WebApp/duracaoaula/index.xhtml");
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+	}
 	
 	public void salvar(ActionEvent event) {
 		
@@ -116,8 +143,16 @@ public class DuracaoAulaMB {
 
 	public List<DuracaoAula> getListaHorasAula() {
 
+		String paramTurno = "";
+		
+		if (this.getTurno() == null) {
+			paramTurno = "null";
+		} else {
+			paramTurno = String.valueOf(this.getTurno());
+		}
+		
 		Client c = new Client();
-		WebResource wr = c.resource(URLUtil.LISTAR_DURACOES_AULA);
+		WebResource wr = c.resource(URLUtil.LISTAR_DURACOES_AULA_POR_TURNO + paramTurno);
 		String jsonResult = wr.get(String.class);
 		if (!jsonResult.equalsIgnoreCase("null")) {
 			Gson gson = new Gson();
@@ -154,5 +189,21 @@ public class DuracaoAulaMB {
 
 	public StatusDuracaoAula[] getStatusDuracaoAula() {
 		return StatusDuracaoAula.values();
+	}
+
+	public TipoTurno getTurno() {
+		return turno;
+	}
+
+	public void setTurno(TipoTurno turno) {
+		this.turno = turno;
+	}
+
+	public boolean isFlagTabela() {
+		return flagTabela;
+	}
+
+	public void setFlagTabela(boolean flagTabela) {
+		this.flagTabela = flagTabela;
 	}
 }

@@ -12,28 +12,99 @@
 	  			<li class="active">Listagem de Avisos dos Professores</li>
 			</ol>
 			
-			<div class="areaPlus">
-				<h:commandLink actionListener="#{avisoProfessorMB.redirectAdd}"
-					styleClass="btn btn-success" title="Enviar Aviso à Secretaria">
-					<span class="glyphicon glyphicon-plus" aria-hidden="true" /> Adicionar
-				</h:commandLink>
+			<div class="form-horizontal">
+			
+				<div class="form-group">
+					<h:outputLabel value="Pesquisar por:"
+						styleClass="col-sm-2 control-label" />
+				</div>
+				
+				<div class="form-group">
+					<h:outputLabel value="Professor" for="inputProfessor"
+						styleClass="col-sm-2 control-label" />
+					<div class="col-sm-5">
+						<h:selectOneMenu id="inputProfessor" styleClass="form-control" tabindex="1" 
+							value="#{avisoProfessorMB.buscaAvisoProfessor.idProfessor}">
+							<f:selectItem itemValue="#{null}" itemLabel="Escolha o Professor" />
+							<f:selectItems value="#{avisoProfessorMB.listaProfessores}" var="professor"
+								itemValue="#{professor.id}" itemLabel="#{professor.nome}" />
+							<f:selectItem itemValue="#{null}" itemLabel="Todos" />
+						</h:selectOneMenu>
+					</div>
+				</div>
+
+				<div class="form-group">
+					<h:outputLabel value="Status do Aviso" for="inputStatusAviso"
+						styleClass="col-sm-2 control-label" />
+					<div class="col-sm-2">
+						<h:selectOneMenu id="inputStatusAviso" styleClass="form-control" tabindex="2"
+							value="#{avisoProfessorMB.buscaAvisoProfessor.status}" 
+							converter="statusAvisoProfessorConverter">
+							<f:selectItem itemValue="#{null}" itemLabel="Escolha o Status" />
+							<f:selectItems value="#{avisoProfessorMB.statusAvisosProfessores}" 
+								var="status" itemValue="#{status}" itemLabel="#{status}" />
+							<f:selectItem itemValue="#{null}" itemLabel="Ambos" />
+						</h:selectOneMenu>
+					</div>
+				</div>
+				
+				<div class="form-group">
+					<h:outputLabel value="Data do Aviso" for="inputDataAviso"
+						styleClass="col-sm-2 control-label" />
+					<div class="col-sm-2">
+						<h:inputText styleClass="form-control data dataInicial" tabindex="3"
+							title="Informe uma data válida no formato 'dia/mês/ano'."
+							id="inputDataAviso" value="#{avisoProfessorMB.buscaAvisoProfessor.dataAviso}"
+							converterMessage="Informe uma data válida no formato 'dia/mês/ano'.">
+							<f:convertDateTime type="date" pattern="dd/MM/yyyy" />
+						</h:inputText>
+						<h:message styleClass="text-danger" for="inputDataAviso" 
+							id="inputDataAvisoMSG" />
+					</div>
+				</div>
+								
+				<div class="form-group">
+					<div class="col-sm-offset-2 col-sm-10">
+						<h:commandLink styleClass="btn btn-info" title="Pesquisar Avisos do Professor"
+							actionListener="#{avisoProfessorMB.atualizaLista}" tabindex="4">
+							<span class="glyphicon glyphicon-search" aria-hidden="true" /> Pesquisar
+							<f:ajax execute="inputProfessor inputStatusAviso inputDataAviso" 
+								render="table-avisos semResultado inputDataAvisoMSG" />
+						</h:commandLink>
+						<span> </span>
+						<h:commandLink actionListener="#{avisoProfessorMB.redirectAdd}" tabindex="5"
+							styleClass="btn btn-success" title="Enviar Aviso do Professor">
+							<span class="glyphicon glyphicon-plus" aria-hidden="true" /> Adicionar
+						</h:commandLink>
+					</div>
+					<br />
+				</div>
 			</div>
 			
 			<div align="center">
 				<h:outputLabel for="tabelaVazia" class="glyphicon glyphicon-alert bigWarningSign"
-					rendered="#{empty avisoProfessorMB.listaAvisoProfessor}" />
+					rendered="#{empty avisoProfessorMB.listaAvisoProfessor and avisoProfessorMB.flagTabela == true}" />
 				<br />
 				<h:outputText id="tabelaVazia" class="emptyTable"
-					rendered="#{empty avisoProfessorMB.listaAvisoProfessor}"
+					rendered="#{empty avisoProfessorMB.listaAvisoProfessor and avisoProfessorMB.flagTabela == true}"
 					value="Ainda não há nenhum aviso de professor cadastrado.">
 				</h:outputText>
 			</div>
+
+			<div align="center">
+				<h:outputLabel for="semResultado" class="glyphicon glyphicon-alert bigWarningSign"
+					rendered="#{avisoProfessorMB.flagTabela == false}" />
+				<br />
+				<h:outputText id="semResultado" class="emptyTable"
+					rendered="#{avisoProfessorMB.flagTabela == false}"
+					value="A consulta não trouxe resultados.">
+				</h:outputText>
+			</div>
 			
-			<h:dataTable id="table-avisos"
-				styleClass="table table-hover table-bordered"
+			<h:dataTable id="table-avisos" styleClass="table table-hover table-bordered"
 				value="#{avisoProfessorMB.listaAvisoProfessor}" var="avisoProfessor"
 				emptyMessage="Não há avisos cadastrados"
-				rendered="#{not empty avisoProfessorMB.listaAvisoProfessor}">
+				rendered="#{not empty avisoProfessorMB.listaAvisoProfessor and avisoProfessorMB.flagTabela == true}">
 				<f:facet name="header">Avisos dos Professores</f:facet>
 				
 				<h:column>
@@ -66,10 +137,11 @@
 					
 					
 					<h:commandLink styleClass="btn btn-success" title="Aviso Recebido" disabled="true"
-						rendered="#{avisoProfessorMB.verificarStatus(avisoProfessor.id) == false}">
+						rendered="#{avisoProfessorMB.verificarStatus(avisoProfessor.id) == false}"
+						tabindex="6">
 						<span class="glyphicon glyphicon-thumbs-up" aria-hidden="true" /> Recebido
 					</h:commandLink><span> </span>
-					<h:commandLink styleClass="btn btn-primary" title="Receber Aviso"
+					<h:commandLink styleClass="btn btn-primary" title="Receber Aviso" tabindex="6"
 						rendered="#{avisoProfessorMB.verificarStatus(avisoProfessor.id) == true}"
 						actionListener="#{avisoProfessorMB.redirectApproval}">
 						<span class="glyphicon glyphicon-ok" aria-hidden="true" /> Receber
@@ -77,7 +149,7 @@
 							target="#{avisoProfessorMB.avisoProfessor}" />
 					</h:commandLink><span> </span>
 					<h:commandLink styleClass="btn btn-warning" title="Avisar aos Alunos"
-						actionListener="#{avisoProfessorMB.redirectAlert}">
+						actionListener="#{avisoProfessorMB.redirectAlert}" tabindex="6">
 						<span class="glyphicon glyphicon-send" aria-hidden="true" /> Avisar Alunos
 					</h:commandLink>
 				</h:column>

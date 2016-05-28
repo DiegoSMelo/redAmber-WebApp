@@ -77,7 +77,6 @@ public class GradeAulaMB {
 	public Professor professor;
 	public List<Professor> listaProfessoresPorDisciplina;
 	
-	
 	public void carregaResumos(){
 		
 		if (this.listaHoraAulaHTTP == null) {
@@ -557,7 +556,8 @@ public class GradeAulaMB {
 	public List<Disciplina> getListaDisciplinas() {
 
 		Client c = new Client();
-		WebResource wr = c.resource(URLUtil.LISTAR_DISCIPLINAS);
+		WebResource wr = c.resource(URLUtil.LISTAR_DISCIPLINAS_POR_CURSO + 
+				String.valueOf(this.turma.getCurso().getId()));
 		String jsonResult = wr.get(String.class);
 		if (!jsonResult.equalsIgnoreCase("null")) {
 			Gson gson = new Gson();

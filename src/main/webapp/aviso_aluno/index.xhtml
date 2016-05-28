@@ -12,27 +12,82 @@
 	  			<li class="active">Listagem de Avisos aos Alunos</li>
 			</ol>
 			
-			<div class="areaPlus">
-				<h:commandLink actionListener="#{avisoAlunoMB.redirectAdd}"
-					styleClass="btn btn-success" title="Enviar Aviso aos Alunos">
-					<span class="glyphicon glyphicon-plus" aria-hidden="true" /> Adicionar
-				</h:commandLink>
+			<div class="form-horizontal">
+			
+				<div class="form-group">
+					<h:outputLabel value="Pesquisar por:"
+						styleClass="col-sm-2 control-label" />
+				</div>
+				
+				<div class="form-group">
+					<h:outputLabel value="Turma" for="inputTurma"
+						styleClass="col-sm-2 control-label" />
+					<div class="col-sm-2">
+						<h:selectOneMenu id="inputTurma" styleClass="form-control" tabindex="1" 
+							value="#{avisoAlunoMB.buscaAvisoAluno.idTurma}">
+							<f:selectItem itemValue="#{null}" itemLabel="Escolha a Turma" />
+							<f:selectItems value="#{avisoAlunoMB.listaTurmas}" var="turma"
+								itemValue="#{turma.id}" itemLabel="#{turma.nome}" />
+						</h:selectOneMenu>
+					</div>
+				</div>
+				
+				<div class="form-group">
+					<h:outputLabel value="Data do Aviso" for="inputDataAviso"
+						styleClass="col-sm-2 control-label" />
+					<div class="col-sm-2">
+						<h:inputText styleClass="form-control data dataInicial" tabindex="2"
+							title="Informe uma data válida no formato 'dia/mês/ano'."
+							id="inputDataAviso" value="#{avisoAlunoMB.buscaAvisoAluno.dataAviso}"
+							converterMessage="Informe uma data válida no formato 'dia/mês/ano'.">
+							<f:convertDateTime type="date" pattern="dd/MM/yyyy" />
+						</h:inputText>
+						<h:message styleClass="text-danger" for="inputDataAviso" 
+							id="inputDataAvisoMSG" />
+					</div>
+				</div>
+								
+				<div class="form-group">
+					<div class="col-sm-offset-2 col-sm-10">
+						<h:commandLink styleClass="btn btn-info" title="Pesquisar Avisos ao Aluno"
+							actionListener="#{avisoAlunoMB.atualizaLista}" tabindex="3">
+							<span class="glyphicon glyphicon-search" aria-hidden="true" /> Pesquisar
+							<f:ajax execute="inputTurma inputDataAviso" 
+								render="table-avisos semResultado inputDataAvisoMSG" />
+						</h:commandLink>
+						<span> </span>
+						<h:commandLink actionListener="#{avisoAlunoMB.redirectAdd}" tabindex="4"
+							styleClass="btn btn-success" title="Enviar Aviso aos Alunos">
+							<span class="glyphicon glyphicon-plus" aria-hidden="true" /> Adicionar
+						</h:commandLink>
+					</div>
+					<br />
+				</div>
 			</div>
 			
 			<div align="center">
 				<h:outputLabel for="tabelaVazia" class="glyphicon glyphicon-alert bigWarningSign"
-					rendered="#{empty avisoAlunoMB.listaAvisoAluno}" />
+					rendered="#{empty avisoAlunoMB.listaAvisoAluno and avisoAlunoMB.flagTabela == true}" />
 				<br />
 				<h:outputText id="tabelaVazia" class="emptyTable"
-					rendered="#{empty avisoAlunoMB.listaAvisoAluno}"
+					rendered="#{empty avisoAlunoMB.listaAvisoAluno and avisoAlunoMB.flagTabela == true}"
 					value="Ainda não há nenhum aviso da secretaria aos alunos cadastrado.">
 				</h:outputText>
 			</div>
 			
-			<h:dataTable id="table-avisos"
-				styleClass="table table-hover table-bordered"
+			<div align="center">
+				<h:outputLabel for="semResultado" class="glyphicon glyphicon-alert bigWarningSign"
+					rendered="#{avisoAlunoMB.flagTabela == false}" />
+				<br />
+				<h:outputText id="semResultado" class="emptyTable"
+					rendered="#{avisoAlunoMB.flagTabela == false}"
+					value="A consulta não trouxe resultados.">
+				</h:outputText>
+			</div>
+			
+			<h:dataTable id="table-avisos" styleClass="table table-hover table-bordered"
 				value="#{avisoAlunoMB.listaAvisoAluno}" var="avisoAluno"
-				rendered="#{not empty avisoAlunoMB.listaAvisoAluno}"
+				rendered="#{not empty avisoAlunoMB.listaAvisoAluno and avisoAlunoMB.flagTabela == true}"
 				emptyMessage="Não há avisos cadastrados">
 				<f:facet name="header">Avisos aos Alunos</f:facet>
 				
@@ -57,8 +112,8 @@
 				<h:column>
 					<f:facet name="header">Ações</f:facet>
 
-					<h:commandLink styleClass="btn btn-info btn-acoes" title="Editar Aviso"
-						actionListener="#{avisoAlunoMB.redirectEdit}">
+					<h:commandLink styleClass="btn btn-info btn-acoes" title="Editar Aviso" 
+						actionListener="#{avisoAlunoMB.redirectEdit}" tabindex="5">
 						<span class="glyphicon glyphicon-pencil" aria-hidden="true" /> Editar
 						<f:setPropertyActionListener value="#{avisoAluno}"
 							target="#{avisoAlunoMB.avisoAluno}" />

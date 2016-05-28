@@ -7,21 +7,21 @@ import java.util.Properties;
 
 public abstract class URLUtil {
 	
-	///////////////////////////////////////////////////////////////////////////////////////////////
-	//                                           SUMÁRIO                                         //
-	///////////////////////////////////////////////////////////////////////////////////////////////
-	// URL BASE    -> LINHAS:  37 ~  39 / EQUIPAMENTO                       -> LINHAS: 254 ~ 271 //
-	// ALUNO       -> LINHAS:  41 ~  66 / SALA                              -> LINHAS: 273 ~ 290 //
-	// FUNCIONÁRIO -> LINHAS:  68 ~  97 / DURAÇÃO DE AULA                   -> LINHAS: 292 ~ 309 //
-	// PROFESSOR   -> LINHAS:  99 ~ 124 / RESERVA DE EQUIPAMENTO            -> LINHAS: 311 ~ 332 //
-	// MATRÍCULA   -> LINHAS: 126 ~ 149 / RESERVA DE SALA                   -> LINHAS: 334 ~ 355 //
-	// CURSO       -> LINHAS: 151 ~ 168 / AVISO DO PROFESSOR                -> LINHAS: 357 ~ 374 //
-	// DISCIPLINA  -> LINHAS: 170 ~ 195 / AVISO AO ALUNO                    -> LINHAS: 376 ~ 389 //
-	// TURMA       -> LINHAS: 197 ~ 214 / MATRÍCULA-INTEGRAÇÃO (EDUCA MAIS) -> LINHAS: 391 ~ 416 //
-	// GRADE       -> LINHAS: 216 ~ 252 / HORÁRIO DAS AULAS                 -> LINHAS: 418 ~ 453 // 
-	///////////////////////////////////////////////////////////////////////////////////////////////
+	////////////////////////////////////////////////////////////////////////////////////////////////
+	//                                           SUMÁRIO                                          //
+	////////////////////////////////////////////////////////////////////////////////////////////////
+	// URL BASE    -> LINHAS:  37 ~  39 // EQUIPAMENTO                       -> LINHAS: 256 ~ 275 //
+	// ALUNO       -> LINHAS:  41 ~  66 // SALA                              -> LINHAS: 277 ~ 296 //
+	// FUNCIONÁRIO -> LINHAS:  68 ~  97 // DURAÇÃO DE AULA                   -> LINHAS: 298 ~ 317 //
+	// PROFESSOR   -> LINHAS:  99 ~ 124 // RESERVA DE EQUIPAMENTO            -> LINHAS: 319 ~ 344 //
+	// MATRÍCULA   -> LINHAS: 126 ~ 149 // RESERVA DE SALA                   -> LINHAS: 346 ~ 371 //
+	// CURSO       -> LINHAS: 151 ~ 170 // AVISO DO PROFESSOR                -> LINHAS: 373 ~ 394 //
+	// DISCIPLINA  -> LINHAS: 172 ~ 197 // AVISO AO ALUNO                    -> LINHAS: 396 ~ 413 //
+	// TURMA       -> LINHAS: 199 ~ 216 // MATRÍCULA-INTEGRAÇÃO (EDUCA MAIS) -> LINHAS: 415 ~ 440 //
+	// GRADE       -> LINHAS: 218 ~ 254 // HORÁRIO DAS AULAS                 -> LINHAS: 442 ~ 477 // 
+	////////////////////////////////////////////////////////////////////////////////////////////////
 	
-	private static Properties prop;
+	private static Properties prop; //"C:/Config/properties/url.properties"
 	static {
 		try {
 			prop = new Properties();
@@ -165,6 +165,8 @@ public abstract class URLUtil {
 	
 	public static final String LISTAR_CURSOS = BASE + prop.getProperty("url.listar.cursos");
 	
+	public static final String LISTAR_CURSOS_POR_TIPO = BASE + prop.getProperty("url.listar.cursos.por.tipo");
+	
 	/////////////////////////////////////////
 
 	///////////////// DISCIPLINA /////////////////
@@ -266,7 +268,9 @@ public abstract class URLUtil {
 	 */
 	public static final String SALVAR_EQUIPAMENTO = BASE + prop.getProperty("url.salvar.equipamento");
 
-	public static final String LISTAR_EQUIPAMENTOS = BASE + prop.getProperty("url.listar.equipamentos");	
+	public static final String LISTAR_EQUIPAMENTOS = BASE + prop.getProperty("url.listar.equipamentos");
+	
+	public static final String LISTAR_EQUIPAMENTOS_POR_DESCRICAO = BASE + prop.getProperty("url.listar.equipamentos.por.descricao");
 	
 	///////////////////////////////////////////////
 
@@ -285,7 +289,9 @@ public abstract class URLUtil {
 	 */
 	public static final String SALVAR_SALA = BASE + prop.getProperty("url.salvar.sala");
 
-	public static final String LISTAR_SALAS = BASE + prop.getProperty("url.listar.salas");	
+	public static final String LISTAR_SALAS = BASE + prop.getProperty("url.listar.salas");
+	
+	public static final String LISTAR_SALAS_POR_DESCRICAO = BASE + prop.getProperty("url.listar.sala.por.descricao");
 	
 	////////////////////////////////////////
 
@@ -304,7 +310,9 @@ public abstract class URLUtil {
 	 */
 	public static final String SALVAR_DURACAO_AULA = BASE + prop.getProperty("url.salvar.duracaoaula");
 
-	public static final String LISTAR_DURACOES_AULA = BASE + prop.getProperty("url.listar.duracoessaula");	
+	public static final String LISTAR_DURACOES_AULA = BASE + prop.getProperty("url.listar.duracoessaula");
+	
+	public static final String LISTAR_DURACOES_AULA_POR_TURNO = BASE + prop.getProperty("url.listar.duracaoaula.por.turno");
 	
 	/////////////////////////////////////////////////////
 	
@@ -326,6 +334,10 @@ public abstract class URLUtil {
 	public static final String LISTAR_RESERVAS_EQUIPAMENTO = BASE + prop.getProperty("url.listar.reservas.de.equipamentos");
 
 	public static final String LISTAR_RESERVAS_EQUIPAMENTOS_PENDENTES = BASE + prop.getProperty("url.listar.reservas.de.equipamentos.pendentes");
+	/*
+	 * param BUSCA_RESERVA (POST)
+	 */
+	public static final String LISTAR_RESERVAS_EQUIPAMENTOS_POR_PARAMETROS = BASE + prop.getProperty("url.listar.reservas.de.equipamentos.por.parametros");
 
 	public static final String NUMERO_RESERVAS_EQUIPAMENTOS_HOJE = BASE + prop.getProperty("url.numero.de.reservas.de.equipamentos.do.dia");	
 	
@@ -349,7 +361,11 @@ public abstract class URLUtil {
 	public static final String LISTAR_RESERVAS_SALA = BASE + prop.getProperty("url.listar.reservas.de.salas");
 
 	public static final String LISTAR_RESERVAS_SALAS_PENDENTES = BASE + prop.getProperty("url.listar.reservas.de.salas.pendentes");
-
+	/*
+	 * param BUSCA_RESERVA (POST)
+	 */
+	public static final String LISTAR_RESERVAS_SALAS_POR_PARAMETROS = BASE + prop.getProperty("url.listar.reservas.de.salas.por.parametros");
+	
 	public static final String NUMERO_RESERVAS_SALAS_HOJE = BASE + prop.getProperty("url.numero.de.reservas.de.salas.do.dia");	
 	
 	///////////////////////////////////////////////////
@@ -368,6 +384,10 @@ public abstract class URLUtil {
 	public static final String LISTAR_AVISOS_PROFESSORES = BASE + prop.getProperty("url.listar.avisos.do.professor");
 	
 	public static final String LISTAR_AVISOS_PROFESSORES_PENDENTES = BASE + prop.getProperty("url.listar.avisos.do.professor.pendentes");
+	/*
+	 * param BUSCA_AVISO_PROFESSOR (POST)
+	 */
+	public static final String LISTAR_AVISOS_PROFESSORES_POR_PARAMETROS = BASE + prop.getProperty("url.listar.avisos.do.professor.por.parametros");
 
 	public static final String NUMERO_AVISOS_PROFESSORES_HOJE = BASE + prop.getProperty("url.numero.de.avisos.de.professores.do.dia");	
 	
@@ -384,7 +404,11 @@ public abstract class URLUtil {
 	 */
 	public static final String SALVAR_AVISO_ALUNO = BASE + prop.getProperty("url.salvar.aviso.ao.aluno");
 
-	public static final String LISTAR_AVISOS_ALUNOS = BASE + prop.getProperty("url.listar.avisos.ao.aluno");	
+	public static final String LISTAR_AVISOS_ALUNOS = BASE + prop.getProperty("url.listar.avisos.ao.aluno");
+	/*
+	 * param BUSCA_AVISO_ALUNO (POST)
+	 */
+	public static final String LISTAR_AVISOS_ALUNOS_POR_PARAMETROS = BASE + prop.getProperty("url.listar.avisos.ao.aluno.por.parametros");
 	
 	//////////////////////////////////////////////////
 	

@@ -20,7 +20,7 @@
 				<h:outputLabel value="Nome do Funcionário" for="inputNome"
 					styleClass="col-sm-2 control-label" />
 				<div class="col-sm-5">
-					<h:inputText required="true" tabindex="2"
+					<h:inputText required="true" tabindex="1" onchange="this.value = this.value.trim()" 
 						requiredMessage="Digite o nome do funcionário." styleClass="form-control"
 						id="inputNome" value="#{funcionarioMB.funcionario.nome}" />
 					<h:message styleClass="text-danger" for="inputNome" id="inputNomeMSG" />
@@ -31,7 +31,7 @@
 				<h:outputLabel value="RG do Funcionário" for="inputRG"
 					styleClass="col-sm-2 control-label" />
 				<div class="col-sm-2">
-					<h:inputText styleClass="form-control" tabindex="6" required="true"
+					<h:inputText styleClass="form-control inputRG" tabindex="2" required="true"
 						requiredMessage="Digite o RG do funcionário." converterMessage="RG inválido."
 						id="inputRG" value="#{funcionarioMB.funcionario.rg}">
 						<f:convertNumber integerOnly="true" minIntegerDigits="1" />
@@ -44,7 +44,7 @@
 				<h:outputLabel value="Data de Nascimento" for="inputDataNascimento"
 					styleClass="col-sm-2 control-label" />
 				<div class="col-sm-2">
-					<h:inputText styleClass="form-control data" tabindex="6"
+					<h:inputText styleClass="form-control data" tabindex="3"
 						required="true" requiredMessage="Digite a data de nascimento do funcionário."
 						title="Informe uma data válida no formato 'dia/mês/ano'."
 						id="inputDataNascimento" value="#{funcionarioMB.funcionario.dataNascimento.time}"
@@ -60,7 +60,7 @@
 				<h:outputLabel value="Telefone do Funcionário" for="inputTel"
 					styleClass="col-sm-2 control-label" />
 				<div class="col-sm-2">
-					<h:inputText styleClass="form-control telefone" tabindex="6"
+					<h:inputText styleClass="form-control telefone" tabindex="4"
 						required="true" requiredMessage="Digite o telefone do funcionário."
 						id="inputTel" value="#{funcionarioMB.funcionario.telefone}" />
 					<h:message styleClass="text-danger" for="inputTel" id="inputTelMSG" />
@@ -71,10 +71,11 @@
 				<h:outputLabel value="E-mail do Funcionário" for="inputEmail"
 					styleClass="col-sm-2 control-label" />
 				<div class="col-sm-3">
-					<h:inputText styleClass="form-control" tabindex="10"
+					<h:inputText styleClass="form-control" tabindex="5"
 						required="true" requiredMessage="Digite o e-mail do funcionário."
 						validatorMessage="E-mail inválido" id="inputEmail"
-						value="#{funcionarioMB.funcionario.email}">
+						value="#{funcionarioMB.funcionario.email}"
+						onchange="this.value = this.value.trim()">
 
 						<f:validateRegex
 							pattern="^[_A-Za-z0-9-\+]+(\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\.[A-Za-z0-9]+)*(\.[A-Za-z]{2,})$" />
@@ -88,7 +89,7 @@
 				<h:outputLabel value="Tipo do Funcionário" for="inputTipo"
 					styleClass="col-sm-2 control-label" />
 				<div class="col-sm-2">
-					<h:selectOneMenu id="inputTipo" styleClass="form-control"
+					<h:selectOneMenu id="inputTipo" styleClass="form-control" tabindex="6" 
 						value="#{funcionarioMB.funcionario.tipoFuncionario}">
 						<f:selectItems value="#{funcionarioMB.tipos}" var="tipo"
 							itemValue="#{tipo}" />
@@ -100,7 +101,7 @@
 				<h:outputLabel value="Status" for="inputStatus"
 					styleClass="col-sm-2 control-label" />
 				<div class="col-sm-2">
-					<h:selectOneMenu id="inputStatus" styleClass="form-control"
+					<h:selectOneMenu id="inputStatus" styleClass="form-control" tabindex="7"
 						value="#{funcionarioMB.funcionario.status}">
 						<f:selectItems value="#{funcionarioMB.statusUsuario}" var="status"
 							itemValue="#{status}" />
@@ -111,7 +112,7 @@
 			<div class="form-group">
 				<div class="col-sm-offset-2 col-sm-10">
 					<h:commandLink styleClass="btn btn-success" title="Salvar Alterações"
-						actionListener="#{funcionarioMB.salvar}">
+						actionListener="#{funcionarioMB.salvar}" tabindex="8">
 						<span class="glyphicon glyphicon-floppy-disk" aria-hidden="true" /> Salvar
 						<f:ajax execute="inputNome inputRG inputDataNascimento inputTel inputEmail 
 							inputTipo inputStatus" render="inputNomeMSG inputRGMSG 

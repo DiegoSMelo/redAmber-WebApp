@@ -13,26 +13,68 @@
 				</li>
 				<li class="active">Cursos</li>
 			</ol>
-
-			<div class="areaPlus">
-				<h:commandLink actionListener="#{cursoMB.redirectAdd}" 
-					title="Adicionar Curso" styleClass="btn btn-success">
-					<span class="glyphicon glyphicon-plus" aria-hidden="true" /> Adicionar
-				</h:commandLink>
+			
+			<div class="form-horizontal">
+			
+				<div class="form-group">
+					<h:outputLabel value="Pesquisar por:"
+						styleClass="col-sm-2 control-label" />
+				</div>
+				
+				<div class="form-group">
+					<h:outputLabel value="Tipo do Curso" for="inputTipoCurso"
+						styleClass="col-sm-2 control-label" />
+					<div class="col-sm-2">
+						<h:selectOneMenu id="inputTipoCurso" styleClass="form-control" tabindex="1"
+							value="#{cursoMB.tipoCurso}" converter="tipoCursoConverter">
+							<f:selectItem itemValue="#{null}" itemLabel="Escolha o Tipo" />
+							<f:selectItems value="#{cursoMB.tiposCurso}" var="tipo"
+								itemValue="#{tipo}" itemLabel="#{tipo}" />
+							<f:selectItem itemValue="#{null}" itemLabel="Ambos" />
+						</h:selectOneMenu>
+					</div>
+				</div>
+				
+				<div class="form-group">
+					<div class="col-sm-offset-2 col-sm-10">
+						<h:commandLink styleClass="btn btn-info" title="Pesquisar Alunos"
+							actionListener="#{cursoMB.atualizaLista}" tabindex="2">
+							<span class="glyphicon glyphicon-search" aria-hidden="true" /> Pesquisar
+							<f:ajax execute="inputTipoCurso" render="table-operadores semResultado" />
+						</h:commandLink>
+						<span> </span>
+						<h:commandLink actionListener="#{cursoMB.redirectAdd}" tabindex="3"
+							styleClass="btn btn-success" title="Adicionar Curso">
+							<span class="glyphicon glyphicon-plus" aria-hidden="true" /> Adicionar
+						</h:commandLink>
+					</div>
+					<br />
+				</div>
 			</div>
 			
 			<div align="center">
 				<h:outputLabel for="tabelaVazia" class="glyphicon glyphicon-alert bigWarningSign"
-					rendered="#{empty cursoMB.listaCursos}" />
+					rendered="#{empty cursoMB.listaCursos and cursoMB.flagTabela == true}" />
 				<br />
 				<h:outputText id="tabelaVazia" class="emptyTable" 
-					rendered="#{empty cursoMB.listaCursos}" value="Ainda não há cursos cadastrados.">
+					rendered="#{empty cursoMB.listaCursos and cursoMB.flagTabela == true}" 
+					value="Ainda não há cursos cadastrados.">
+				</h:outputText>
+			</div>
+
+			<div align="center">
+				<h:outputLabel for="semResultado" class="glyphicon glyphicon-alert bigWarningSign"
+					rendered="#{cursoMB.flagTabela == false}" />
+				<br />
+				<h:outputText id="semResultado" class="emptyTable"
+					rendered="#{cursoMB.flagTabela == false}"
+					value="A consulta não trouxe resultados.">
 				</h:outputText>
 			</div>
 
 			<h:dataTable id="table-operadores" styleClass="table table-hover table-bordered"
 				value="#{cursoMB.listaCursos}" var="curso" emptyMessage="Não há cursos cadastrados"
-				rendered="#{not empty cursoMB.listaCursos}">
+				rendered="#{not empty cursoMB.listaCursos and cursoMB.flagTabela == true}">
 
 				<h:column>
 					<f:facet name="header">Sigla</f:facet>
@@ -57,14 +99,14 @@
 
 				<h:column>
 					<f:facet name="header">Ações</f:facet>
-					<h:commandLink styleClass="btn btn-info btn-acoes"
+					<h:commandLink styleClass="btn btn-info btn-acoes" tabindex="4"
 						actionListener="#{cursoMB.redirectEdit}" title="Editar Curso">
 						<span class="glyphicon glyphicon-pencil" aria-hidden="true" /> Editar
 						<f:setPropertyActionListener value="#{curso}"
 							target="#{cursoMB.curso}"></f:setPropertyActionListener>
 					</h:commandLink>
 
-					<h:commandLink styleClass="btn btn-info btn-acoes"
+					<h:commandLink styleClass="btn btn-info btn-acoes" tabindex="4"
 						actionListener="#{gradeMB.redirectIndex}" 
 						title="Grades Curriculares deste Curso">
 						<span class="glyphicon glyphicon-th" aria-hidden="true" /> Grades do Curso

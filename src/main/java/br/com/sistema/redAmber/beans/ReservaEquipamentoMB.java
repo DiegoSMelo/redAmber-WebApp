@@ -16,12 +16,15 @@ import org.primefaces.context.RequestContext;
 
 import com.google.gson.Gson;
 import com.sun.jersey.api.client.Client;
+import com.sun.jersey.api.client.ClientHandlerException;
 import com.sun.jersey.api.client.ClientResponse;
+import com.sun.jersey.api.client.UniformInterfaceException;
 import com.sun.jersey.api.client.WebResource;
 import com.sun.jersey.api.client.config.ClientConfig;
 import com.sun.jersey.api.client.config.DefaultClientConfig;
 import com.sun.jersey.api.json.JSONConfiguration;
 
+import br.com.sistema.redAmber.basicas.BuscaReserva;
 import br.com.sistema.redAmber.basicas.DuracaoAula;
 import br.com.sistema.redAmber.basicas.Equipamento;
 import br.com.sistema.redAmber.basicas.Professor;
@@ -40,6 +43,8 @@ public class ReservaEquipamentoMB {
 	private List<Professor> listaProfessores;
 	private List<DuracaoAula> listaHorarios;
 	private boolean isPagAdd;
+	private BuscaReserva buscaReserva;
+	private boolean flagTabela;
 	
 	public ReservaEquipamentoMB() {
 		reservaEquipamento = new ReservaEquipamento();
@@ -47,8 +52,32 @@ public class ReservaEquipamentoMB {
 		listaEquipamentos = new ArrayList<Equipamento>();
 		listaProfessores = new ArrayList<Professor>();
 		listaHorarios = new ArrayList<DuracaoAula>();
+		buscaReserva = new BuscaReserva();
+		this.setFlagTabela(true);
 	}
 	
+	public void atualizaLista(ActionEvent event) {
+		this.getListaReservas();
+		if (this.listaReservas.isEmpty()) {
+			this.setFlagTabela(false);
+			try {
+				FacesContext.getCurrentInstance().getExternalContext().redirect("/redAmber-WebApp/reserva_equipamento/index.xhtml");
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		} else {
+			this.setFlagTabela(true);
+			try {
+				FacesContext.getCurrentInstance().getExternalContext().redirect("/redAmber-WebApp/reserva_equipamento/index.xhtml");
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+	}
+	
+	/**
+	 * Redireciona para a página de cadastro.
+	 */
 	public void redirectIndex() {
 		try {
 			this.setReservaEquipamento(new ReservaEquipamento());
@@ -59,6 +88,9 @@ public class ReservaEquipamentoMB {
 		}
 	}
 	
+	/**
+	 * Cria um novo objeto ReservaEquipamento e redireciona para a página de cadastro.
+	 */
 	public void redirectAdd() {
 		try {
 			this.setReservaEquipamento(new ReservaEquipamento());
@@ -70,6 +102,9 @@ public class ReservaEquipamentoMB {
 		}
 	}
 	
+	/**
+	 * Redireciona para a página de aprovação da reserva de equipamento.
+	 */
 	public void redirectApproval() {
 		try {
 			this.setPagAdd(false);
@@ -80,6 +115,9 @@ public class ReservaEquipamentoMB {
 		}
 	}
 	
+	/**
+	 * Redireciona para a página de edição.
+	 */
 	public void redirectEdit() {
 		try {
 			this.setPagAdd(false);
@@ -136,17 +174,23 @@ public class ReservaEquipamentoMB {
 		}
 	}
 	
+	/**
+	 * Altera o status de uma reserva de equipamento para APROVADA
+	 */
 	public void aprovarRequisicao(ActionEvent event) {
 		this.getReservaEquipamento().setStatus(StatusReserva.APROVADA);
 		this.salvar(event);
 	}
 	
+	/**
+	 * Altera o status de uma reserva de equipamento para NEGADA
+	 */
 	public void negarRequisicao(ActionEvent event) {
 		this.getReservaEquipamento().setStatus(StatusReserva.NEGADA);
 		this.salvar(event);
 	}
 	
-	/*
+	/**
 	 * Getters and setters
 	 */
 	public ReservaEquipamento getReservaEquipamento() {
@@ -157,15 +201,37 @@ public class ReservaEquipamentoMB {
 	}
 	public List<ReservaEquipamento> getListaReservas() {
 		
-		Client c = new Client();
-		WebResource wr = c.resource(URLUtil.LISTAR_RESERVAS_EQUIPAMENTO);
-	    String jsonResult = wr.get(String.class);
-	    if (!jsonResult.equalsIgnoreCase("null")) {
-			Gson gson = new Gson();
-			
-			ReservaEquipamento[] lista = gson.fromJson(jsonResult, ReservaEquipamento[].class);
-			this.listaReservas = Arrays.asList(lista);
-	    }
+		// Create Jersey client
+		ClientConfig clientConfig = new DefaultClientConfig();
+		clientConfig.getFeatures().put(JSONConfiguration.FEATURE_POJO_MAPPING, Boolean.TRUE);
+		Client client = Client.create(clientConfig);
+
+		String jsonResult;
+		try {
+			WebResource webResourcePost = client.resource(URLUtil.LISTAR_RESERVAS_EQUIPAMENTOS_POR_PARAMETROS);
+			ClientResponse response = webResourcePost.type("application/json").post(ClientResponse.class,
+					this.getBuscaReserva());
+			if (response.getStatus() != 200) {
+				RequestContext.getCurrentInstance().execute("alert('" + Mensagens.m28 + "');");
+			}
+			jsonResult = response.getEntity(String.class);
+			if (!jsonResult.equalsIgnoreCase("null")) {
+				Gson gson = new Gson();
+
+				ReservaEquipamento[] avisos = gson.fromJson(jsonResult, ReservaEquipamento[].class);
+				this.listaReservas = Arrays.asList(avisos);
+				return listaReservas;
+			}
+		} catch (UniformInterfaceException e1) {
+			RequestContext.getCurrentInstance().execute("alert('" + Mensagens.m28 + "');");
+			e1.printStackTrace();
+		} catch (ClientHandlerException e1) {
+			RequestContext.getCurrentInstance().execute("alert('" + Mensagens.m28 + "');");
+			e1.printStackTrace();
+		} catch (Exception e) {
+			RequestContext.getCurrentInstance().execute("alert('" + Mensagens.m28 + "');");
+			e.printStackTrace();
+		}
 		return listaReservas;
 	}
 	public void setListaReservas(List<ReservaEquipamento> listaReservas) {
@@ -225,8 +291,19 @@ public class ReservaEquipamentoMB {
 	public void setPagAdd(boolean isPagAdd) {
 		this.isPagAdd = isPagAdd;
 	}
-	
 	public StatusReserva[] getStatusReservas() {
 		return StatusReserva.values();
+	}
+	public BuscaReserva getBuscaReserva() {
+		return buscaReserva;
+	}
+	public void setBuscaReserva(BuscaReserva buscaReserva) {
+		this.buscaReserva = buscaReserva;
+	}
+	public boolean isFlagTabela() {
+		return flagTabela;
+	}
+	public void setFlagTabela(boolean flagTabela) {
+		this.flagTabela = flagTabela;
 	}
 }

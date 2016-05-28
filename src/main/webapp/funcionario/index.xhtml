@@ -43,12 +43,12 @@
 				<div class="form-group">
 					<div class="col-sm-offset-2 col-sm-10">
 						<h:commandLink styleClass="btn btn-info" title="Pesquisar Funcionários"
-							actionListener="#{funcionarioMB.atualizaLista}">
+							actionListener="#{funcionarioMB.atualizaLista}" tabindex="3">
 							<span class="glyphicon glyphicon-search" aria-hidden="true" /> Pesquisar
 							<f:ajax execute="inputNome inputRG" render="table-operadores semResultado" />
 						</h:commandLink>
 						<span> </span>
-						<h:commandLink actionListener="#{funcionarioMB.redirectAdd}"
+						<h:commandLink actionListener="#{funcionarioMB.redirectAdd}" tabindex="4"
 							styleClass="btn btn-success" title="Adicionar Funcionário">
 							<span class="glyphicon glyphicon-plus" aria-hidden="true" /> Adicionar
 						</h:commandLink>
@@ -113,13 +113,13 @@
 					<f:facet name="header">Ações</f:facet>
 
 					<h:commandLink styleClass="btn btn-info btn-acoes" title="Editar Funcionário"
-						actionListener="#{funcionarioMB.redirectEdit}">
+						actionListener="#{funcionarioMB.redirectEdit}" tabindex="5">
 						<span class="glyphicon glyphicon-pencil" aria-hidden="true" /> Editar
 						<f:setPropertyActionListener value="#{funcionario}" 
 							target="#{funcionarioMB.funcionario}" />
 					</h:commandLink>
 					
-					<h:commandLink styleClass="btn btn-warning btn-acoes"
+					<h:commandLink styleClass="btn btn-warning btn-acoes" tabindex="5"
 						actionListener="#{funcionarioMB.redirectAddUser}" title="Adicionar Login/Senha">
 						<span class="glyphicon glyphicon-road" aria-hidden="true" /> Acesso
 						<f:setPropertyActionListener value="#{funcionario}" 

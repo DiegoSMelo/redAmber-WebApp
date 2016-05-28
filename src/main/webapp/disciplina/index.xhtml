@@ -13,28 +13,67 @@
 				</li>
 				<li class="active">Disciplinas</li>
 			</ol>
-
-			<div class="areaPlus">
-				<h:commandLink actionListener="#{disciplinaMB.redirectAdd}"
-					styleClass="btn btn-success" title="Adicionar Disciplina">
-					<span class="glyphicon glyphicon-plus" aria-hidden="true" /> Adicionar
-				</h:commandLink>
+			
+			<div class="form-horizontal">
+			
+				<div class="form-group">
+					<h:outputLabel value="Pesquisar por:"
+						styleClass="col-sm-2 control-label" />
+				</div>
+				
+				<div class="form-group">
+					<h:outputLabel value="Curso" for="inputCurso"
+						styleClass="col-sm-2 control-label" />
+					<div class="col-sm-5">
+						<h:selectOneMenu id="inputCurso" styleClass="form-control"
+							value="#{disciplinaMB.curso}" converter="cursoConverter">
+							<f:selectItem itemValue="#{null}" itemLabel="Escolha o Curso" />
+							<f:selectItems value="#{disciplinaMB.listaCursos}" var="curso"
+								itemValue="#{curso}" itemLabel="#{curso.nome}" />
+						</h:selectOneMenu>
+					</div>
+				</div>
+				
+				<div class="form-group">
+					<div class="col-sm-offset-2 col-sm-10">
+						<h:commandLink styleClass="btn btn-info" title="Pesquisar Alunos"
+							actionListener="#{disciplinaMB.atualizaLista}">
+							<span class="glyphicon glyphicon-search" aria-hidden="true" /> Pesquisar
+							<f:ajax execute="inputCurso" render="table-operadores semResultado" />
+						</h:commandLink>
+						<span> </span>
+						<h:commandLink actionListener="#{disciplinaMB.redirectAdd}"
+							styleClass="btn btn-success" title="Adicionar Disciplina">
+							<span class="glyphicon glyphicon-plus" aria-hidden="true" /> Adicionar
+						</h:commandLink>
+					</div>
+					<br />
+				</div>
 			</div>
 			
 			<div align="center">
 				<h:outputLabel for="tabelaVazia" class="glyphicon glyphicon-alert bigWarningSign"
-					rendered="#{empty disciplinaMB.listaDisciplinas}" />
+					rendered="#{empty disciplinaMB.listaDisciplinas and disciplinaMB.flagTabela == true}" />
 				<br />
 				<h:outputText id="tabelaVazia" class="emptyTable"
-					rendered="#{empty disciplinaMB.listaDisciplinas}"
+					rendered="#{empty disciplinaMB.listaDisciplinas and disciplinaMB.flagTabela == true}"
 					value="Ainda não há disciplinas cadastradas.">
 				</h:outputText>
 			</div>
+			
+			<div align="center">
+				<h:outputLabel for="semResultado" class="glyphicon glyphicon-alert bigWarningSign"
+					rendered="#{disciplinaMB.flagTabela == false}" />
+				<br />
+				<h:outputText id="semResultado" class="emptyTable"
+					rendered="#{disciplinaMB.flagTabela == false}"
+					value="A consulta não trouxe resultados.">
+				</h:outputText>
+			</div>
 
-			<h:dataTable id="table-operadores"
-				styleClass="table table-hover table-bordered"
+			<h:dataTable id="table-operadores" styleClass="table table-hover table-bordered"
 				value="#{disciplinaMB.listaDisciplinas}" var="disciplina"
-				rendered="#{not empty disciplinaMB.listaDisciplinas}"
+				rendered="#{not empty disciplinaMB.listaDisciplinas and disciplinaMB.flagTabela == true}"
 				emptyMessage="Não há disciplinas cadastradas">
 
 				<h:column>

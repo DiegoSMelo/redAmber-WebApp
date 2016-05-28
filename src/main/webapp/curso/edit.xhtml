@@ -20,7 +20,7 @@
 					styleClass="col-sm-2 control-label" />
 				<div class="col-sm-2">
 					<h:selectOneMenu id="inputTipo" styleClass="form-control"
-						value="#{cursoMB.curso.tipoCurso}">
+						value="#{cursoMB.curso.tipoCurso}" tabindex="1">
 						<f:selectItems value="#{cursoMB.tiposCurso}" var="tipo"
 							itemValue="#{tipo}" />
 					</h:selectOneMenu>
@@ -31,9 +31,9 @@
 				<h:outputLabel value="Sigla do Curso" for="inputSiglaCurso"
 					styleClass="col-sm-2 control-label" />
 				<div class="col-sm-2">
-					<h:inputText styleClass="form-control" required="true" tabindex="1"
+					<h:inputText styleClass="form-control" required="true" tabindex="2"
 						requiredMessage="Digite a sigla do curso." id="inputSiglaCurso"
-						value="#{cursoMB.curso.sigla}" 
+						value="#{cursoMB.curso.sigla}" onchange="this.value = this.value.trim()" 
 						title="Informe a sigla do curso com letras maiúsculas. Ex: ADS, RC, etc." />
 					<h:message styleClass="text-danger" for="inputSiglaCurso" id="inputSiglaMSG" />
 				</div>
@@ -43,9 +43,9 @@
 				<h:outputLabel value="Nome do Curso" for="inputNome"
 					styleClass="col-sm-2 control-label" />
 				<div class="col-sm-5">
-					<h:inputText styleClass="form-control" required="true" tabindex="2"
+					<h:inputText styleClass="form-control" required="true" tabindex="3"
 						requiredMessage="Digite o nome do Curso" id="inputNome"
-						value="#{cursoMB.curso.nome}" 
+						value="#{cursoMB.curso.nome}" onchange="this.value = this.value.trim()" 
 						title="Informe o nome do curso. Ex: Análise e Desenvolvimento de Sistemas." />
 					<h:message styleClass="text-danger" for="inputNome" id="inputNomeMSG" />
 				</div>
@@ -55,7 +55,7 @@
 				<h:outputLabel value="Carga Horária" for="inputCargaHorariaTotalCurso"
 					styleClass="col-sm-2 control-label" />
 				<div class="col-sm-2">
-					<h:inputText styleClass="form-control" required="true" tabindex="5"
+					<h:inputText styleClass="form-control numero" required="true" tabindex="4"
 						requiredMessage="Digite a carga horária total do curso."
 						converterMessage="Carga Horária Inválida"
 						id="inputCargaHorariaTotalCurso" value="#{cursoMB.curso.cargaHorariaTotal}"
@@ -71,7 +71,7 @@
 					styleClass="col-sm-2 control-label" />
 				<div class="col-sm-2">
 					<h:selectOneMenu id="inputStatus" styleClass="form-control"
-						value="#{cursoMB.curso.status}">
+						value="#{cursoMB.curso.status}" tabindex="5">
 						<f:selectItems value="#{cursoMB.statusCurso}" var="status"
 							itemValue="#{status}" />
 					</h:selectOneMenu>
@@ -81,7 +81,7 @@
 			<div class="form-group">
 				<div class="col-sm-offset-2 col-sm-10">
 					<h:commandLink styleClass="btn btn-success" title="Salvar Alterações"
-						actionListener="#{cursoMB.salvar}">
+						actionListener="#{cursoMB.salvar}" tabindex="6">
 						<span class="glyphicon glyphicon-floppy-disk" aria-hidden="true" /> Salvar
 						<f:ajax execute="inputTipo inputNome inputSiglaCurso 
 							inputCargaHorariaTotalCurso inputStatus" render="inputSiglaMSG inputNomeMSG 

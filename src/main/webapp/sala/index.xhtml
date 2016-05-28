@@ -14,24 +14,62 @@
 				<li class="active">Salas</li>
 			</ol>
 
-			<div class="areaPlus">
-				<h:commandLink actionListener="#{salaMB.redirectAdd}"
-					styleClass="btn btn-success" title="Adicionar Sala">
-					<span class="glyphicon glyphicon-plus" aria-hidden="true" /> Adicionar
-				</h:commandLink>
+			<div class="form-horizontal">
+			
+				<div class="form-group">
+					<h:outputLabel value="Pesquisar por:"
+						styleClass="col-sm-2 control-label" />
+				</div>
+				
+				<div class="form-group">
+					<h:outputLabel value="Nome da Sala" for="inputNome"
+						styleClass="col-sm-2 control-label" />
+					<div class="col-sm-5">
+						<h:inputText tabindex="1" styleClass="form-control"
+							id="inputNome" value="#{salaMB.buscaSala}" />
+					</div>
+				</div>
+				
+				<div class="form-group">
+					<div class="col-sm-offset-2 col-sm-10">
+						<h:commandLink styleClass="btn btn-info" title="Pesquisar Salas"
+							actionListener="#{salaMB.atualizaLista}" tabindex="2">
+							<span class="glyphicon glyphicon-search" aria-hidden="true" /> Pesquisar
+							<f:ajax execute="inputNome" render="table-operadores semResultado" />
+						</h:commandLink>
+						<span> </span>
+						<h:commandLink actionListener="#{salaMB.redirectAdd}" tabindex="3"
+							styleClass="btn btn-success" title="Adicionar Sala">
+							<span class="glyphicon glyphicon-plus" aria-hidden="true" /> Adicionar
+						</h:commandLink>
+					</div>
+					<br />
+				</div>
 			</div>
 			
 			<div align="center">
 				<h:outputLabel for="tabelaVazia" class="glyphicon glyphicon-alert bigWarningSign"
-					rendered="#{empty salaMB.listaSalas}" />
+					rendered="#{empty salaMB.listaSalas and salaMB.flagTabela == true}" />
 				<br />
 				<h:outputText id="tabelaVazia" class="emptyTable" 
-					rendered="#{empty salaMB.listaSalas}" value="Ainda não há salas cadastradas.">
+					rendered="#{empty salaMB.listaSalas and salaMB.flagTabela == true}" 
+					value="Ainda não há salas cadastradas.">
 				</h:outputText>
 			</div>
-			
+
+			<div align="center">
+				<h:outputLabel for="semResultado" class="glyphicon glyphicon-alert bigWarningSign"
+					rendered="#{salaMB.flagTabela == false}" />
+				<br />
+				<h:outputText id="semResultado" class="emptyTable"
+					rendered="#{salaMB.flagTabela == false}"
+					value="A consulta não trouxe resultados.">
+				</h:outputText>
+			</div>
+
 			<h:dataTable id="table-operadores" styleClass="table table-hover table-bordered"
-				value="#{salaMB.listaSalas}" var="sala" rendered="#{not empty salaMB.listaSalas}"
+				value="#{salaMB.listaSalas}" var="sala" 
+				rendered="#{not empty salaMB.listaSalas and salaMB.flagTabela == true}"
 				emptyMessage="Não há salas cadastradas">
 
 				<h:column>
@@ -58,7 +96,7 @@
 					<f:facet name="header">Ações</f:facet>
 
 					<h:commandLink styleClass="btn btn-info btn-acoes" title="Editar Sala"
-						actionListener="#{salaMB.redirectEdit}">
+						actionListener="#{salaMB.redirectEdit}" tabindex="4">
 						<span class="glyphicon glyphicon-pencil" aria-hidden="true" /> Editar
 						<f:setPropertyActionListener value="#{sala}" target="#{salaMB.sala}" />
 					</h:commandLink>

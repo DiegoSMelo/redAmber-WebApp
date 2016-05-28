@@ -19,8 +19,8 @@ public class DuracaoAulaConverter implements Converter {
 	public Object getAsObject(FacesContext arg0, UIComponent arg1, String arg2) {
 		System.out.println("String -> Object");
 		
-		if (arg2.trim().equalsIgnoreCase("Escolha o Horário") || arg2.trim().equals("") || 
-				arg2 == null || arg2.isEmpty()) {
+		if (arg2.trim().equalsIgnoreCase("Escolha o Horário") || arg2.trim().equalsIgnoreCase("Todos") || 
+				arg2.trim().equals("") || arg2 == null || arg2.isEmpty()) {
 			return null;
 		}
 		try {

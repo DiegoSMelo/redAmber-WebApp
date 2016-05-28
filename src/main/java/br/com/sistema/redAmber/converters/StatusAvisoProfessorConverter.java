@@ -15,7 +15,8 @@ public class StatusAvisoProfessorConverter implements Converter {
 		
 		System.out.println("String -> Object");
 		
-		if(arg2 == null || arg2.trim().equals(""))
+		if(arg2 == null || arg2.trim().equals("") || arg2.trim().equalsIgnoreCase("Escolha o Status") ||
+				arg2.trim().equalsIgnoreCase("Ambos"))
 		{
 			return null;
 		}

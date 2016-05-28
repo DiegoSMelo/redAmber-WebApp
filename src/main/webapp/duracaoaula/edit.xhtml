@@ -18,7 +18,7 @@
 				<h:outputLabel value="Hora do Início" for="inputInicio"
 					styleClass="col-sm-2 control-label" />
 				<div class="col-sm-1">
-					<h:inputText required="true" tabindex="2"
+					<h:inputText required="true" tabindex="1"
 						requiredMessage="Digite a hora do início da aula."
 						styleClass="form-control hora" id="inputInicio"
 						title="Informe a hora do início da aula. Ex: 08:00."
@@ -32,9 +32,9 @@
 
 			<div class="form-group">
 				<h:outputLabel value="Hora do Fim" for="inputFim"
-					styleClass="col-sm-2 control-label"></h:outputLabel>
+					styleClass="col-sm-2 control-label" />
 				<div class="col-sm-1">
-					<h:inputText styleClass="form-control hora" tabindex="3" required="true"
+					<h:inputText styleClass="form-control hora" tabindex="2" required="true"
 						requiredMessage="Digite a hora do fim da aula." id="inputFim"
 						title="Informe a hora do início da aula. Ex: 09:30."
 						value="#{duracaoAulaMB.duracaoAula.horaFim}"
@@ -50,7 +50,7 @@
 					styleClass="col-sm-2 control-label" />
 				<div class="col-sm-2">
 					<h:selectOneMenu id="inputTurno" styleClass="form-control"
-						value="#{duracaoAulaMB.duracaoAula.turno}" tabindex="4"
+						value="#{duracaoAulaMB.duracaoAula.turno}" tabindex="3"
 						converter="tipoTurnoConverter">
 						<f:selectItems value="#{duracaoAulaMB.tipoTurno}"
 							var="turno" itemValue="#{turno}" />
@@ -63,7 +63,7 @@
 					styleClass="col-sm-2 control-label" />
 				<div class="col-sm-2">
 					<h:selectOneMenu id="inputStatus" styleClass="form-control"
-						value="#{duracaoAulaMB.duracaoAula.status}" tabindex="5"
+						value="#{duracaoAulaMB.duracaoAula.status}" tabindex="4"
 						converter="statusDuracaoAulaConverter">
 						<f:selectItems value="#{duracaoAulaMB.statusDuracaoAula}"
 							var="status" itemValue="#{status}" />
@@ -73,7 +73,7 @@
 
 			<div class="form-group">
 				<div class="col-sm-offset-2 col-sm-10">
-					<h:commandLink styleClass="btn btn-success" tabindex="6"
+					<h:commandLink styleClass="btn btn-success" tabindex="5"
 						actionListener="#{duracaoAulaMB.salvar}" title="Salvar Alterações">
 						<span class="glyphicon glyphicon-floppy-disk" aria-hidden="true" /> Salvar
 						<f:ajax execute="inputInicio inputFim inputTurno inputStatus"

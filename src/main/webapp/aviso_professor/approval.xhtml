@@ -30,7 +30,7 @@
 				<h:outputLabel value="Data do Aviso" for="inputDataAviso"
 					styleClass="col-sm-2 control-label" />
 				<div class="col-sm-2">
-					<h:inputText styleClass="form-control" tabindex="1" readonly="true" 
+					<h:inputText styleClass="form-control" tabindex="2" readonly="true" 
 						id="inputDataAviso" value="#{avisoProfessorMB.avisoProfessor.dataAviso.time}">
 						<f:convertDateTime type="date" timeZone="America/Recife" 
 							pattern="dd/MM/yyyy HH:mm" />
@@ -42,7 +42,7 @@
 				<h:outputLabel value="Tipo do Aviso" for="inputTipo"
 					styleClass="col-sm-2 control-label" />
 				<div class="col-sm-2">					
-					<h:inputText styleClass="form-control" tabindex="1" readonly="true" 
+					<h:inputText styleClass="form-control" tabindex="3" readonly="true" 
 						id="inputTipo" value="#{avisoProfessorMB.avisoProfessor.tipoAvisoProfessor}"
 						converter="tipoAvisoProfessorConverter" />
 				</div>
@@ -52,7 +52,7 @@
 				<h:outputLabel value="Status do Aviso" for="inputStatus"
 					styleClass="col-sm-2 control-label" />
 				<div class="col-sm-2">
-					<h:inputText styleClass="form-control" tabindex="1" readonly="true" 
+					<h:inputText styleClass="form-control" tabindex="4" readonly="true" 
 							id="inputStatus" converter="statusAvisoProfessorConverter" 
 							value="#{avisoProfessorMB.avisoProfessor.statusAvisoProfessor}" />
 				</div>
@@ -62,22 +62,21 @@
 				<h:outputLabel value="Observações" for="inputObservacao"
 					styleClass="col-sm-2 control-label" />
 				<div class="col-sm-10">
-					<h:inputTextarea readonly="true" rows="10" tabindex="1" styleClass="form-control"
-						id="inputObservacao"
-						value="#{avisoProfessorMB.avisoProfessor.observacao}" />
+					<h:inputTextarea readonly="true" rows="10" tabindex="5" styleClass="form-control"
+						id="inputObservacao" value="#{avisoProfessorMB.avisoProfessor.observacao}" />
 				</div>
 			</div>
 			
 			<div class="form-group">
 				<div class="col-sm-offset-2 col-sm-10">				
 					<h:commandLink styleClass="btn btn-success" title="Receber Aviso"
-						actionListener="#{avisoProfessorMB.receber}">
+						actionListener="#{avisoProfessorMB.receber}" tabindex="6">
 						<span class="glyphicon glyphicon-ok" aria-hidden="true" /> Receber Aviso
 						<f:ajax execute="inputProfessor inputTipo inputStatus inputObservacao 
 							inputDataAviso" />
 					</h:commandLink><span> </span>
 					<h:commandLink styleClass="btn btn-warning" title="Avisar aos Alunos"
-						actionListener="#{avisoProfessorMB.redirectAlert}">
+						actionListener="#{avisoProfessorMB.redirectAlert}" tabindex="7">
 						<span class="glyphicon glyphicon-send" aria-hidden="true" /> Avisar Alunos
 					</h:commandLink>
 				</div>

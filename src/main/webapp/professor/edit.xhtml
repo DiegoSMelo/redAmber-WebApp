@@ -21,7 +21,7 @@
 				<h:outputLabel value="Nome do Professor" for="inputNome"
 					styleClass="col-sm-2 control-label" />
 				<div class="col-sm-5">
-					<h:inputText required="true" tabindex="2"
+					<h:inputText required="true" tabindex="1" onchange="this.value = this.value.trim()" 
 						requiredMessage="Digite o nome do professor." styleClass="form-control"
 						id="inputNome" value="#{professorMB.professor.nome}" />
 					<h:message styleClass="text-danger" for="inputNome" id="inputNomeMSG" />
@@ -32,7 +32,7 @@
 				<h:outputLabel value="RG do Professor" for="inputRG"
 					styleClass="col-sm-2 control-label" />
 				<div class="col-sm-2">
-					<h:inputText styleClass="form-control" tabindex="6" required="true"
+					<h:inputText styleClass="form-control inputRG" tabindex="2" required="true"
 						requiredMessage="Digite o RG do professor." converterMessage="RG inválido."
 						id="inputRG" value="#{professorMB.professor.rg}">
 						<f:convertNumber integerOnly="true" minIntegerDigits="1" />
@@ -45,7 +45,7 @@
 				<h:outputLabel value="Data de Nascimento" for="inputDataNascimento"
 					styleClass="col-sm-2 control-label" />
 				<div class="col-sm-2">
-					<h:inputText styleClass="form-control data" tabindex="6"
+					<h:inputText styleClass="form-control data" tabindex="3"
 						required="true" requiredMessage="Digite a data de nascimento do professor."
 						title="Informe uma data válida no formato 'dia/mês/ano'."
 						id="inputDataNascimento" value="#{professorMB.professor.dataNascimento.time}"
@@ -61,7 +61,7 @@
 				<h:outputLabel value="Telefone do Professor" for="inputTel"
 					styleClass="col-sm-2 control-label" />
 				<div class="col-sm-2">
-					<h:inputText styleClass="form-control telefone" tabindex="6"
+					<h:inputText styleClass="form-control telefone" tabindex="4"
 						required="true" requiredMessage="Digite o telefone do professor."
 						id="inputTel" value="#{professorMB.professor.telefone}" />
 					<h:message styleClass="text-danger" for="inputTel" id="inputTelMSG" />
@@ -72,9 +72,10 @@
 				<h:outputLabel value="E-mail do Professor" for="inputEmail"
 					styleClass="col-sm-2 control-label" />
 				<div class="col-sm-3">
-					<h:inputText styleClass="form-control" tabindex="10"
+					<h:inputText styleClass="form-control" tabindex="5"
 						required="true" requiredMessage="Digite o e-mail do professor."
 						validatorMessage="E-mail inválido" id="inputEmail"
+						onchange="this.value = this.value.trim()" 
 						value="#{professorMB.professor.email}">
 
 						<f:validateRegex
@@ -90,7 +91,7 @@
 					styleClass="col-sm-2 control-label" />
 				<div class="col-sm-2">
 					<h:selectOneMenu id="inputStatus" styleClass="form-control"
-						value="#{professorMB.professor.status}">
+						value="#{professorMB.professor.status}" tabindex="6">
 						<f:selectItems value="#{professorMB.statusUsuario}" var="status"
 							itemValue="#{status}" />
 					</h:selectOneMenu>
@@ -100,7 +101,7 @@
 			<div class="form-group">
 				<div class="col-sm-offset-2 col-sm-10">
 					<h:commandLink styleClass="btn btn-success" title="Salvar Alterações"
-						actionListener="#{professorMB.salvar}">
+						actionListener="#{professorMB.salvar}" tabindex="7">
 						<span class="glyphicon glyphicon-floppy-disk" aria-hidden="true" /> Salvar
 						<f:ajax execute="inputNome inputRG inputDataNascimento inputTel inputEmail 
 							inputStatus" render="inputNomeMSG inputRGMSG inputDataNascimentoMSG 

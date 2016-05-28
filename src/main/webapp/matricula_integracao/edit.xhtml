@@ -30,7 +30,7 @@
 				<div class="col-sm-2">
 					<h:selectOneMenu id="inputTurno" styleClass="form-control"
 						value="#{matriculaIntegracaoMB.turno}" converter="tipoTurnoConverter" 
-							immediate="true" onchange="submit()"
+							immediate="true" onchange="submit()" tabindex="1" 
 							valueChangeListener="#{matriculaIntegracaoMB.atualizarListaTurmas}">
 						<f:selectItems value="#{matriculaIntegracaoMB.turnos}" var="turno"
 							itemValue="#{turno}" itemLabel="#{turno}" />
@@ -42,7 +42,7 @@
 				<h:outputLabel value="Curso" for="inputCurso"
 					styleClass="col-sm-2 control-label" />
 				<div class="col-sm-5">
-					<h:selectOneMenu id="inputCurso" styleClass="form-control"
+					<h:selectOneMenu id="inputCurso" styleClass="form-control" tabindex="2" 
 						value="#{matriculaIntegracaoMB.idCurso}" onchange="submit()"
 						valueChangeListener="#{matriculaIntegracaoMB.atualizarListaGrades}">
 						<f:selectItem itemValue="#{null}" itemLabel="Escolha o Curso" />
@@ -56,7 +56,7 @@
 				<h:outputLabel value="Grade" for="inputGrade"
 					styleClass="col-sm-2 control-label" />
 				<div class="col-sm-2">
-					<h:selectOneMenu id="inputGrade" styleClass="form-control"
+					<h:selectOneMenu id="inputGrade" styleClass="form-control" tabindex="3"
 						value="#{matriculaIntegracaoMB.matricula.grade}" converter="gradeConverter"
 						required="true" requiredMessage="Informe a grade">
 						<f:selectItem itemValue="#{null}" itemLabel="Escolha a Grade" />
@@ -71,8 +71,8 @@
 				<h:outputLabel value="Entrada" for="inputEntrada"
 					styleClass="col-sm-2 control-label" />
 				<div class="col-sm-2">
-					<h:selectOneMenu id="inputEntrada" styleClass="form-control"
-						value="#{matriculaIntegracaoMB.matricula.entrada}">
+					<h:selectOneMenu id="inputEntrada" styleClass="form-control" 
+						value="#{matriculaIntegracaoMB.matricula.entrada}" tabindex="4">
 						<f:selectItem itemValue="1" itemLabel="Primeira Entrada" />
 						<f:selectItem itemValue="2" itemLabel="Segunda Entrada" />
 					</h:selectOneMenu>
@@ -83,9 +83,9 @@
 				<h:outputLabel value="Data de Matrícula" for="inputDataMatricula"
 					styleClass="col-sm-2 control-label" />
 				<div class="col-sm-2">
-					<h:inputText styleClass="form-control data" tabindex="6" required="true"
+					<h:inputText styleClass="form-control data" tabindex="5" required="true"
 						requiredMessage="Informe a data de matrícula de aluno." id="inputDataMatricula"
-						title="Informe uma data válida no formato 'dia/mês/ano'."
+						title="Informe uma data válida no formato 'dia/mês/ano'." 
 						value="#{matriculaIntegracaoMB.matricula.dataMatricula.time}"
 						converterMessage="Informe uma data válida no formato 'dia/mês/ano'.">
 							<f:convertDateTime type="date" pattern="dd/MM/yyyy" />
@@ -98,7 +98,7 @@
 				<h:outputLabel value="Turma" for="inputTurma"
 					styleClass="col-sm-2 control-label" />
 				<div class="col-sm-2">
-					<h:selectOneMenu id="inputTurma" styleClass="form-control"
+					<h:selectOneMenu id="inputTurma" styleClass="form-control" tabindex="6" 
 						value="#{matriculaIntegracaoMB.matricula.turma}" converter="turmaConverter"
 						immediate="true">
 						<f:selectItem itemValue="#{null}" itemLabel="Escolha a Turma" />
@@ -113,7 +113,7 @@
 				<h:outputLabel value="Status" for="inputStatus" styleClass="col-sm-2 control-label" />
 				<div class="col-sm-2">				
 					<h:selectOneMenu id="inputStatus" styleClass="form-control" 
-						value="#{matriculaIntegracaoMB.matricula.status}">
+						value="#{matriculaIntegracaoMB.matricula.status}" tabindex="7" >
 							<f:selectItems value="#{matriculaIntegracaoMB.statusMatricula}" 
 								var="status" itemValue="#{status}" />
 					</h:selectOneMenu>
@@ -123,7 +123,7 @@
 			<div class="form-group">
 				<div class="col-sm-offset-2 col-sm-10">
 					<h:commandLink styleClass="btn btn-success" title="Atualizar Matrícula"
-						actionListener="#{matriculaIntegracaoMB.salvarMatricula}">
+						actionListener="#{matriculaIntegracaoMB.salvarMatricula}" tabindex="8">
 						<span class="glyphicon glyphicon-education" aria-hidden="true" /> Atualizar
 						<f:ajax execute="inputCurso inputGrade inputEntrada inputDataMatricula 
 							inputTurma inputStatus" render="inputGradeMSG inputDataMatriculaMSG 

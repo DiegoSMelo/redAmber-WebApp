@@ -13,7 +13,8 @@ public class StatusReservaConverter implements Converter {
 	@Override
 	public Object getAsObject(FacesContext arg0, UIComponent arg1, String arg2) {
 		System.out.println("String -> Object");
-		if(arg2 == null || arg2.trim().equals(""))
+		if(arg2 == null || arg2.trim().equals("") || arg2.trim().equalsIgnoreCase("Escolha o Status") || 
+				arg2.trim().equalsIgnoreCase("Todos"))
 		{
 			return null;
 		}

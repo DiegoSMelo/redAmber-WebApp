@@ -25,7 +25,7 @@
 					styleClass="col-sm-2 control-label" />
 				<div class="col-sm-2">
 					<h:selectOneMenu id="inputStatus" styleClass="form-control"
-						value="#{gradeMB.grade.status}">
+						value="#{gradeMB.grade.status}" tabindex="1">
 						<f:selectItems value="#{gradeMB.statusGrade}" var="status"
 							itemValue="#{status}" />
 					</h:selectOneMenu>
@@ -36,9 +36,9 @@
 				<h:outputLabel value="Título da Grade" for="inputTitulo"
 					styleClass="col-sm-2 control-label" />
 				<div class="col-sm-2">
-					<h:inputText styleClass="form-control" required="true" tabindex="1"
+					<h:inputText styleClass="form-control" required="true" tabindex="2"
 						requiredMessage="Digite o título da grade." id="inputTitulo"
-						value="#{gradeMB.grade.titulo}">
+						value="#{gradeMB.grade.titulo}" onchange="this.value = this.value.trim()">
 					</h:inputText>
 					<h:message styleClass="text-danger" for="inputTitulo" id="inputTituloMSG" />
 				</div>
@@ -47,7 +47,7 @@
 			<div class="form-group">
 				<div class="col-sm-offset-2 col-sm-10">
 					<h:commandLink styleClass="btn btn-success" title="Salvar Alterações"
-						actionListener="#{gradeMB.salvarGrade}">
+						actionListener="#{gradeMB.salvarGrade}" tabindex="3">
 						<span class="glyphicon glyphicon-floppy-disk" aria-hidden="true" /> Salvar
 						<f:ajax execute="inputStatus inputTitulo" render="inputTituloMSG" />
 					</h:commandLink>

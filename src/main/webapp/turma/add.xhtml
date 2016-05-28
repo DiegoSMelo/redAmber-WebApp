@@ -29,10 +29,10 @@
 				<h:outputLabel value="Nome da Turma" for="inputNome"
 					styleClass="col-sm-2 control-label" />
 				<div class="col-sm-2">
-					<h:inputText required="true" tabindex="2" styleClass="form-control"
-						requiredMessage="Digite o nome da turma."
+					<h:inputText required="true" tabindex="1" styleClass="form-control"
+						requiredMessage="Digite o nome da turma." id="inputNome" 
 						title="Informe o nome da turma no formato sigla + período + turno + turma. Ex: ADS1MA, RC2NB, etc."
-						id="inputNome" value="#{turmaMB.turma.nome}" />
+						onchange="this.value = this.value.trim()" value="#{turmaMB.turma.nome}" />
 					<h:message styleClass="text-danger" for="inputNome"
 						id="inputNomeMSG" />
 				</div>
@@ -42,7 +42,7 @@
 				<h:outputLabel value="Curso" for="inputCurso"
 					styleClass="col-sm-2 control-label" />
 				<div class="col-sm-5">
-					<h:selectOneMenu id="inputCurso" styleClass="form-control"
+					<h:selectOneMenu id="inputCurso" styleClass="form-control" tabindex="2" 
 						value="#{turmaMB.turma.curso}" converter="cursoConverter">
 						<f:selectItems value="#{turmaMB.listaCursos}" var="curso"
 							itemValue="#{curso}" itemLabel="#{curso.nome}" />
@@ -54,7 +54,7 @@
 				<h:outputLabel value="Turno" for="inputTurno"
 					styleClass="col-sm-2 control-label" />
 				<div class="col-sm-2">
-					<h:selectOneMenu id="inputTurno" styleClass="form-control"
+					<h:selectOneMenu id="inputTurno" styleClass="form-control" tabindex="3" 
 						value="#{turmaMB.turma.turno}" converter="tipoTurnoConverter">
 						<f:selectItems value="#{turmaMB.tiposTurnos}" var="turno"
 							itemValue="#{turno}" />
@@ -65,7 +65,7 @@
 			<div class="form-group">
 				<div class="col-sm-offset-2 col-sm-10">
 					<h:commandLink styleClass="btn btn-success" title="Salvar Turma"
-						actionListener="#{turmaMB.salvar}">
+						actionListener="#{turmaMB.salvar}" tabindex="4" >
 						<span class="glyphicon glyphicon-floppy-disk" aria-hidden="true" /> Salvar
 						<f:ajax execute="inputNome inputCurso inputTurno"
 							render="inputNomeMSG" />

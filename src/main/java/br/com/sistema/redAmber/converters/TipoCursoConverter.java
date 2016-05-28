@@ -15,7 +15,8 @@ public class TipoCursoConverter implements Converter {
 		
 		System.out.println("String -> Object");
 		
-		if(value == null || value.trim().equals(""))
+		if(value.trim().equalsIgnoreCase("Escolha o Tipo") || value.trim().equalsIgnoreCase("Ambos") || 
+				value.trim().equalsIgnoreCase("") || value == null)
 		{
 			return null;
 		}

@@ -22,7 +22,7 @@
 					styleClass="col-sm-2 control-label" />
 				<div class="col-sm-5">
 					<h:selectOneMenu required="true" id="inputProfessor" styleClass="form-control"
-						value="#{avisoProfessorMB.avisoProfessor.professor}"
+						value="#{avisoProfessorMB.avisoProfessor.professor}" tabindex="1"
 						requiredMessage="Informe o professor que deseja enviar o aviso à secretaria"
 						converter="professorConverter" immediate="true">
 						<f:selectItem itemValue="#{null}" itemLabel="Escolha o Professor" />
@@ -37,7 +37,7 @@
 				<h:outputLabel value="Data do Aviso" for="inputDataAviso"
 					styleClass="col-sm-2 control-label" />
 				<div class="col-sm-2">
-					<h:inputText styleClass="form-control data" required="true" tabindex="1"
+					<h:inputText styleClass="form-control data" required="true" tabindex="2"
 						requiredMessage="Informe a data do aviso"
 						title="Informe uma data válida no formato 'dia/mês/ano'."
 						id="inputDataAviso" value="#{avisoProfessorMB.avisoProfessor.dataAviso.time}"
@@ -53,7 +53,7 @@
 					styleClass="col-sm-2 control-label" />
 				<div class="col-sm-2">
 					<h:selectOneMenu required="true" id="inputTipo" styleClass="form-control"
-						value="#{avisoProfessorMB.avisoProfessor.tipoAvisoProfessor}">
+						value="#{avisoProfessorMB.avisoProfessor.tipoAvisoProfessor}" tabindex="3">
 						<f:selectItems value="#{avisoProfessorMB.tiposAvisosProfessores}" var="tipo"
 							itemValue="#{tipo}" itemLabel="#{tipo}">
 						</f:selectItems>
@@ -66,7 +66,7 @@
 					styleClass="col-sm-2 control-label" />
 				<div class="col-sm-2">
 					<h:selectOneMenu required="true" id="inputStatus" styleClass="form-control"
-						value="#{avisoProfessorMB.avisoProfessor.statusAvisoProfessor}">
+						value="#{avisoProfessorMB.avisoProfessor.statusAvisoProfessor}" tabindex="4">
 						<f:selectItems value="#{avisoProfessorMB.statusAvisosProfessores}" var="status"
 							itemValue="#{status}" itemLabel="#{status}">
 						</f:selectItems>
@@ -78,22 +78,21 @@
 				<h:outputLabel value="Observações" for="inputObservacao"
 					styleClass="col-sm-2 control-label" />
 				<div class="col-sm-10">
-					<h:inputTextarea readonly="true" rows="10" tabindex="1" styleClass="form-control"
-						id="inputObservacao"
-						value="#{avisoProfessorMB.avisoProfessor.observacao}" />
+					<h:inputTextarea readonly="true" rows="10" tabindex="5" styleClass="form-control"
+						id="inputObservacao" value="#{avisoProfessorMB.avisoProfessor.observacao}" />
 				</div>
 			</div>
 			
 			<div class="form-group">
 				<div class="col-sm-offset-2 col-sm-10">				
 					<h:commandLink styleClass="btn btn-success" title="Salvar Alterações"
-						actionListener="#{avisoProfessorMB.salvar}">
+						actionListener="#{avisoProfessorMB.salvar}" tabindex="6">
 						<span class="glyphicon glyphicon-floppy-disk" aria-hidden="true" /> Salvar Aviso
 						<f:ajax execute="inputProfessor inputTipo inputStatus inputObservacao 
 							inputDataAviso" render="inputProfessorMSG inputDataAvisoMSG" />
 					</h:commandLink><span> </span>
 					<h:commandLink styleClass="btn btn-warning" title="Avisar aos Alunos"
-						actionListener="#{avisoProfessorMB.redirectAlert}">
+						actionListener="#{avisoProfessorMB.redirectAlert}" tabindex="7">
 						<span class="glyphicon glyphicon-send" aria-hidden="true" /> Avisar Alunos
 					</h:commandLink>
 				</div>

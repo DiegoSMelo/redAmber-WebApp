@@ -22,22 +22,26 @@
 						styleClass="col-sm-2 control-label" />
 					<div class="col-sm-2">
 						<h:inputText styleClass="form-control" tabindex="1" id="inputTitulo"
-							value="#{gradeMB.grade.titulo}" />
+							value="#{gradeMB.grade.titulo}" required="true" 
+							requiredMessage="Digite o título da grade." 
+							onchange="this.value = this.value.trim()" />
 						<h:message id="messageErrorTituloGrade" styleClass="text-danger"
 							for="inputTitulo" />
 					</div>
 					
 					<div class="col-sm-2">
-						<h:commandLink styleClass="btn btn-success" actionListener="#{gradeMB.salvar}"
-							title="Adicionar Grade">
+						<h:commandLink id="botaoSalvar" styleClass="btn btn-success" tabindex="2"
+							actionListener="#{gradeMB.salvar}" title="Adicionar Grade">
 							<span class="glyphicon glyphicon-plus" aria-hidden="true" /> Adicionar
 							<f:ajax immediate="true" execute="inputTitulo"
-								render="tableGrades messageErrorTituloGrade tableGrades" />
+								render="messageErrorTituloGrade" />
 						</h:commandLink>
 					</div>
 				</div>					
 			</div>
-
+		</h:form>
+		
+		<h:form>
 			<div align="center">
 				<h:outputLabel for="tabelaVazia" class="glyphicon glyphicon-alert bigWarningSign"
 					rendered="#{empty gradeMB.listaGrades}" />
@@ -67,15 +71,14 @@
 
 				<h:column>
 					<f:facet name="header">Ações</f:facet>
-					<h:commandLink styleClass="btn btn-info btn-acoes"
+					<h:commandLink styleClass="btn btn-info btn-acoes" tabindex="3"
 						actionListener="#{gradeMB.redirectGrade}" title="Editar Grade">
 						<span class="glyphicon glyphicon-pencil" aria-hidden="true" />
 						<f:setPropertyActionListener value="#{grade}" target="#{gradeMB.grade}" /> Editar
 					</h:commandLink>
 
-					<h:commandLink styleClass="btn btn-info btn-acoes" 
-						title="Adicionar Períodos à Grade"
-						actionListener="#{periodoMB.redirectPeriodos}">
+					<h:commandLink styleClass="btn btn-info btn-acoes" title="Adicionar Períodos à Grade"
+						actionListener="#{periodoMB.redirectPeriodos}" tabindex="3">
 						<span class="glyphicon glyphicon-th" aria-hidden="true" /> Períodos
 						<f:setPropertyActionListener value="#{grade}" target="#{periodoMB.grade}" />
 					</h:commandLink>

@@ -24,7 +24,8 @@
 					<h:inputText styleClass="form-control" required="true" tabindex="1"
 						requiredMessage="Digite a sigla da disciplina." id="inputTitulo"
 						value="#{disciplinaMB.disciplina.titulo}" 
-						title="Informe a sigla da disciplina com letras maiúsculas. Ex: POO." />
+						title="Informe a sigla da disciplina com letras maiúsculas. Ex: POO." 
+						onchange="this.value = this.value.trim()" />
 					<h:message styleClass="text-danger" for="inputTitulo" id="inputTituloMSG" />
 				</div>
 			</div>
@@ -36,7 +37,8 @@
 					<h:inputText required="true" styleClass="form-control" tabindex="2"
 						requiredMessage="Digite o nome completo da disciplina."
 						id="inputDescricao" value="#{disciplinaMB.disciplina.descricao}" 
-						title="Informe o nome da disciplina. Ex: Programação Orientada a Objetos." />
+						title="Informe o nome da disciplina. Ex: Programação Orientada a Objetos." 
+						onchange="this.value = this.value.trim()" />
 					<h:message styleClass="text-danger" for="inputDescricao" id="inputDescricaoMSG" />
 				</div>
 			</div>
@@ -46,7 +48,7 @@
 					styleClass="col-sm-2 control-label" />
 				<div class="col-sm-5">
 					<h:selectOneMenu id="inputCurso" styleClass="form-control" required="true"
-						requiredMessage="Escolha o curso do qual a disciplina pertence." 
+						requiredMessage="Escolha o curso do qual a disciplina pertence." tabindex="3" 
 						value="#{disciplinaMB.disciplina.curso}" converter="cursoConverter">
 						<f:selectItem itemValue="#{null}" itemLabel="Escolha o Curso" />
 						<f:selectItems value="#{disciplinaMB.listaCursos}" var="curso"
@@ -60,7 +62,7 @@
 				<h:outputLabel value="Conteúdo Programático" for="inputConteudo"
 					styleClass="col-sm-2 control-label" />
 				<div class="col-sm-10">
-					<h:inputTextarea rows="10" styleClass="form-control" tabindex="2"
+					<h:inputTextarea rows="10" styleClass="form-control" tabindex="4"
 						id="inputConteudo" value="#{disciplinaMB.disciplina.conteudoProgramatico}" 
 						title="Informe o conteúdo programático da disciplina. Ex: Herança, Polimorfismo, etc." />
 				</div>
@@ -69,7 +71,7 @@
 			<div class="form-group">
 				<div class="col-sm-offset-2 col-sm-10">
 					<h:commandLink styleClass="btn btn-success" title="Salvar Disciplina"
-						actionListener="#{disciplinaMB.salvar}">
+						actionListener="#{disciplinaMB.salvar}" tabindex="5">
 						<span class="glyphicon glyphicon-floppy-disk" aria-hidden="true" /> Salvar
 						<f:ajax execute="inputTitulo inputDescricao inputCurso inputConteudo"
 							render="inputTituloMSG inputDescricaoMSG inputCursoMSG" />

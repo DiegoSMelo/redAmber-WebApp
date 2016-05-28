@@ -22,6 +22,7 @@
 				<div class="col-sm-2">
 					<h:inputText required="true" tabindex="1" requiredMessage="Digite o nome da sala."
 						styleClass="form-control" id="inputDescricao" value="#{salaMB.sala.descricao}" 
+						onchange="this.value = this.value.trim()" 
 						title="Informe o nome da sala. Ex: A1, B2, C10, etc." />
 					<h:message styleClass="text-danger" for="inputDescricao" id="inputDescricaoMSG" />
 				</div>
@@ -43,7 +44,8 @@
 				<h:outputLabel value="Tipo da Sala" for="inputTipo"
 					styleClass="col-sm-2 control-label" />
 				<div class="col-sm-2">
-					<h:selectOneMenu id="inputTipo" styleClass="form-control" value="#{salaMB.sala.tipoSala}">
+					<h:selectOneMenu id="inputTipo" styleClass="form-control" 
+						value="#{salaMB.sala.tipoSala}" tabindex="3">
 						<f:selectItems value="#{salaMB.tipoSala}" var="tipo" itemValue="#{tipo}" />
 					</h:selectOneMenu>
 				</div>
@@ -53,7 +55,8 @@
 				<h:outputLabel value="Status" for="inputStatus"
 					styleClass="col-sm-2 control-label" />
 				<div class="col-sm-2">
-					<h:selectOneMenu id="inputStatus" styleClass="form-control" value="#{salaMB.sala.status}">
+					<h:selectOneMenu id="inputStatus" styleClass="form-control" 
+						value="#{salaMB.sala.status}" tabindex="4">
 						<f:selectItems value="#{salaMB.statusSala}" var="status" itemValue="#{status}" />
 					</h:selectOneMenu>
 				</div>
@@ -62,7 +65,7 @@
 			<div class="form-group">
 				<div class="col-sm-offset-2 col-sm-10">
 					<h:commandLink styleClass="btn btn-success" title="Editar Sala"
-						actionListener="#{salaMB.salvar}">
+						actionListener="#{salaMB.salvar}" tabindex="5">
 						<span class="glyphicon glyphicon-floppy-disk" aria-hidden="true" /> Salvar
 						<f:ajax execute="inputDescricao inputCapacidade inputTipo inputStatus"
 							render="inputDescricaoMSG inputCapacidadeMSG" />

@@ -25,7 +25,7 @@
 					<h:outputLabel value="Nome do Professor" for="inputNome"
 						styleClass="col-sm-2 control-label" />
 					<div class="col-sm-5">
-						<h:inputText tabindex="1" styleClass="form-control"
+						<h:inputText tabindex="1" styleClass="form-control" 
 							id="inputNome" value="#{professorMB.buscaProfessor.nome}" />
 					</div>
 				</div>
@@ -34,7 +34,7 @@
 					<h:outputLabel value="RG do Professor" for="inputRG"
 						styleClass="col-sm-2 control-label" />
 					<div class="col-sm-2">
-						<h:inputText tabindex="2" styleClass="form-control inputRG"
+						<h:inputText tabindex="2" styleClass="form-control inputRG" 
 							id="inputRG" value="#{professorMB.buscaProfessor.rg}" 
 							title="Informe um RG com, no mínimo, 6 dígitos." />
 					</div>
@@ -43,12 +43,12 @@
 				<div class="form-group">
 					<div class="col-sm-offset-2 col-sm-10">
 						<h:commandLink styleClass="btn btn-info" title="Pesquisar Professores"
-							actionListener="#{professorMB.atualizaLista}">
+							actionListener="#{professorMB.atualizaLista}" tabindex="3">
 							<span class="glyphicon glyphicon-search" aria-hidden="true" /> Pesquisar
 							<f:ajax execute="inputNome inputRG" render="table-operadores semResultado" />
 						</h:commandLink>
 						<span> </span>
-						<h:commandLink actionListener="#{professorMB.redirectAdd}"
+						<h:commandLink actionListener="#{professorMB.redirectAdd}" tabindex="4" 
 							styleClass="btn btn-success" title="Adicionar Professor">
 							<span class="glyphicon glyphicon-plus" aria-hidden="true" /> Adicionar
 						</h:commandLink>
@@ -107,19 +107,19 @@
 				<h:column>
 					<f:facet name="header">Ações</f:facet>
 					<h:commandLink styleClass="btn btn-info btn-acoes" title="Editar Professor"
-						actionListener="#{professorMB.redirectEdit}">
+						actionListener="#{professorMB.redirectEdit}" tabindex="5">
 						<span class="glyphicon glyphicon-pencil" aria-hidden="true" /> Editar
 						<f:setPropertyActionListener value="#{professor}" 
 							target="#{professorMB.professor}" />
 					</h:commandLink>
 					
-					<h:commandLink styleClass="btn btn-warning btn-acoes"
+					<h:commandLink styleClass="btn btn-warning btn-acoes" tabindex="5" 
 						actionListener="#{professorMB.redirectAddUser}" title="Adicionar Login/Senha">
 						<span class="glyphicon glyphicon-road" aria-hidden="true" /> Acesso
 						<f:setPropertyActionListener value="#{professor}" target="#{professorMB.professor}" />
 					</h:commandLink>
 
-					<h:commandLink styleClass="btn btn-info btn-acoes" 
+					<h:commandLink styleClass="btn btn-info btn-acoes" tabindex="5" 
 						title="Disciplinas Ministradas pelo Professor"
 						actionListener="#{professorMB.redirectDisciplinas}">
 					<span class="glyphicon glyphicon-list" aria-hidden="true" /> Disciplinas

@@ -8,6 +8,7 @@ import java.util.List;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
+import javax.faces.event.ActionEvent;
 
 import org.primefaces.context.RequestContext;
 
@@ -30,10 +31,37 @@ import br.com.sistema.redAmber.util.URLUtil;
 public class DisciplinaMB {
 
 	private Disciplina disciplina;
+	private Curso curso;
 	private List<Disciplina> listaDisciplinas;
 	private List<Curso> listaCursos;
 	private Boolean isAdd;
-
+	private boolean flagTabela;
+	
+	public DisciplinaMB() {
+		disciplina = new Disciplina();
+		curso = new Curso();
+		this.setFlagTabela(true);
+	}
+	
+	public void atualizaLista(ActionEvent event) {
+		this.getListaDisciplinas();
+		if (this.listaDisciplinas.isEmpty()) {
+			this.setFlagTabela(false);
+			try {
+				FacesContext.getCurrentInstance().getExternalContext().redirect("/redAmber-WebApp/disciplina/index.xhtml");
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		} else {
+			this.setFlagTabela(true);
+			try {
+				FacesContext.getCurrentInstance().getExternalContext().redirect("/redAmber-WebApp/disciplina/index.xhtml");
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+	}
+	
 	public void salvar() {
 
 		try {
@@ -104,10 +132,20 @@ public class DisciplinaMB {
 		}
 	}
 
+	/**
+	 * Getters and setters
+	 */
 	public List<Disciplina> getListaDisciplinas() {
-
+		
+		String paramIdCurso = "";
+		if (this.getCurso() == null || this.getCurso().getId() == null) {
+			paramIdCurso = "null";
+		} else {
+			paramIdCurso = String.valueOf(this.getCurso().getId());
+		}
+		
 		Client c = new Client();
-		WebResource wr = c.resource(URLUtil.LISTAR_DISCIPLINAS);
+		WebResource wr = c.resource(URLUtil.LISTAR_DISCIPLINAS_POR_CURSO + paramIdCurso);
 		String jsonResult = wr.get(String.class);
 		if (!jsonResult.equalsIgnoreCase("null")) {
 			Gson gson = new Gson();
@@ -122,6 +160,14 @@ public class DisciplinaMB {
 		this.listaDisciplinas = listaDisciplina;
 	}
 
+	public Curso getCurso() {
+		return this.curso;
+	}
+	
+	public void setCurso(Curso curso) {
+		this.curso = curso;
+	}
+	
 	public Disciplina getDisciplina() {
 		return disciplina;
 	}
@@ -158,5 +204,13 @@ public class DisciplinaMB {
 
 	public StatusDisciplina[] getStatusDisciplina() {
 		return StatusDisciplina.values();
+	}
+	
+	public boolean isFlagTabela() {
+		return flagTabela;
+	}
+
+	public void setFlagTabela(boolean flagTabela) {
+		this.flagTabela = flagTabela;
 	}
 }

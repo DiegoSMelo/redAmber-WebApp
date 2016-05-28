@@ -30,7 +30,7 @@
 				<h:outputLabel value="Data do Aviso" for="inputDataAviso"
 					styleClass="col-sm-2 control-label" />
 				<div class="col-sm-2">
-					<h:inputText styleClass="form-control" tabindex="1"
+					<h:inputText styleClass="form-control" tabindex="2"
 						id="inputDataAviso" readonly="true"
 						value="#{avisoAlunoMB.avisoAluno.dataAviso.time}">
 						<f:convertDateTime type="both" pattern="dd/MM/yyyy HH:mm" />
@@ -42,7 +42,7 @@
 				<h:outputLabel value="Turma" for="inputTurma" styleClass="col-sm-2 control-label" />
 				<div class="col-sm-2">
 					<h:selectOneMenu required="true" id="inputTurma" styleClass="form-control"
-						value="#{avisoAlunoMB.avisoAluno.turma}" converter="turmaConverter">
+						value="#{avisoAlunoMB.avisoAluno.turma}" converter="turmaConverter" tabindex="3">
 						<f:selectItems value="#{avisoAlunoMB.listaTurmas}" var="turma"
 							itemValue="#{turma}" itemLabel="#{turma.nome}">
 						</f:selectItems>
@@ -54,16 +54,16 @@
 				<h:outputLabel value="Observações" for="inputObservacao" 
 					styleClass="col-sm-2 control-label" />
 				<div class="col-sm-10">
-					<h:inputTextarea rows="10" tabindex="1" styleClass="form-control"
-						id="inputObservacao"
-						value="#{avisoAlunoMB.avisoAluno.observacao}" />
+					<h:inputTextarea rows="10" tabindex="4" styleClass="form-control" 
+						id="inputObservacao" value="#{avisoAlunoMB.avisoAluno.observacao}" 
+						onchange="this.value = this.value.trim()" />
 				</div>
 			</div>
 			
 			<div class="form-group">
 				<div class="col-sm-offset-2 col-sm-10">
 					<h:commandLink styleClass="btn btn-success" title="Salvar Alterações"
-						actionListener="#{avisoAlunoMB.salvar}">
+						actionListener="#{avisoAlunoMB.salvar}" tabindex="5">
 						<span class="glyphicon glyphicon-floppy-disk" aria-hidden="true" /> Atualizar
 						<f:ajax execute="inputFuncionario inputDataAviso inputTurma inputObservacao" />
 					</h:commandLink>

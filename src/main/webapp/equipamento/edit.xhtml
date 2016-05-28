@@ -20,7 +20,7 @@
 				<h:outputLabel value="Descrição" for="inputDescricao"
 					styleClass="col-sm-2 control-label" />
 				<div class="col-sm-5">
-					<h:inputText required="true" tabindex="1"
+					<h:inputText required="true" tabindex="1" onchange="this.value = this.value.trim()" 
 						requiredMessage="Digite o nome/descrição do equipamento."
 						styleClass="form-control" id="inputDescricao"
 						value="#{equipamentoMB.equipamento.descricao}" 
@@ -35,6 +35,7 @@
 				<div class="col-sm-2">
 					<h:inputText styleClass="form-control" tabindex="2" required="true"
 						requiredMessage="Digite o tombo do equipamento." id="inputTombo"
+						onchange="this.value = this.value.trim()" 
 						value="#{equipamentoMB.equipamento.tombo}" 
 						title="Informe o tombo do equipamento. Ex: UBT-LAB-001." />
 					<h:message styleClass="text-danger" for="inputTombo" id="inputTomboMSG" />
@@ -45,7 +46,7 @@
 				<h:outputLabel value="Sala" for="inputSala"
 					styleClass="col-sm-2 control-label"></h:outputLabel>
 				<div class="col-sm-2">
-					<h:selectOneMenu id="inputSala" styleClass="form-control"
+					<h:selectOneMenu id="inputSala" styleClass="form-control" tabindex="3" 
 						value="#{equipamentoMB.equipamento.sala}" converter="salaConverter">
 						<f:selectItem itemValue="#{null}" itemLabel="Nenhuma" />
 						<f:selectItems value="#{equipamentoMB.listaSalas}" var="sala"
@@ -59,7 +60,7 @@
 					styleClass="col-sm-2 control-label" />
 				<div class="col-sm-2">
 					<h:selectOneMenu id="inputStatus" styleClass="form-control"
-						value="#{equipamentoMB.equipamento.status}">
+						value="#{equipamentoMB.equipamento.status}" tabindex="4">
 						<f:selectItems value="#{equipamentoMB.statusEquipamento}"
 							var="status" itemValue="#{status}" />
 					</h:selectOneMenu>
@@ -69,7 +70,7 @@
 			<div class="form-group">
 				<div class="col-sm-offset-2 col-sm-10">
 					<h:commandLink styleClass="btn btn-success" title="Salvar Alterações"
-						actionListener="#{equipamentoMB.salvar}">
+						actionListener="#{equipamentoMB.salvar}" tabindex="5">
 						<span class="glyphicon glyphicon-floppy-disk" aria-hidden="true" /> Salvar
 						<f:ajax execute="inputDescricao inputTombo inputSala inputStatus"
 							render="inputDescricaoMSG inputTomboMSG" />
