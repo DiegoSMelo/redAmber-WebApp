@@ -140,6 +140,9 @@ public class GradeAulaMB {
 			
 			this.listaHoraAulaHTTP = null;//para atualizar novamente
 			this.atualizaListaHorariosHTTP = true;//para atualizar novamente
+			this.atualizaListaHorariosHTTP = true;
+			this.atualiza = true;
+			
 			this.carregaResumos();
 			
 			RequestContext.getCurrentInstance().execute("alert('" + Mensagens.m20 + "');");
@@ -297,6 +300,8 @@ public class GradeAulaMB {
 		//Assim, a lista de horarios não será atualizada.
 		this.atualiza = false;
 		
+		this.carregaResumos();
+		
 		RequestContext.getCurrentInstance().execute("fechaModalHorario()");
 		
 	}
@@ -320,7 +325,7 @@ public class GradeAulaMB {
 
 	public List<Horario> getListaHorarios() {
 
-		
+		//verificar aqui.. o bug está ocorrendo aqui
 		if (this.atualiza == true) {
 			
 			this.listaHorarios = new ArrayList<Horario>();
