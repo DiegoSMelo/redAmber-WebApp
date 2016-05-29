@@ -63,7 +63,7 @@ public class MatriculaIntegracaoMB {
 		try {
 			this.setPagAdd(true);
 			this.setMatricula(new MatriculaIntegracao());
-			this.matricula.setIdAluno(this.getAluno().getId_aluno());
+			this.matricula.setIdAluno(this.getAluno().getId());
 			FacesContext.getCurrentInstance().getExternalContext().redirect("/redAmber-WebApp/matricula_integracao/add.xhtml");
 		} catch (IOException e) {
 			RequestContext.getCurrentInstance().execute("alert('"+e.getMessage()+"');");
@@ -85,7 +85,7 @@ public class MatriculaIntegracaoMB {
 	 */
 	public void salvar() {
 		
-		this.getMatricula().setIdAluno(this.getAluno().getId_aluno());
+		this.getMatricula().setIdAluno(this.getAluno().getId());
 		
 		ClientConfig clientConfig = new DefaultClientConfig();
 		clientConfig.getFeatures().put(JSONConfiguration.FEATURE_POJO_MAPPING, Boolean.TRUE);
@@ -114,7 +114,7 @@ public class MatriculaIntegracaoMB {
 				MatriculaIntegracao matriculaJaExiste = null;
 				Client c = new Client();
 				WebResource wr = c.resource(URLUtil.BUSCAR_MATRICULA_INTEGRACAO_POR_ALUNO_CURSO + 
-						URLEncoder.encode(String.valueOf(this.getAluno().getId_aluno()), 
+						URLEncoder.encode(String.valueOf(this.getAluno().getId()), 
 								java.nio.charset.StandardCharsets.UTF_8.toString()) + "/" + 
 						URLEncoder.encode(String.valueOf(this.getMatricula().getGrade().getCurso().getId()), 
 								java.nio.charset.StandardCharsets.UTF_8.toString()));
@@ -224,7 +224,7 @@ public class MatriculaIntegracaoMB {
 	public List<MatriculaIntegracao> getListaMatriculas() {
 		Client c = new Client();
 	    WebResource wr = c.resource(URLUtil.BUSCAR_MATRICULAS_INTEGRACAO_POR_ALUNO + 
-	    		this.getAluno().getId_aluno());
+	    		this.getAluno().getId());
 	    String jsonResult = wr.get(String.class);
 	    if (!jsonResult.equalsIgnoreCase("null")) {
 			Gson gson = new Gson();

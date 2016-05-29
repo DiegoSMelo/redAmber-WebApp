@@ -54,16 +54,18 @@ public class TesteIntegracaoMB {
 				RequestContext.getCurrentInstance().execute("alert('" + Mensagens.m27 + "');");
 			}
 			jsonResult = response.getEntity(String.class);
-			jsonResult = jsonResult.substring(271);
-			//System.out.println("JSON:" + jsonResult);
+			if (jsonResult.contains("<")) {
+				jsonResult = jsonResult.substring(271);
+			}
+			System.out.println("JSON:" + jsonResult);
 		    if (!jsonResult.equalsIgnoreCase("null")) {
 				Gson gson = new Gson();
 				
 				Integracao integ = gson.fromJson(jsonResult, Integracao.class);
 				
 				listaIntegracao = new ArrayList<AlunoIntegracao>();
-				for (Alunos as : integ.getAlunos()) {
-					listaIntegracao.add(as.getAlunoIntegracao());
+				for (Alunos as : integ.getLista().get(0)) {
+					listaIntegracao.add(as.getAluno());
 				}
 			}
 		} catch (UniformInterfaceException e1) {

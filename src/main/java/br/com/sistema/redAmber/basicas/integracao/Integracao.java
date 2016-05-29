@@ -11,16 +11,15 @@ public class Integracao implements Serializable {
 	 */
 	private static final long serialVersionUID = 1L;
 	@SerializedName("resposta")
-	private List<Alunos> alunos;
-
-    /*
-     * Getters and setters
-     */
-	public List<Alunos> getAlunos() {
-		return alunos;
+	private List<List<Alunos>> resposta;
+	
+	/**
+	 * Getters and setters
+	 */
+	public List<List<Alunos>> getLista() {
+		return resposta;
 	}
-
-	public void setAlunos(List<Alunos> alunos) {
-		this.alunos = alunos;
+	public void setLista(List<List<Alunos>> resposta) {
+		this.resposta = resposta;
 	}
 }

@@ -10,14 +10,14 @@ public class Alunos implements Serializable {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-    @SerializedName("alunos")
-	private AlunoIntegracao alunoIntegracao;
+    @SerializedName("aluno")
+	private AlunoIntegracao aluno;
 
-	public AlunoIntegracao getAlunoIntegracao() {
-		return alunoIntegracao;
+	public AlunoIntegracao getAluno() {
+		return aluno;
 	}
 
-	public void setAlunoIntegracao(AlunoIntegracao alunoIntegracao) {
-		this.alunoIntegracao = alunoIntegracao;
+	public void setAluno(AlunoIntegracao aluno) {
+		this.aluno = aluno;
 	}
 }
