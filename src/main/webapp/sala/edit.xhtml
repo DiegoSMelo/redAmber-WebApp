@@ -6,47 +6,47 @@
 	<ui:define name="body">
 
 		<ol class="breadcrumb">
-			<li><h:outputLink value="/redAmber-WebApp/home/index.xhtml">Página Inicial</h:outputLink></li>
+			<li>
+				<h:outputLink value="/redAmber-WebApp/home/index.xhtml">Página Inicial</h:outputLink>
+			</li>
 			<li><h:outputLink
 					value="/redAmber-WebApp/sala/index.xhtml">Salas</h:outputLink></li>
-			<li class="active">Editar sala</li>
+			<li class="active">Editar Sala</li>
 		</ol>
 
 		<h:form styleClass="form-horizontal" prependId="false">
 
 			<div class="form-group">
-				<h:outputLabel value="Descrição" for="inputDescricao"
-					styleClass="col-sm-2 control-label"></h:outputLabel>
-				<div class="col-sm-10">
-					<h:inputText required="true" tabindex="2"
-						requiredMessage="Digite a descrição da sala"
-						styleClass="form-control" id="inputDescricao"
-						value="#{salaMB.sala.descricao}"></h:inputText>
-					<h:message styleClass="text-danger" for="inputDescricao"
-						id="inputDescricaoMSG"></h:message>
+				<h:outputLabel value="Nome da Sala" for="inputDescricao"
+					styleClass="col-sm-2 control-label" />
+				<div class="col-sm-2">
+					<h:inputText required="true" tabindex="1" requiredMessage="Digite o nome da sala."
+						styleClass="form-control" id="inputDescricao" value="#{salaMB.sala.descricao}" 
+						onchange="this.value = this.value.trim()" 
+						title="Informe o nome da sala. Ex: A1, B2, C10, etc." />
+					<h:message styleClass="text-danger" for="inputDescricao" id="inputDescricaoMSG" />
 				</div>
 			</div>
 
 			<div class="form-group">
 				<h:outputLabel value="Capacidade" for="inputCapacidade"
-					styleClass="col-sm-2 control-label"></h:outputLabel>
-				<div class="col-sm-10">
-					<h:inputText styleClass="form-control" tabindex="6" required="true"
-						requiredMessage="Digite a capicidade de alunos da sala" id="inputCapacidade"
-						value="#{salaMB.sala.capacidadeAlunos}" />
-					<h:message styleClass="text-danger" for="inputCapacidade"
-						id="inputCapacidadeMSG"></h:message>
+					styleClass="col-sm-2 control-label" />
+				<div class="col-sm-2">
+					<h:inputText styleClass="form-control numero" tabindex="2" required="true"
+						requiredMessage="Digite a capacidade de alunos da sala." id="inputCapacidade"
+						value="#{salaMB.sala.capacidadeAlunos}" 
+						title="Informe o número de alunos correspondente à capacidade da sala. Ex: 40 (alunos)." />
+					<h:message styleClass="text-danger" for="inputCapacidade" id="inputCapacidadeMSG" />
 				</div>
 			</div>
 
 			<div class="form-group">
 				<h:outputLabel value="Tipo da Sala" for="inputTipo"
 					styleClass="col-sm-2 control-label" />
-				<div class="col-sm-10">
-					<h:selectOneMenu id="inputTipo" styleClass="form-control"
-						value="#{salaMB.sala.tipoSala}">
-						<f:selectItems value="#{salaMB.tipoSala}"
-							var="tipo" itemValue="#{tipo}" />
+				<div class="col-sm-2">
+					<h:selectOneMenu id="inputTipo" styleClass="form-control" 
+						value="#{salaMB.sala.tipoSala}" tabindex="3">
+						<f:selectItems value="#{salaMB.tipoSala}" var="tipo" itemValue="#{tipo}" />
 					</h:selectOneMenu>
 				</div>
 			</div>
@@ -54,23 +54,22 @@
 			<div class="form-group">
 				<h:outputLabel value="Status" for="inputStatus"
 					styleClass="col-sm-2 control-label" />
-				<div class="col-sm-10">
-					<h:selectOneMenu id="inputStatus" styleClass="form-control"
-						value="#{salaMB.sala.status}">
-						<f:selectItems value="#{salaMB.statusSala}"
-							var="status" itemValue="#{status}" />
+				<div class="col-sm-2">
+					<h:selectOneMenu id="inputStatus" styleClass="form-control" 
+						value="#{salaMB.sala.status}" tabindex="4">
+						<f:selectItems value="#{salaMB.statusSala}" var="status" itemValue="#{status}" />
 					</h:selectOneMenu>
 				</div>
 			</div>
 
 			<div class="form-group">
 				<div class="col-sm-offset-2 col-sm-10">
-					<h:commandButton styleClass="btn btn-default"
-						actionListener="#{salaMB.salvar}" value="Salvar">
-
+					<h:commandLink styleClass="btn btn-success" title="Editar Sala"
+						actionListener="#{salaMB.salvar}" tabindex="5">
+						<span class="glyphicon glyphicon-floppy-disk" aria-hidden="true" /> Salvar
 						<f:ajax execute="inputDescricao inputCapacidade inputTipo inputStatus"
 							render="inputDescricaoMSG inputCapacidadeMSG" />
-					</h:commandButton>
+					</h:commandLink>
 				</div>
 			</div>
 		</h:form>

@@ -7,6 +7,9 @@ $(document).ready(function() {
 
 	$(".data").mask("99/99/9999");
 	$(".hora").mask("99:99");
+	$(".inputRG").mask("999999?999");
+	$(".numero").mask("9?99999");
+	$(".dataInicial").attr("placeholder", "");
 	
 	jQuery(".telefone")
     .mask("(99) 9999-9999?9")

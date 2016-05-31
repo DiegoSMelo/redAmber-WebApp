@@ -1,84 +1,73 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:h="http://java.sun.com/jsf/html"
-      xmlns:f="http://java.sun.com/jsf/core"
-      xmlns:ui="http://java.sun.com/jsf/facelets"
-   
-      
->
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets">
 
-<h:head>     
-            <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-            <meta content="text/html; charset=UTF-8" http-equiv="Content-Type" />
-            <meta name="viewport" content="width=device-width, initial-scale=1" />		
- 
-            <title>Red Amber</title>
-          
-            <h:outputStylesheet name="/bootstrap/css/bootstrap.css" />
-             <h:outputStylesheet name="/css/login.css" />
-   
+<h:head>
+	<link rel="icon" href="resources/images/icoRedAmber.ico" type="image/ico" />
+	<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+	<meta content="text/html; charset=UTF-8" http-equiv="Content-Type" />
+	<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+	<title>Red Amber</title>
+
+	<h:outputStylesheet name="/bootstrap/css/bootstrap.css" />
+	<h:outputStylesheet name="/css/login.css" />
+
 </h:head>
 
 <h:body>
-	
-		<div id="titulo" class="jumbotron page-header">
+	<div align="center">
+		<br /><img src='resources/images/logoredAmber.png' height="260" width="254" alt='Logo' />
+		<div id="formLogin" class="jumbotron">
+			<h:form styleClass="form-horizontal" prependId="false">
+				<h:outputScript name="jsf.js" library="javax.faces" target="head" />
 
-    <h2>Red Amber <small>Login</small> </h2>
+				<div class="form-group">
+					<h:outputLabel value="Login" styleClass="col-sm-2 control-label" />
+					<div class="col-sm-2">
+						<h:inputText required="true" requiredMessage="Preencha o login"
+							styleClass="form-control" id="inputLogin"
+							value="#{loginMB.login.login}" tabindex="1" />
+						<h:message styleClass="text-danger" for="inputLogin" id="inputLoginMSG" />
+					</div>
+				</div>
 
+				<div class="form-group">
+					<h:outputLabel value="Senha" styleClass="col-sm-2 control-label" />
+					<div class="col-sm-2">
+						<h:inputSecret required="true" requiredMessage="Preencha a senha" 
+							styleClass="form-control" id="inputSenha"
+							value="#{loginMB.login.senha}" tabindex="2" />
+						<h:message styleClass="text-danger" for="inputSenha" id="inputSenhaMSG" />
+					</div><span> </span>
+					<div class="col-sm-1">
+						<h:commandLink actionListener="#{loginMB.autenticar}" tabindex="3"
+							onclick="aguarde()" styleClass="btn btn-danger" id="btnlogin">
+							<span class="glyphicon glyphicon-log-in" aria-hidden="true" /> ENTRAR
+						<f:ajax execute="inputLogin inputSenha"
+								render="errormessage inputLoginMSG inputSenhaMSG" />
+						</h:commandLink>
+					</div>
+				</div>
 
-</div>
+				<div class="form-group">
+					<div class="col-sm-offset-2 col-sm-2">
+						<h:outputText id="errormessage" />
+					</div>
+				</div>
 
-<div id="formLogin" class="jumbotron">
-	<h:form styleClass="form-horizontal" prependId="false">
-   	<h:outputScript name="jsf.js" library="javax.faces" target="head" />
-       
-        <div class="form-group">
-        	<h:outputLabel value="Login" styleClass="col-sm-2 control-label"></h:outputLabel>
-            <div class="col-sm-2">
-            
-            	<h:inputText required="true" requiredMessage="Preencha o login" styleClass="form-control" id="inputLogin" value="#{loginMB.login.login}"></h:inputText>
-                
-            </div>
-        </div>
+			</h:form>
+		</div>
+	</div>
 
-        <div class="form-group">
-        	<h:outputLabel value="Senha" styleClass="col-sm-2 control-label"></h:outputLabel>
-            <div class="col-sm-2">
-            	<h:inputSecret styleClass="form-control" id="inputsenha" value="#{loginMB.login.senha}"></h:inputSecret>
-              
-            </div>
-        </div>
-        
-        
+	<div id="beforelogin" class="jumbotron text-center"></div>
 
-        <div class="form-group">
-            <div class="col-sm-offset-2 col-sm-2">
-                <h:commandButton actionListener="#{loginMB.autenticar}" onclick="aguarde()" value="Login" styleClass="btn btn-default" id="btnlogin" >
-                	<f:ajax execute="inputLogin inputsenha" render="errormessage" />
-                </h:commandButton>
-            </div>
-        </div>
-
-        <div class="form-group">
-            <div class="col-sm-offset-2 col-sm-2">              
-                <h:outputText id="errormessage"></h:outputText>
-            </div>
-        </div>
-
-    </h:form>
-</div>
-
-
-<div id="beforelogin" class="jumbotron text-center"></div>
-		
-	
-		
 </h:body>
 
-
-
-
-	  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js" />      
-      <h:outputScript name="/bootstrap/js/bootstrap.js" />
-       <h:outputScript name="/js/scripts.js" />
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js" />
+<h:outputScript name="/bootstrap/js/bootstrap.js" />
+<h:outputScript name="/js/scripts.js" />
 </html>

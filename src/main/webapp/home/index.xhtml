@@ -1,29 +1,44 @@
 <ui:composition xmlns="http://www.w3.org/1999/xhtml"
-xmlns:ui="http://java.sun.com/jsf/facelets"
-xmlns:h="http://java.sun.com/jsf/html"
-xmlns:f="http://java.sun.com/jsf/core"
-template="#{beanGeral.template}">
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core" template="#{beanGeral.template}">
 	<ui:define name="body">
-<h:form>	
+		<h:form>
 
+			<ol class="breadcrumb">
+				<li>
+					<h:outputLink value="/redAmber-WebApp/home/index.xhtml">Página Inicial</h:outputLink>
+				</li>
+			</ol>
+			
+			<h:panelGrid id="painel" columns="1" border="0">
+				<f:facet name="header">Resumo de Hoje</f:facet>
+				<p></p>
+				<h:commandLink title="Clique para ver os avisos dos professores"  
+					value="Novos Avisos de Professores: #{paginaInicialMB.numeroAvisosProfessorHoje}" 
+					actionListener="#{paginaInicialMB.redirectAvisoProfessor}" />
+				<h:commandLink title="Clique para para ver os pedidos de reserva de equipamentos"
+					value="Novas Reservas de Equipamentos: #{paginaInicialMB.numeroReservasEquipamentoHoje}" 
+					actionListener="#{paginaInicialMB.redirectReservaEquipamento}" />
+				<h:commandLink title="Clique para ver os pedidos de reserva de salas"  
+					value="Novas Reservas de Salas: #{paginaInicialMB.numeroReservasSalasHoje}" 
+					actionListener="#{paginaInicialMB.redirectReservaSala}" />
+			</h:panelGrid>
+			<p></p>
+			<h:panelGrid>
+				<f:facet name="header">Aguardando Visto/Parecer da Secretaria:</f:facet>
+				<p></p>
+				<h:commandLink title="Clique para ver os avisos dos professores"  
+					value="Avisos de Professores Pendentes: #{paginaInicialMB.numeroAvisosProfessorPendentes}" 
+					actionListener="#{paginaInicialMB.redirectAvisoProfessor}" />
+				<h:commandLink title="Clique para para ver os pedidos de reserva de equipamentos"
+					value="Reservas de Equipamentos Pendentes: #{paginaInicialMB.numeroReservasEquipamentoPendentes}" 
+					actionListener="#{paginaInicialMB.redirectReservaEquipamento}" />
+				<h:commandLink title="Clique para ver os pedidos de reserva de salas"  
+					value="Reservas de Salas Pendentes: #{paginaInicialMB.numeroReservasSalasPendentes}" 
+					actionListener="#{paginaInicialMB.redirectReservaSala}" />
+			</h:panelGrid>
 
-
-
-<ol class="breadcrumb">
-  <li><h:outputLink value="/redAmber-WebApp/home/index.xhtml">Página Inicial</h:outputLink></li>
-  
-</ol>
-		
-		
-		
-		
-
-    
-    
-    
-    
-    
-    
-</h:form>		
+		</h:form>
 	</ui:define>
 </ui:composition>

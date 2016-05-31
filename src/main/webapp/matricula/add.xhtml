@@ -6,18 +6,38 @@
 	<ui:define name="body">
 
 		<ol class="breadcrumb">
-	  		<li><h:outputLink value="/redAmber-WebApp/home/index.xhtml">Página Inicial</h:outputLink></li>
+	  		<li>
+	  			<h:outputLink value="/redAmber-WebApp/home/index.xhtml">Página Inicial</h:outputLink>
+	  		</li>
 	   		<li><h:outputLink value="/redAmber-WebApp/aluno/index.xhtml">Alunos</h:outputLink></li>
-			<li><h:outputLink value="/redAmber-WebApp/matricula/index.xhtml">Matrículas</h:outputLink></li>
-	 		<li class="active">Cadastro de Matrícula - <h:outputText value="#{matriculaMB.matricula.aluno.nome}"></h:outputText> </li>
+			<li>
+				<h:outputLink value="/redAmber-WebApp/matricula/index.xhtml">Matrículas</h:outputLink>
+			</li>
+	 		<li class="active">Matricular o Aluno <h:outputText 
+	 			value="#{matriculaMB.matricula.aluno.nome}" /></li>
 		</ol>
+		
+		<div align="center">
+			<h:outputLabel for="tabelaVazia" class="glyphicon glyphicon-alert bigWarningSign"
+				rendered="#{empty matriculaMB.listaGrades or 
+					empty matriculaMB.listaGrades or empty matriculaMB.listaTurmas}" />
+			<br />
+			<h:outputText id="tabelaVazia" class="emptyTable"
+				rendered="#{empty matriculaMB.listaGrades or 
+					empty matriculaMB.listaGrades or empty matriculaMB.listaTurmas}"
+				value="Para matricular um aluno, é preciso que haja, pelo menos, um curso, uma grade e
+					uma turma cadastrados na base de dados.">
+			</h:outputText>
+		</div>
 
-		<h:form styleClass="form-horizontal" prependId="false">
+		<h:form styleClass="form-horizontal" prependId="false"
+				rendered="#{not empty matriculaMB.listaCursos and not empty matriculaMB.listaGrades 
+					and not empty matriculaMB.listaTurmas}">
 		
 			<div class="form-group">
 				<h:outputLabel value="Turno" for="inputTurno"
 					styleClass="col-sm-2 control-label" />
-				<div class="col-sm-10">
+				<div class="col-sm-2">
 					<h:selectOneMenu id="inputTurno" styleClass="form-control"
 						value="#{matriculaMB.turno}" converter="tipoTurnoConverter" immediate="true"
 							onchange="submit()"
@@ -31,11 +51,11 @@
 			<div class="form-group">
 				<h:outputLabel value="Curso" for="inputCurso"
 					styleClass="col-sm-2 control-label" />
-				<div class="col-sm-10">
+				<div class="col-sm-5">
 					<h:selectOneMenu id="inputCurso" styleClass="form-control"
 						value="#{matriculaMB.cursoSelecionado}" onchange="submit()"
 						valueChangeListener="#{matriculaMB.atualizarListaGrades}">
-						<f:selectItem itemValue="#{null}" itemLabel="Escolha o curso" />
+						<f:selectItem itemValue="#{null}" itemLabel="Escolha o Curso" />
 						<f:selectItems value="#{matriculaMB.listaCursos}" var="curso"
 							itemValue="#{curso.id}" itemLabel="#{curso.nome}" />
 					</h:selectOneMenu>
@@ -45,11 +65,11 @@
 			<div class="form-group">
 				<h:outputLabel value="Grade" for="inputGrade"
 					styleClass="col-sm-2 control-label" />
-				<div class="col-sm-10">
+				<div class="col-sm-2">
 					<h:selectOneMenu id="inputGrade" styleClass="form-control"
 						value="#{matriculaMB.gradeSelecionada}" converter="gradeConverter"
 						immediate="true">
-						<f:selectItem itemValue="#{null}" itemLabel="Escolha a grade" />
+						<f:selectItem itemValue="#{null}" itemLabel="Escolha a Grade" />
 						<f:selectItems value="#{matriculaMB.listaGrades}" var="grade"
 							itemValue="#{grade}" itemLabel="#{grade.titulo}" />
 					</h:selectOneMenu>
@@ -59,11 +79,11 @@
 			<div class="form-group">
 				<h:outputLabel value="Entrada" for="inputEntrada"
 					styleClass="col-sm-2 control-label" />
-				<div class="col-sm-10">
+				<div class="col-sm-2">
 					<h:selectOneMenu id="inputEntrada" styleClass="form-control"
 						value="#{matriculaMB.entrada}">
-						<f:selectItem itemValue="1" itemLabel="Primeira entrada" />
-						<f:selectItem itemValue="2" itemLabel="Segunda entrada" />
+						<f:selectItem itemValue="1" itemLabel="Primeira Entrada" />
+						<f:selectItem itemValue="2" itemLabel="Segunda Entrada" />
 					</h:selectOneMenu>
 				</div>
 			</div>
@@ -71,11 +91,11 @@
 			<div class="form-group">
 				<h:outputLabel value="Turma" for="inputTurma"
 					styleClass="col-sm-2 control-label" />
-				<div class="col-sm-10">
+				<div class="col-sm-2">
 					<h:selectOneMenu id="inputTurma" styleClass="form-control"
 						value="#{matriculaMB.turma}" converter="turmaConverter"
 						immediate="true">
-						<f:selectItem itemValue="#{null}" itemLabel="Escolha a turma" />
+						<f:selectItem itemValue="#{null}" itemLabel="Escolha a Turma" />
 						<f:selectItems value="#{matriculaMB.listaTurmas}" var="turma"
 							itemValue="#{turma}" itemLabel="#{turma.nome}" />
 					</h:selectOneMenu>
@@ -84,14 +104,14 @@
 			
 			<div class="form-group">
 				<div class="col-sm-offset-2 col-sm-10">
-					<h:commandButton styleClass="btn btn-default"
-						actionListener="#{matriculaMB.matricular}" value="Matricular">
+					<h:commandLink styleClass="btn btn-success" title="Matricular Aluno"
+						actionListener="#{matriculaMB.matricular}">
+						<span class="glyphicon glyphicon-education" aria-hidden="true" /> Matricular
 						<f:ajax execute="inputCurso inputGrade inputEntrada inputTurno inputTurma" />
-					</h:commandButton>
+					</h:commandLink>
 				</div>
 			</div>
 			
 		</h:form>
-
 	</ui:define>
 </ui:composition>

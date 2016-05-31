@@ -6,7 +6,9 @@
 	<ui:define name="body">
 
 		<ol class="breadcrumb">
-			<li><h:outputLink value="/redAmber-WebApp/home/index.xhtml">Página Inicial</h:outputLink></li>
+			<li>
+				<h:outputLink value="/redAmber-WebApp/home/index.xhtml">Página Inicial</h:outputLink>
+			</li>
 			<li><h:outputLink
 					value="/redAmber-WebApp/equipamento/index.xhtml">Equipamentos</h:outputLink></li>
 			<li class="active">Adicionar Equipamento</li>
@@ -15,58 +17,55 @@
 		<h:form styleClass="form-horizontal" prependId="false">
 
 			<div class="form-group">
-				<h:outputLabel value="Descricao" for="inputDescricao"
-					styleClass="col-sm-2 control-label"></h:outputLabel>
-				<div class="col-sm-10">
-					<h:inputText required="true" tabindex="2"
-						requiredMessage="Digite a descrição do equipamento"
+				<h:outputLabel value="Descrição" for="inputDescricao"
+					styleClass="col-sm-2 control-label" />
+				<div class="col-sm-5">
+					<h:inputText required="true" tabindex="1" onchange="this.value = this.value.trim()"
+						requiredMessage="Digite o nome/descrição do equipamento."
 						styleClass="form-control" id="inputDescricao"
-						value="#{equipamentoMB.equipamento.descricao}"></h:inputText>
-					<h:message styleClass="text-danger" for="inputDescricao"
-						id="inputDescricaoMSG"></h:message>
+						value="#{equipamentoMB.equipamento.descricao}" 
+						title="Informe o nome/descrição do equipamento. Ex: Datashow Samsung." />
+					<h:message styleClass="text-danger" for="inputDescricao" id="inputDescricaoMSG" />
 				</div>
 			</div>
 
 			<div class="form-group">
 				<h:outputLabel value="Tombo" for="inputTombo"
-					styleClass="col-sm-2 control-label"></h:outputLabel>
-				<div class="col-sm-10">
-					<h:inputText styleClass="form-control" tabindex="6" required="true"
-						requiredMessage="Digite o tombo do equipamento" id="inputTombo"
-						value="#{equipamentoMB.equipamento.tombo}">
-					</h:inputText>
-					<h:message styleClass="text-danger" for="inputTombo"
-						id="inputTomboMSG"></h:message>
+					styleClass="col-sm-2 control-label" />
+				<div class="col-sm-2">
+					<h:inputText styleClass="form-control" tabindex="2" required="true" 
+						requiredMessage="Digite o tombo do equipamento." id="inputTombo"
+						value="#{equipamentoMB.equipamento.tombo}" 
+						onchange="this.value = this.value.trim()" 
+						title="Informe o tombo do equipamento. Ex: UBT-LAB-001." />
+					<h:message styleClass="text-danger" for="inputTombo" id="inputTomboMSG" />
 				</div>
 			</div>
 
 			<div class="form-group">
 				<h:outputLabel value="Sala" for="inputSala"
-					styleClass="col-sm-2 control-label"></h:outputLabel>
-				<div class="col-sm-10">
-
-					<h:selectOneMenu id="inputSala" styleClass="form-control"
+					styleClass="col-sm-2 control-label" />
+				<div class="col-sm-2">
+					<h:selectOneMenu id="inputSala" styleClass="form-control" tabindex="3"
 						value="#{equipamentoMB.equipamento.sala}" converter="salaConverter">
 						<f:selectItem itemValue="#{null}" itemLabel="Nenhuma" />
 						<f:selectItems value="#{equipamentoMB.listaSalas}" var="sala"
 							itemValue="#{sala}" itemLabel="#{sala.descricao}" />
 					</h:selectOneMenu>
-
 				</div>
 			</div>
 
 			<div class="form-group">
 				<div class="col-sm-offset-2 col-sm-10">
-					<h:commandButton styleClass="btn btn-default"
-						actionListener="#{equipamentoMB.salvar}" value="Salvar">
-
+					<h:commandLink styleClass="btn btn-success" title="Salvar Equipamento"
+						actionListener="#{equipamentoMB.salvar}" tabindex="4">
+						<span class="glyphicon glyphicon-floppy-disk" aria-hidden="true" /> Salvar
 						<f:ajax execute="inputDescricao inputTombo inputSala"
 							render="inputDescricaoMSG inputTomboMSG" />
-					</h:commandButton>
+					</h:commandLink>
 				</div>
 			</div>
 
 		</h:form>
-
 	</ui:define>
 </ui:composition>

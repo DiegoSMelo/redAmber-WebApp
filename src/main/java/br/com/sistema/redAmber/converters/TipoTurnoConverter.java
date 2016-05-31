@@ -15,7 +15,8 @@ public class TipoTurnoConverter implements Converter {
 
 		System.out.println("String -> Object");
 		
-		if(arg2 == null || arg2.trim().equals(""))
+		if(arg2.trim().equalsIgnoreCase("Escolha o Turno") || arg2.trim().equalsIgnoreCase("Todos") || 
+				arg2.trim().equals("") || arg2 == null || arg2.isEmpty())
 		{
 			return null;
 		}

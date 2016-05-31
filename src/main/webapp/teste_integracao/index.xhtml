@@ -1,0 +1,71 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui" template="#{beanGeral.template}">
+	<ui:define name="body">
+
+		<h:form>
+			<ol class="breadcrumb">
+				<li>
+					<h:outputLink value="/redAmber-WebApp/home/index.xhtml">Página Inicial</h:outputLink>
+				</li>
+				<li class="active">Alunos Educa Mais</li>
+			</ol>
+
+			<div align="center">
+				<h:outputLabel for="tabelaVazia" class="glyphicon glyphicon-alert bigWarningSign"
+					rendered="#{empty testeIntegracaoMB.listaIntegracao}" />
+				<br/>
+				<h:outputText id="tabelaVazia" class="emptyTable"
+					value="Não há alunos cadastrados ou não foi possível se conectar ao 
+						servidor 'http://facilitamais.890m.com/'. Por favor, tente novamente mais tarde." 
+					rendered="#{empty testeIntegracaoMB.listaIntegracao}" />
+			</div>
+
+			<h:dataTable id="table-operadores"
+				styleClass="table table-hover table-bordered"
+				value="#{testeIntegracaoMB.listaIntegracao}" var="aluno"
+				rendered="#{not empty testeIntegracaoMB.listaIntegracao}"
+				emptyMessage="Não há alunos cadastrados">
+				<f:facet name="header">Alunos do Sistema Educa Mais</f:facet>
+				
+				<h:column>
+					<f:facet name="header">ID</f:facet>
+					<h:outputText value="#{aluno.id}" />
+				</h:column>
+
+				<h:column>
+					<f:facet name="header">RG</f:facet>
+					<h:outputText value="#{aluno.rg}" />
+				</h:column>
+
+				<h:column>
+					<f:facet name="header">Nome</f:facet>
+					<h:outputText value="#{aluno.nome}" />
+				</h:column>
+
+				<h:column>
+					<f:facet name="header">E-mail</f:facet>
+					<h:outputText value="#{aluno.email}" />
+				</h:column>
+
+				<h:column>
+					<f:facet name="header">Telefone</f:facet>
+					<h:outputText value="#{aluno.telefone}" />
+				</h:column>
+
+				<h:column>
+					<f:facet name="header">Ações</f:facet>
+					<h:commandLink styleClass="btn btn-info btn-acoes" title="Matrículas do Aluno"
+						actionListener="#{matriculaIntegracaoMB.redirectIndex}">
+						<span class="glyphicon glyphicon-education" aria-hidden="true" /> Matrículas
+						<f:setPropertyActionListener value="#{aluno}"
+							target="#{matriculaIntegracaoMB.aluno}" />
+					</h:commandLink>
+				</h:column>
+
+			</h:dataTable>
+		</h:form>
+	</ui:define>
+</ui:composition>

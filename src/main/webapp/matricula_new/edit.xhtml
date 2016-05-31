@@ -1,0 +1,137 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui" template="#{beanGeral.template}">
+	<ui:define name="body">
+
+		<ol class="breadcrumb">
+			<li>
+				<h:outputLink value="/redAmber-WebApp/home/index.xhtml">Página Inicial</h:outputLink>
+			</li>
+			<li><h:outputLink 
+					value="/redAmber-WebApp/aluno/index.xhtml">Alunos</h:outputLink></li>
+			<li><h:outputLink
+					value="/redAmber-WebApp/matricula_new/index.xhtml">Matrículas</h:outputLink></li>
+			<li class="active">Atualizar Matrícula: <h:outputText
+					value="#{matriculaNewMB.matricula.codigoMatricula} - 
+					#{matriculaNewMB.aluno.nome} - 
+					#{matriculaNewMB.matricula.grade.curso.nome} - 
+					#{matriculaNewMB.matricula.grade.titulo} - 
+					#{matriculaNewMB.matricula.turma.nome}" />
+			</li>
+		</ol>
+
+		<h:form styleClass="form-horizontal" prependId="false">
+		
+			<div class="form-group">
+				<h:outputLabel value="Turno" for="inputTurno"
+					styleClass="col-sm-2 control-label" />
+				<div class="col-sm-2">
+					<h:selectOneMenu id="inputTurno" styleClass="form-control" tabindex="1" 
+						value="#{matriculaNewMB.turno}" converter="tipoTurnoConverter" 
+							immediate="true" onchange="submit()"
+							valueChangeListener="#{matriculaNewMB.atualizarListaTurmas}">
+						<f:selectItems value="#{matriculaNewMB.turnos}" var="turno"
+							itemValue="#{turno}" itemLabel="#{turno}" />
+					</h:selectOneMenu>
+				</div>
+			</div>
+
+			<div class="form-group">
+				<h:outputLabel value="Curso" for="inputCurso"
+					styleClass="col-sm-2 control-label" />
+				<div class="col-sm-5">
+					<h:selectOneMenu id="inputCurso" styleClass="form-control" tabindex="2" 
+						value="#{matriculaNewMB.idCurso}" onchange="submit()"
+						valueChangeListener="#{matriculaNewMB.atualizarListaGrades}">
+						<f:selectItem itemValue="#{null}" itemLabel="Escolha o Curso" />
+						<f:selectItems value="#{matriculaNewMB.listaCursos}" var="curso"
+							itemValue="#{curso.id}" itemLabel="#{curso.nome}" />
+					</h:selectOneMenu>
+				</div>
+			</div>
+
+			<div class="form-group">
+				<h:outputLabel value="Grade" for="inputGrade"
+					styleClass="col-sm-2 control-label" />
+				<div class="col-sm-2">
+					<h:selectOneMenu id="inputGrade" styleClass="form-control" tabindex="3" 
+						value="#{matriculaNewMB.matricula.grade}" converter="gradeConverter"
+						required="true" requiredMessage="Informe a Grade.">
+						<f:selectItem itemValue="#{null}" itemLabel="Escolha a Grade" />
+						<f:selectItems value="#{matriculaNewMB.listaGrades}" var="grade"
+							itemValue="#{grade}" itemLabel="#{grade.titulo}" />
+					</h:selectOneMenu>
+					<h:message styleClass="text-danger" for="inputGrade" id="inputGradeMSG" />
+				</div>
+			</div>
+			
+			<div class="form-group">
+				<h:outputLabel value="Entrada" for="inputEntrada"
+					styleClass="col-sm-2 control-label" />
+				<div class="col-sm-2">
+					<h:selectOneMenu id="inputEntrada" styleClass="form-control" tabindex="4" 
+						value="#{matriculaNewMB.matricula.entrada}">
+						<f:selectItem itemValue="1" itemLabel="Primeira Entrada" />
+						<f:selectItem itemValue="2" itemLabel="Segunda Entrada" />
+					</h:selectOneMenu>
+				</div>
+			</div>
+			
+			<div class="form-group">
+				<h:outputLabel value="Data de Matrícula" for="inputDataMatricula"
+					styleClass="col-sm-2 control-label" />
+				<div class="col-sm-2">
+					<h:inputText styleClass="form-control data" tabindex="5" required="true"
+						requiredMessage="Informe a data de matrícula de aluno." id="inputDataMatricula"
+						title="Informe uma data válida no formato 'dia/mês/ano'."
+						value="#{matriculaNewMB.matricula.dataMatricula.time}" 
+						converterMessage="Informe uma data válida no formato 'dia/mês/ano'.">
+							<f:convertDateTime type="date" pattern="dd/MM/yyyy" />
+						</h:inputText>
+					<h:message styleClass="text-danger" for="inputDataMatricula" id="inputDataMatriculaMSG" />
+				</div>
+			</div>
+			
+			<div class="form-group">
+				<h:outputLabel value="Turma" for="inputTurma"
+					styleClass="col-sm-2 control-label" />
+				<div class="col-sm-2">
+					<h:selectOneMenu id="inputTurma" styleClass="form-control" tabindex="6" 
+						value="#{matriculaNewMB.matricula.turma}" converter="turmaConverter"
+						immediate="true">
+						<f:selectItem itemValue="#{null}" itemLabel="Escolha a Turma" />
+						<f:selectItems value="#{matriculaNewMB.listaTurmas}" var="turma"
+							itemValue="#{turma}" itemLabel="#{turma.nome}" />
+					</h:selectOneMenu>
+					<h:message styleClass="text-danger" for="inputTurma" id="inputTurmaMSG" />
+				</div>
+			</div>
+			
+			<div class="form-group">
+				<h:outputLabel value="Status" for="inputStatus" styleClass="col-sm-2 control-label" />
+				<div class="col-sm-2">				
+					<h:selectOneMenu id="inputStatus" styleClass="form-control" 
+						value="#{matriculaNewMB.matricula.status}" tabindex="7">
+							<f:selectItems value="#{matriculaNewMB.statusMatricula}" 
+								var="status" itemValue="#{status}" />
+					</h:selectOneMenu>
+				</div>
+			</div>
+
+			<div class="form-group">
+				<div class="col-sm-offset-2 col-sm-10">
+					<h:commandLink styleClass="btn btn-success" title="Atualizar Matrícula"
+						actionListener="#{matriculaNewMB.salvarMatricula}" tabindex="8">
+						<span class="glyphicon glyphicon-education" aria-hidden="true" /> Atualizar
+						<f:ajax execute="inputCurso inputGrade inputEntrada inputDataMatricula 
+							inputTurma inputStatus" render="inputGradeMSG inputDataMatriculaMSG 
+							inputTurmaMSG" />
+					</h:commandLink>
+				</div>
+			</div>
+		
+		</h:form>
+	</ui:define>
+</ui:composition>

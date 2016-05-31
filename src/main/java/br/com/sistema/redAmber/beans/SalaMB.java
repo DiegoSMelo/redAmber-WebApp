@@ -8,12 +8,15 @@ import java.util.List;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
+import javax.faces.event.ActionEvent;
 
 import org.primefaces.context.RequestContext;
 
 import com.google.gson.Gson;
 import com.sun.jersey.api.client.Client;
+import com.sun.jersey.api.client.ClientHandlerException;
 import com.sun.jersey.api.client.ClientResponse;
+import com.sun.jersey.api.client.UniformInterfaceException;
 import com.sun.jersey.api.client.WebResource;
 import com.sun.jersey.api.client.config.ClientConfig;
 import com.sun.jersey.api.client.config.DefaultClientConfig;
@@ -32,7 +35,35 @@ public class SalaMB {
 	private Sala sala;
 	private List<Sala> listaSalas;
 	private boolean isPagAdd;
+	private String buscaSala;
+	private boolean flagTabela;
+	
+	public SalaMB() {
+		this.sala = new Sala();
+		this.listaSalas = new ArrayList<Sala>();
+		this.buscaSala = "";
+		this.setFlagTabela(true);
+	}
 
+	public void atualizaLista(ActionEvent event) {
+		this.getListaSalas();
+		if (this.listaSalas.isEmpty()) {
+			this.setFlagTabela(false);
+			try {
+				FacesContext.getCurrentInstance().getExternalContext().redirect("/redAmber-WebApp/sala/index.xhtml");
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		} else {
+			this.setFlagTabela(true);
+			try {
+				FacesContext.getCurrentInstance().getExternalContext().redirect("/redAmber-WebApp/sala/index.xhtml");
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+	}
+	
 	public void salvar() {
 		
 		try {
@@ -67,6 +98,9 @@ public class SalaMB {
 		}
 	}
 	
+	/**
+	 * Cria um novo objeto para a Sala e redireciona para a página de cadastro.
+	 */
 	public void redirectAdd() {
 		try {
 			this.setPagAdd(true);
@@ -78,6 +112,9 @@ public class SalaMB {
 		}
 	}
 	
+	/**
+	 * Redireciona para a página de edição.
+	 */
 	public void redirectEdit() {
 		try {
 			this.setPagAdd(false);
@@ -88,12 +125,7 @@ public class SalaMB {
 		}
 	}
 	
-	public void init() {
-		sala = new Sala();
-		listaSalas = new ArrayList<Sala>();
-	}
-	
-	/*
+	/**
 	 * Getters and setters
 	 */
 	public Sala getSala() {
@@ -103,15 +135,38 @@ public class SalaMB {
 		this.sala = sala;
 	}
 	public List<Sala> getListaSalas() {
-		Client c = new Client();
-		WebResource wr = c.resource(URLUtil.LISTAR_SALAS);
-		String jsonResult = wr.get(String.class);
-	    if (!jsonResult.equalsIgnoreCase("null")) {
-			Gson gson = new Gson();
-			
-			Sala[] lista = gson.fromJson(jsonResult, Sala[].class);
-			this.listaSalas = Arrays.asList(lista);
-		}	
+		
+		// Create Jersey client
+		ClientConfig clientConfig = new DefaultClientConfig();
+		clientConfig.getFeatures().put(JSONConfiguration.FEATURE_POJO_MAPPING, Boolean.TRUE);
+		Client client = Client.create(clientConfig);
+		
+		String jsonResult;
+		try {
+			WebResource webResourcePost = client.resource(URLUtil.LISTAR_SALAS_POR_DESCRICAO);
+			ClientResponse response = webResourcePost.type("application/json").post(ClientResponse.class,
+					this.getBuscaSala());
+			if (response.getStatus() != 200) {
+				RequestContext.getCurrentInstance().execute("alert('" + Mensagens.m28 + "');");
+			}
+			jsonResult = response.getEntity(String.class);
+		    if (!jsonResult.equalsIgnoreCase("null")) {
+				Gson gson = new Gson();
+				
+				Sala[] lista = gson.fromJson(jsonResult, Sala[].class);
+				this.listaSalas = Arrays.asList(lista);
+				return listaSalas;
+			}
+		} catch (UniformInterfaceException e1) {
+			RequestContext.getCurrentInstance().execute("alert('" + Mensagens.m28 + "');");
+			e1.printStackTrace();
+		} catch (ClientHandlerException e1) {
+			RequestContext.getCurrentInstance().execute("alert('" + Mensagens.m28 + "');");
+			e1.printStackTrace();
+		} catch (Exception e) {
+			RequestContext.getCurrentInstance().execute("alert('" + Mensagens.m28 + "');");
+			e.printStackTrace();
+		}
 		return listaSalas;
 	}
 	public void setListaSalas(List<Sala> listaSalas) {
@@ -130,5 +185,21 @@ public class SalaMB {
 	
 	public TipoSala[] getTipoSala() {
 		return TipoSala.values();
+	}
+
+	public String getBuscaSala() {
+		return buscaSala;
+	}
+
+	public void setBuscaSala(String buscaSala) {
+		this.buscaSala = buscaSala;
+	}
+
+	public boolean isFlagTabela() {
+		return flagTabela;
+	}
+
+	public void setFlagTabela(boolean flagTabela) {
+		this.flagTabela = flagTabela;
 	}
 }

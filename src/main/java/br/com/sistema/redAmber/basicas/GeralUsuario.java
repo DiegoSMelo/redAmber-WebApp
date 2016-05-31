@@ -4,10 +4,9 @@ import java.io.Serializable;
 import java.util.Calendar;
 
 import br.com.sistema.redAmber.basicas.enums.StatusUsuario;
+import br.com.sistema.redAmber.basicas.enums.TipoUsuario;
 
 public class GeralUsuario implements Serializable{
-	
-
 
 	/**
 	 * 
@@ -15,26 +14,16 @@ public class GeralUsuario implements Serializable{
 	private static final long serialVersionUID = 1L;
 
 	private Long id;
-	
 	private String nome;
-	
 	private String rg;
-	
 	private String email;
-	
 	private String telefone;
-	
 	private Calendar dataNascimento;
-	
 	private StatusUsuario status;
-	
 	private Usuario usuario;
+	private TipoUsuario tipo;
 	
-	public GeralUsuario() {
-		// TODO Auto-generated constructor stub
-	}
-	
-	
+	public GeralUsuario() {}
 	
 	public GeralUsuario(Long id, String nome, String rg, String email, String telefone, Calendar dataNascimento,
 			StatusUsuario status, Usuario usuario) {
@@ -48,9 +37,24 @@ public class GeralUsuario implements Serializable{
 		this.status = status;
 		this.usuario = usuario;
 	}
-
-
-
+	
+	public GeralUsuario(Long id, String nome, String rg, String email, String telefone, Calendar dataNascimento,
+			StatusUsuario status, Usuario usuario, TipoUsuario tipo) {
+		super();
+		this.id = id;
+		this.nome = nome;
+		this.rg = rg;
+		this.email = email;
+		this.telefone = telefone;
+		this.dataNascimento = dataNascimento;
+		this.status = status;
+		this.usuario = usuario;
+		this.tipo = tipo;
+	}
+	
+	/*
+	 * Getters and setters
+	 */
 	public Long getId() {
 		return id;
 	}
@@ -99,5 +103,10 @@ public class GeralUsuario implements Serializable{
 	public void setUsuario(Usuario usuario) {
 		this.usuario = usuario;
 	}
-	
+	public TipoUsuario getTipo() {
+		return tipo;
+	}
+	public void setTipo(TipoUsuario tipo) {
+		this.tipo = tipo;
+	}
 }

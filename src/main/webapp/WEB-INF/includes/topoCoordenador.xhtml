@@ -9,33 +9,15 @@ xmlns:f="http://java.sun.com/jsf/core">
     <!-- Brand and toggle get grouped for better mobile display -->
     <div class="navbar-header">     
      <h:form>
-      <h:outputLink value="/redAmber-WebApp/home/index.xhtml" styleClass="navbar-brand" data-toggle="dropdownieie">Red Amber</h:outputLink>
+      <h:outputLink value="/redAmber-WebApp/home/index.xhtml" styleClass="navbar-brand" data-toggle="dropdownieie"><img src='../resources/images/labelredAmber.png' height="18" width="100" alt='labeLogo' /></h:outputLink>
      </h:form>
     </div>
 
     <!-- Collect the nav links, forms, and other content for toggling -->
     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-    
-    
+            
       <ul class="nav navbar-nav">
-        
         <li class="dropdown">
-        
-          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Aluno<span class="caret"></span></a>
-          <ul class="dropdown-menu" role="menu">
-            <li><h:outputLink value="/redAmber-WebApp/aluno/index.xhtml">Alunos</h:outputLink> </li>
-            <li class="divider"></li>
-            <li><h:commandLink actionListener="#{alunoMB.redirectAdd}">Adicionar</h:commandLink></li>
-          </ul>
-        </li>
-      </ul>
-      
-      
-      
-      <ul class="nav navbar-nav">
-        
-        <li class="dropdown">
-        
           <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Funcionário<span class="caret"></span></a>
           <ul class="dropdown-menu" role="menu">
             <li><h:outputLink value="/redAmber-WebApp/funcionario/index.xhtml">Funcionários</h:outputLink> </li>
@@ -44,12 +26,39 @@ xmlns:f="http://java.sun.com/jsf/core">
           </ul>
         </li>
       </ul>
-      
-      
-       <ul class="nav navbar-nav">
-        
+
+      <ul class="nav navbar-nav">
         <li class="dropdown">
-        
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Aluno<span class="caret"></span></a>
+          <ul class="dropdown-menu" role="menu">
+            <li><h:outputLink value="/redAmber-WebApp/aluno/index.xhtml">Alunos</h:outputLink> </li>
+            <li class="divider"></li>
+            <li><h:commandLink actionListener="#{alunoMB.redirectAdd}">Adicionar</h:commandLink></li>
+            <li class="divider"></li>
+            <li><h:commandLink actionListener="#{avisoAlunoMB.redirectIndex}">Consultar Avisos aos Alunos</h:commandLink></li>
+            <li class="divider"></li>
+            <li><h:commandLink actionListener="#{avisoAlunoMB.redirectAdd}">Avisar Alunos</h:commandLink></li>
+          </ul>
+        </li>
+      </ul>
+
+       <ul class="nav navbar-nav">
+        <li class="dropdown">
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Professor<span class="caret"></span></a>
+          <ul class="dropdown-menu" role="menu">
+            <li><h:outputLink value="/redAmber-WebApp/professor/index.xhtml">Professores</h:outputLink> </li>
+            <li class="divider"></li>
+            <li><h:commandLink actionListener="#{professorMB.redirectAdd}">Adicionar</h:commandLink></li>
+            <li class="divider"></li>
+            <li><h:commandLink actionListener="#{avisoProfessorMB.redirectIndex}">Consultar Avisos dos Professores</h:commandLink></li>
+            <li class="divider"></li>
+            <li><h:commandLink actionListener="#{avisoProfessorMB.redirectAdd}">Avisar Secretaria</h:commandLink></li>
+          </ul>
+        </li>
+      </ul>
+
+       <ul class="nav navbar-nav">
+        <li class="dropdown">
           <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Disciplina<span class="caret"></span></a>
           <ul class="dropdown-menu" role="menu">
             <li><h:outputLink value="/redAmber-WebApp/disciplina/index.xhtml">Disciplinas</h:outputLink> </li>
@@ -59,24 +68,8 @@ xmlns:f="http://java.sun.com/jsf/core">
         </li>
       </ul>
       
-      
-       <ul class="nav navbar-nav">
-        
-        <li class="dropdown">
-        
-          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Professor<span class="caret"></span></a>
-          <ul class="dropdown-menu" role="menu">
-            <li><h:outputLink value="/redAmber-WebApp/professor/index.xhtml">Professores</h:outputLink> </li>
-            <li class="divider"></li>
-            <li><h:commandLink actionListener="#{professorMB.redirectAdd}">Adicionar</h:commandLink></li>
-          </ul>
-        </li>
-      </ul>
-      
       <ul class="nav navbar-nav">
-        
         <li class="dropdown">
-        
           <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Curso<span class="caret"></span></a>
           <ul class="dropdown-menu" role="menu">
             <li><h:outputLink value="/redAmber-WebApp/curso/index.xhtml">Cursos</h:outputLink> </li>
@@ -86,11 +79,8 @@ xmlns:f="http://java.sun.com/jsf/core">
         </li>
       </ul>
       
-      
       <ul class="nav navbar-nav">
-        
         <li class="dropdown">
-        
           <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Turma<span class="caret"></span></a>
           <ul class="dropdown-menu" role="menu">
             <li><h:outputLink value="/redAmber-WebApp/turma/index.xhtml">Turmas</h:outputLink> </li>
@@ -99,15 +89,29 @@ xmlns:f="http://java.sun.com/jsf/core">
           </ul>
         </li>
       </ul>
-      
-     
-     <ul class="nav navbar-nav">
+
+      <ul class="nav navbar-nav">        
+        <li class="dropdown">
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Duração da Aula<span class="caret"></span></a>
+          <ul class="dropdown-menu" role="menu">
+            <li><h:outputLink value="/redAmber-WebApp/duracaoaula/index.xhtml">Durações das Aulas</h:outputLink> </li>
+            <li class="divider"></li>
+            <li><h:commandLink actionListener="#{duracaoAulaMB.redirectAdd}">Adicionar</h:commandLink></li>
+          </ul>
+        </li>
+      </ul>
+
+      <ul class="nav navbar-nav">
         <li class="dropdown">
           <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Sala<span class="caret"></span></a>
           <ul class="dropdown-menu" role="menu">
             <li><h:outputLink value="/redAmber-WebApp/sala/index.xhtml">Salas</h:outputLink> </li>
             <li class="divider"></li>
             <li><h:commandLink actionListener="#{salaMB.redirectAdd}">Adicionar</h:commandLink></li>
+            <li class="divider"></li>
+            <li><h:commandLink actionListener="#{reservaSalaMB.redirectIndex}">Reservas de Sala</h:commandLink></li>
+            <li class="divider"></li>
+            <li><h:commandLink actionListener="#{reservaSalaMB.redirectAdd}">Reservar</h:commandLink></li>
           </ul>
         </li>
       </ul>
@@ -119,21 +123,23 @@ xmlns:f="http://java.sun.com/jsf/core">
             <li><h:outputLink value="/redAmber-WebApp/equipamento/index.xhtml">Equipamentos</h:outputLink> </li>
             <li class="divider"></li>
             <li><h:commandLink actionListener="#{equipamentoMB.redirectAdd}">Adicionar</h:commandLink></li>
+            <li class="divider"></li>
+            <li><h:commandLink actionListener="#{reservaEquipamentoMB.redirectIndex}">Reservas de Equipamento</h:commandLink></li>
+            <li class="divider"></li>
+            <li><h:commandLink actionListener="#{reservaEquipamentoMB.redirectAdd}">Reservar</h:commandLink></li>
           </ul>
         </li>
       </ul>
-      
-      
-      
-      
-      
-      
-      
-      
-     
 
-    
-     
+      <ul class="nav navbar-nav">
+        <li class="dropdown">
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Integração<span class="caret"></span></a>
+          <ul class="dropdown-menu" role="menu">
+            <li><h:outputLink value="/redAmber-WebApp/teste_integracao/index.xhtml">Alunos Educa Mais</h:outputLink> </li>
+           </ul>
+        </li>
+      </ul>
+
        <ul class="nav navbar-nav navbar-right">
 
            <li class="dropdown">
@@ -160,7 +166,7 @@ xmlns:f="http://java.sun.com/jsf/core">
         </ul>
         
         
-     coordenador
+     <!-- coordenador -->
         
         
         

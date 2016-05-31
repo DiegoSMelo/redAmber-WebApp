@@ -48,5 +48,15 @@
 }
 
 .btnModal{
- margin-right: 150px;
+ margin-right: 250px;
+}
+
+.emptyTable {
+ font-size: 15px;
+ color: orange;
+}
+
+.bigWarningSign {
+ font-size: 50px;
+ color: orange;
 }

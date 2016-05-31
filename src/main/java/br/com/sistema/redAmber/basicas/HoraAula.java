@@ -21,7 +21,7 @@ public class HoraAula {
 			String horaIniStr = df.format(this.getId().getHoraInicio());
 			String horaFimStr = df.format(this.getId().getHoraFim());
 
-			String retorno = this.getId().getDia().toString() + "(Início: " + horaIniStr + " Fim: " + horaFimStr + ")";
+			String retorno = this.getId().getDia().toString() + " (Início: " + horaIniStr + " / Fim: " + horaFimStr + ")";
 
 			return retorno;
 		}

@@ -27,135 +27,113 @@ import br.com.sistema.redAmber.util.URLUtil;
 @ManagedBean
 @SessionScoped
 public class GradeMB {
-	
+
 	public Curso curso;
 	public Grade grade;
 	public List<Grade> listaGrades;
 	private Boolean isAdd;
 	
-	
-	public void salvar() {
+	public String salvar() {
 		try {
-			
 			// Create Jersey client
 			ClientConfig clientConfig = new DefaultClientConfig();
 			clientConfig.getFeatures().put(JSONConfiguration.FEATURE_POJO_MAPPING, Boolean.TRUE);
 			Client client = Client.create(clientConfig);
-			
-			if(this.getGrade().getId() == null){
+
+			if (this.getGrade().getId() == null) {
 				this.getGrade().setStatus(StatusGrade.PENDENTE);
 			}
-			
+
 			this.getGrade().setCurso(this.getCurso());
-			
 			WebResource webResourcePost = client.resource(URLUtil.SALVAR_GRADE);
-			//ClientResponse response = 
-					webResourcePost.type("application/json").post(ClientResponse.class, this.getGrade());
-			/*
+			ClientResponse response = webResourcePost.type("application/json").post(ClientResponse.class,
+					this.getGrade());
+
 			if (response.getStatus() == 200) {
-				FacesContext.getCurrentInstance().getExternalContext().redirect("/redAmber-WebApp/grade/index.xhtml");
+				redirectIndex();
+				//FacesContext.getCurrentInstance().getExternalContext().redirect("/redAmber-WebApp/grade/index.xhtml");
 			} else {
 				RequestContext.getCurrentInstance().execute("alert('" + Mensagens.m3 + "');");
 			}
-			*/
+
 		} catch (Exception e) {
 			RequestContext.getCurrentInstance().execute("alert('" + Mensagens.m3 + "');");
 		}
+		return "";
 	}
-	
+
 	public void salvarGrade() {
-
 		this.salvar();
-
 		RequestContext.getCurrentInstance().execute("alert('Grade salva com sucesso!');");
+	}
 
-	}
-	
-	public void ativar(){
-		
-		Long idGrade = Long.parseLong(FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("idGradeParam"));
-		
+	public void ativar() {
+		Long idGrade = Long.parseLong(
+				FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("idGradeParam"));
 		for (Grade grade : this.listaGrades) {
 			if (grade.getId() == idGrade) {
-				
-				grade.setStatus(StatusGrade.ATIVO);
-				
+				grade.setStatus(StatusGrade.ATIVA);
 				this.setGrade(grade);
 				this.salvar();
 				continue;
 			}
 		}
-		
 	}
-	
-	public void inativar(){
-		
-		Long idGrade = Long.parseLong(FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("idGradeParam"));
-		
+
+	public void inativar() {
+		Long idGrade = Long.parseLong(
+				FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("idGradeParam"));
 		for (Grade grade : this.listaGrades) {
 			if (grade.getId() == idGrade) {
-				
-				grade.setStatus(StatusGrade.INATIVO);
-				
+				grade.setStatus(StatusGrade.INATIVA);
 				this.setGrade(grade);
 				this.salvar();
 				continue;
 			}
 		}
-		
 	}
-	
-	
-	public void redirectGrade(){
+
+	public void redirectGrade() {
 		try {
 			this.setIsAdd(false);
 			FacesContext.getCurrentInstance().getExternalContext().redirect("/redAmber-WebApp/grade/grade.xhtml");
-
 		} catch (IOException e) {
-			RequestContext.getCurrentInstance().execute("alert('"+e.getMessage()+"');");
+			RequestContext.getCurrentInstance().execute("alert('" + e.getMessage() + "');");
 		}
 	}
 
-	
-	public void redirectIndex(){
+	public void redirectIndex() {
 		try {
 			this.setIsAdd(false);
 			this.setGrade(new Grade());
 			FacesContext.getCurrentInstance().getExternalContext().redirect("/redAmber-WebApp/grade/index.xhtml");
 
 		} catch (IOException e) {
-			RequestContext.getCurrentInstance().execute("alert('"+e.getMessage()+"');");
+			RequestContext.getCurrentInstance().execute("alert('" + e.getMessage() + "');");
 		}
 	}
-	
+
 	/**
-	 * Cria um novo objeto para o operador e redireciona para a página de cadastro.
+	 * Cria um novo objeto para o operador e redireciona para a página de
+	 * cadastro.
 	 */
-	public void redirectAdd(){
+	public void redirectAdd() {
 		try {
 			this.setIsAdd(true);
 			this.setCurso(new Curso());
 			FacesContext.getCurrentInstance().getExternalContext().redirect("/redAmber-WebApp/curso/add.xhtml");
-
 		} catch (IOException e) {
-			RequestContext.getCurrentInstance().execute("alert('"+e.getMessage()+"');");
+			RequestContext.getCurrentInstance().execute("alert('" + e.getMessage() + "');");
 		}
 	}
-
-	
-	
 
 	public Curso getCurso() {
 		return curso;
 	}
 
-
-
 	public void setCurso(Curso curso) {
 		this.curso = curso;
 	}
-
-
 
 	public Grade getGrade() {
 		if (this.grade == null) {
@@ -163,8 +141,6 @@ public class GradeMB {
 		}
 		return grade;
 	}
-
-
 
 	public void setGrade(Grade grade) {
 		if (this.grade == null) {
@@ -174,19 +150,17 @@ public class GradeMB {
 	}
 
 	public List<Grade> getListaGrades() {
-		
+
 		Client c = new Client();
-	    WebResource wr = c.resource(URLUtil.LISTAR_GRADES_POR_CURSO + this.getCurso().getId());
-	    String jsonResult = wr.get(String.class);
-	    if (!jsonResult.equalsIgnoreCase("null")) {
+		WebResource wr = c.resource(URLUtil.LISTAR_GRADES_POR_CURSO + this.getCurso().getId());
+		String jsonResult = wr.get(String.class);
+		if (!jsonResult.equalsIgnoreCase("null")) {
 			Gson gson = new Gson();
-			
+
 			Grade[] lista = gson.fromJson(jsonResult, Grade[].class);
 			this.listaGrades = Arrays.asList(lista);
 		}
-		
 		return listaGrades;
-		
 	}
 
 	public void setListaGrades(List<Grade> listaGrades) {
@@ -196,14 +170,12 @@ public class GradeMB {
 	public Boolean getIsAdd() {
 		return isAdd;
 	}
-	
+
 	public void setIsAdd(Boolean isAdd) {
 		this.isAdd = isAdd;
 	}
-	
-	public StatusGrade[] getStatusGrade(){
+
+	public StatusGrade[] getStatusGrade() {
 		return StatusGrade.values();
 	}
-	
-	
 }

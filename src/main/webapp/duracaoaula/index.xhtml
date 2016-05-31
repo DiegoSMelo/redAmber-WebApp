@@ -1,0 +1,124 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui" template="#{beanGeral.template}">
+	<ui:define name="body">
+
+		<h:form>
+
+			<ol class="breadcrumb">
+				<li><h:outputLink value="/redAmber-WebApp/home/index.xhtml">Página Inicial</h:outputLink></li>
+				<li class="active">Durações das Aulas</li>
+			</ol>
+
+			<div class="form-horizontal">
+			
+				<div class="form-group">
+					<h:outputLabel value="Pesquisar por:"
+						styleClass="col-sm-2 control-label" />
+				</div>
+
+				<div class="form-group">
+					<h:outputLabel value="Turno" for="inputTurno"
+						styleClass="col-sm-2 control-label" />
+					<div class="col-sm-2">
+						<h:selectOneMenu id="inputTurno" styleClass="form-control" tabindex="1" 
+							value="#{duracaoAulaMB.turno}" converter="tipoTurnoConverter">
+							<f:selectItem itemValue="#{null}" itemLabel="Escolha o Turno" />
+							<f:selectItems value="#{duracaoAulaMB.tipoTurno}" var="turno"
+								itemValue="#{turno}" itemLabel="#{turno}" />
+							<f:selectItem itemValue="#{null}" itemLabel="Todos" />
+						</h:selectOneMenu>
+					</div>
+				</div>
+
+				<div class="form-group">
+					<div class="col-sm-offset-2 col-sm-10">
+						<h:commandLink styleClass="btn btn-info" title="Pesquisar Horários"
+							actionListener="#{duracaoAulaMB.atualizaLista}" tabindex="2">
+							<span class="glyphicon glyphicon-search" aria-hidden="true" /> Pesquisar
+							<f:ajax execute="inputTurno" render="table-operadores semResultado" />
+						</h:commandLink>
+						<span> </span>
+						<h:commandLink actionListener="#{duracaoAulaMB.redirectAdd}" tabindex="3" 
+							styleClass="btn btn-success" title="Adicionar Horário de Aula">
+							<span class="glyphicon glyphicon-plus" aria-hidden="true" /> Adicionar
+						</h:commandLink>
+					</div>
+					<br />
+				</div>
+			</div>
+			
+			<div align="center">
+				<h:outputLabel for="tabelaVazia" class="glyphicon glyphicon-alert bigWarningSign"
+					rendered="#{empty duracaoAulaMB.listaHorasAula and duracaoAulaMB.flagTabela == true}" />
+				<br />
+				<h:outputText id="tabelaVazia" class="emptyTable" 
+					rendered="#{empty duracaoAulaMB.listaHorasAula and duracaoAulaMB.flagTabela == true}" 
+					value="Ainda não há horários de aula cadastrados.">
+				</h:outputText>
+			</div>
+
+			<div align="center">
+				<h:outputLabel for="semResultado" class="glyphicon glyphicon-alert bigWarningSign"
+					rendered="#{duracaoAulaMB.flagTabela == false}" />
+				<br />
+				<h:outputText id="semResultado" class="emptyTable"
+					rendered="#{duracaoAulaMB.flagTabela == false}"
+					value="A consulta não trouxe resultados.">
+				</h:outputText>
+			</div>
+
+			<h:dataTable id="table-operadores" styleClass="table table-hover table-bordered"
+				value="#{duracaoAulaMB.listaHorasAula}" var="duracaoAula"
+				rendered="#{not empty duracaoAulaMB.listaHorasAula and duracaoAulaMB.flagTabela == true}"
+				emptyMessage="Não há horários de aula cadastrados">
+
+				<h:column>
+					<f:facet name="header">ID</f:facet>
+					<h:outputText value="#{duracaoAula.id}" />
+				</h:column>
+
+				<h:column>
+					<f:facet name="header">Turno</f:facet>
+					<h:outputText value="#{duracaoAula.turno}" converter="tipoTurnoConverter" />
+				</h:column>
+
+				<h:column>
+					<f:facet name="header">Início</f:facet>
+					<h:outputText value="#{duracaoAula.horaInicio}">
+						<f:convertDateTime type="time" pattern="HH:mm" />
+					</h:outputText>
+				</h:column>
+				
+				<h:column>
+					<f:facet name="header">Fim</f:facet>
+					<h:outputText value="#{duracaoAula.horaFim}">
+						<f:convertDateTime type="time" pattern="HH:mm" />
+					</h:outputText>
+				</h:column>
+
+				<h:column>
+					<f:facet name="header">Status</f:facet>
+					<h:outputText value="#{duracaoAula.status}" converter="statusDuracaoAulaConverter" />
+				</h:column>
+
+				<h:column>
+					<f:facet name="header">Ações</f:facet>
+
+					<h:commandLink styleClass="btn btn-info btn-acoes" title="Editar Duração de Aula"
+						actionListener="#{duracaoAulaMB.redirectEdit}" tabindex="4">
+						<span class="glyphicon glyphicon-pencil" aria-hidden="true" /> Editar
+						<f:setPropertyActionListener value="#{duracaoAula}"
+							target="#{duracaoAulaMB.duracaoAula}" />
+					</h:commandLink>
+
+				</h:column>
+
+			</h:dataTable>
+
+		</h:form>
+
+	</ui:define>
+</ui:composition>

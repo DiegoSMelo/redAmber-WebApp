@@ -1,0 +1,87 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui" template="#{beanGeral.template}">
+	<ui:define name="body">
+
+		<ol class="breadcrumb">
+	  		<li>
+	  			<h:outputLink value="/redAmber-WebApp/home/index.xhtml">Página Inicial</h:outputLink>
+	  		</li>
+	  		<li><h:outputLink 
+	  			value="/redAmber-WebApp/aviso_professor/index.xhtml">Listagem de Avisos dos Professores</h:outputLink>
+	  		</li>
+			<li class="active">Receber Aviso à Secretaria</li>
+		</ol>
+
+		<h:form styleClass="form-horizontal" prependId="false">
+		
+			<div class="form-group">
+				<h:outputLabel value="Professor" for="inputProfessor"
+					styleClass="col-sm-2 control-label" />
+				<div class="col-sm-5">
+					<h:inputText styleClass="form-control" tabindex="1" id="inputProfessor"
+						value="#{avisoProfessorMB.avisoProfessor.professor.nome}" readonly="true" />
+				</div>
+			</div>
+			
+			<div class="form-group">
+				<h:outputLabel value="Data do Aviso" for="inputDataAviso"
+					styleClass="col-sm-2 control-label" />
+				<div class="col-sm-2">
+					<h:inputText styleClass="form-control" tabindex="2" readonly="true" 
+						id="inputDataAviso" value="#{avisoProfessorMB.avisoProfessor.dataAviso.time}">
+						<f:convertDateTime type="date" timeZone="America/Recife" 
+							pattern="dd/MM/yyyy HH:mm" />
+					</h:inputText>
+				</div>
+			</div>
+			
+			<div class="form-group">
+				<h:outputLabel value="Tipo do Aviso" for="inputTipo"
+					styleClass="col-sm-2 control-label" />
+				<div class="col-sm-2">					
+					<h:inputText styleClass="form-control" tabindex="3" readonly="true" 
+						id="inputTipo" value="#{avisoProfessorMB.avisoProfessor.tipoAvisoProfessor}"
+						converter="tipoAvisoProfessorConverter" />
+				</div>
+			</div>
+			
+			<div class="form-group">
+				<h:outputLabel value="Status do Aviso" for="inputStatus"
+					styleClass="col-sm-2 control-label" />
+				<div class="col-sm-2">
+					<h:inputText styleClass="form-control" tabindex="4" readonly="true" 
+							id="inputStatus" converter="statusAvisoProfessorConverter" 
+							value="#{avisoProfessorMB.avisoProfessor.statusAvisoProfessor}" />
+				</div>
+			</div>
+			
+			<div class="form-group">
+				<h:outputLabel value="Observações" for="inputObservacao"
+					styleClass="col-sm-2 control-label" />
+				<div class="col-sm-10">
+					<h:inputTextarea readonly="true" rows="10" tabindex="5" styleClass="form-control"
+						id="inputObservacao" value="#{avisoProfessorMB.avisoProfessor.observacao}" />
+				</div>
+			</div>
+			
+			<div class="form-group">
+				<div class="col-sm-offset-2 col-sm-10">				
+					<h:commandLink styleClass="btn btn-success" title="Receber Aviso"
+						actionListener="#{avisoProfessorMB.receber}" tabindex="6">
+						<span class="glyphicon glyphicon-ok" aria-hidden="true" /> Receber Aviso
+						<f:ajax execute="inputProfessor inputTipo inputStatus inputObservacao 
+							inputDataAviso" />
+					</h:commandLink><span> </span>
+					<h:commandLink styleClass="btn btn-warning" title="Avisar aos Alunos"
+						actionListener="#{avisoProfessorMB.redirectAlert}" tabindex="7">
+						<span class="glyphicon glyphicon-send" aria-hidden="true" /> Avisar Alunos
+					</h:commandLink>
+				</div>
+			</div>
+			
+		</h:form>
+	</ui:define>
+</ui:composition>

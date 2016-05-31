@@ -1,26 +1,26 @@
 package br.com.sistema.redAmber.basicas;
 
+import java.io.Serializable;
+
 import br.com.sistema.redAmber.basicas.enums.StatusCurso;
 import br.com.sistema.redAmber.basicas.enums.TipoCurso;
 
+public class Curso implements Serializable {
 
-
-public class Curso {
-	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private Long id;
-	
-	private String  nome;
-	
+	private String nome;
 	private String sigla;
-	
 	private Integer cargaHorariaTotal;
-	
 	private TipoCurso tipoCurso;
-	
 	private StatusCurso status;
 
-	
-	
+	/*
+	 * Getters and setters
+	 */
 	public TipoCurso getTipoCurso() {
 		return tipoCurso;
 	}
@@ -69,12 +69,30 @@ public class Curso {
 		this.cargaHorariaTotal = cargaHorariaTotal;
 	}
 
-	public Boolean equals(Curso curso){
-	 if(curso.getNome().equals(this.getNome()) || curso.getSigla().equals(this.getSigla())){
-		 return true;
-	 }
-	 return false;
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Curso other = (Curso) obj;
+		if (id == null) {
+			if (other.id != null)
+				return false;
+		} else if (!id.equals(other.id))
+			return false;
+		if (nome == null) {
+			if (other.nome != null)
+				return false;
+		} else if (!nome.equals(other.nome))
+			return false;
+		if (sigla == null) {
+			if (other.sigla != null)
+				return false;
+		} else if (!sigla.equals(other.sigla))
+			return false;
+		return true;
 	}
-	
-
 }

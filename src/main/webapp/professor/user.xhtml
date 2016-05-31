@@ -1,0 +1,77 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui" template="#{beanGeral.template}">
+	<ui:define name="body">
+
+		<ol class="breadcrumb">
+			<li>
+				<h:outputLink value="/redAmber-WebApp/home/index.xhtml">Página Inicial</h:outputLink>
+			</li>
+			<li><h:outputLink value="/redAmber-WebApp/professor/index.xhtml">Professores</h:outputLink></li>
+			<li class="active">Acesso do Professor</li>
+		</ol>
+
+		<h:form styleClass="form-horizontal" prependId="false">
+
+			<div class="form-group">
+				<h:outputLabel value="Nome do Professor" for="inputNome"
+					styleClass="col-sm-2 control-label" />
+				<div class="col-sm-5">
+					<h:inputText tabindex="0" readonly="true" styleClass="form-control"
+						id="inputNome" value="#{professorMB.professor.nome}" />
+				</div>
+			</div>
+
+			<div class="form-group">
+				<h:outputLabel value="Login do Professor" for="inputLogin"
+					styleClass="col-sm-2 control-label" />
+				<div class="col-sm-3">
+					<h:inputText styleClass="form-control" tabindex="1" required="true" 
+						requiredMessage="Digite o login do professor." id="inputLogin"
+						value="#{professorMB.usuario.login}" onchange="this.value = this.value.trim()">
+					</h:inputText>
+					<h:message styleClass="text-danger" for="inputLogin" id="inputLoginMSG" />
+				</div>
+			</div>
+			
+			<div class="form-group">
+				<h:outputLabel value="Senha do Professor" for="inputSenha"
+					styleClass="col-sm-2 control-label" />
+				<div class="col-sm-3">
+					<h:inputSecret styleClass="form-control" tabindex="2" required="true"
+						requiredMessage="Digite a senha do professor." id="inputSenha"
+						value="#{professorMB.usuario.senha}" onchange="this.value = this.value.trim()">
+					</h:inputSecret>
+					<h:message styleClass="text-danger" for="inputSenha" id="inputSenhaMSG" />
+				</div>
+			</div>
+			
+			<div class="form-group">
+				<h:outputLabel value="Senha de Confirmação" for="inputSenhaConfirmacao"
+					styleClass="col-sm-2 control-label" />
+				<div class="col-sm-3">
+					<h:inputSecret styleClass="form-control" tabindex="3" required="true"
+						requiredMessage="Repita a senha do professor." id="inputSenhaConfirmacao"
+						value="#{professorMB.senhaConfirmacao}" onchange="this.value = this.value.trim()">
+					</h:inputSecret>
+					<h:message styleClass="text-danger" for="inputSenhaConfirmacao" 
+						id="inputSenhaConfirmacaoMSG" />
+				</div>
+			</div>
+
+			<div class="form-group">
+				<div class="col-sm-offset-2 col-sm-10">
+					<h:commandLink styleClass="btn btn-success" title="Salvar Login/Senha"
+						actionListener="#{professorMB.adicionarLoginProfessor}" tabindex="4">
+						<span class="glyphicon glyphicon-floppy-disk" aria-hidden="true" /> Salvar
+						<f:ajax execute="inputNome inputLogin inputSenha inputSenhaConfirmacao" 
+								render="inputLoginMSG inputSenhaMSG inputSenhaConfirmacaoMSG" />
+					</h:commandLink>
+				</div>
+			</div>
+
+		</h:form>
+	</ui:define>
+</ui:composition>

@@ -77,7 +77,6 @@ public class GradeAulaMB {
 	public Professor professor;
 	public List<Professor> listaProfessoresPorDisciplina;
 	
-	
 	public void carregaResumos(){
 		
 		if (this.listaHoraAulaHTTP == null) {
@@ -141,6 +140,9 @@ public class GradeAulaMB {
 			
 			this.listaHoraAulaHTTP = null;//para atualizar novamente
 			this.atualizaListaHorariosHTTP = true;//para atualizar novamente
+			this.atualizaListaHorariosHTTP = true;
+			this.atualiza = true;
+			
 			this.carregaResumos();
 			
 			RequestContext.getCurrentInstance().execute("alert('" + Mensagens.m20 + "');");
@@ -298,6 +300,8 @@ public class GradeAulaMB {
 		//Assim, a lista de horarios não será atualizada.
 		this.atualiza = false;
 		
+		this.carregaResumos();
+		
 		RequestContext.getCurrentInstance().execute("fechaModalHorario()");
 		
 	}
@@ -321,7 +325,7 @@ public class GradeAulaMB {
 
 	public List<Horario> getListaHorarios() {
 
-		
+		//verificar aqui.. o bug está ocorrendo aqui
 		if (this.atualiza == true) {
 			
 			this.listaHorarios = new ArrayList<Horario>();
@@ -557,7 +561,8 @@ public class GradeAulaMB {
 	public List<Disciplina> getListaDisciplinas() {
 
 		Client c = new Client();
-		WebResource wr = c.resource(URLUtil.LISTAR_DISCIPLINAS);
+		WebResource wr = c.resource(URLUtil.LISTAR_DISCIPLINAS_POR_CURSO + 
+				String.valueOf(this.turma.getCurso().getId()));
 		String jsonResult = wr.get(String.class);
 		if (!jsonResult.equalsIgnoreCase("null")) {
 			Gson gson = new Gson();

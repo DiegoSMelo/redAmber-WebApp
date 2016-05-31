@@ -47,8 +47,6 @@ public class MatriculaConverter implements Converter {
 		
 		System.out.println("Object -> String");
 		
-		System.out.println(arg2.getClass().getSimpleName());
-		
 		Matricula matricula = (Matricula) arg2;
 		if (matricula == null || matricula.getId() == null) {
 			return null;

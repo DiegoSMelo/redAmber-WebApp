@@ -1,72 +1,135 @@
 <ui:composition xmlns="http://www.w3.org/1999/xhtml"
-xmlns:ui="http://java.sun.com/jsf/facelets"
-xmlns:h="http://java.sun.com/jsf/html"
-xmlns:f="http://java.sun.com/jsf/core"
-xmlns:p="http://primefaces.org/ui"
-template="#{beanGeral.template}">
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui" template="#{beanGeral.template}">
 	<ui:define name="body">
 
-<h:form>
+		<h:form>
 
+			<ol class="breadcrumb">
+				<li>
+					<h:outputLink value="/redAmber-WebApp/home/index.xhtml">Página Inicial</h:outputLink>
+				</li>
+				<li class="active">Turmas</li>
+			</ol>
 
+			<div class="form-horizontal">
+			
+				<div class="form-group">
+					<h:outputLabel value="Pesquisar por:"
+						styleClass="col-sm-2 control-label" />
+				</div>
+				
+				<div class="form-group">
+					<h:outputLabel value="Curso" for="inputCurso"
+						styleClass="col-sm-2 control-label" />
+					<div class="col-sm-5">
+						<h:selectOneMenu id="inputCurso" styleClass="form-control" tabindex="1"
+							value="#{turmaMB.curso}" converter="cursoConverter">
+							<f:selectItem itemValue="#{null}" itemLabel="Escolha o Curso" />
+							<f:selectItems value="#{turmaMB.listaCursos}" var="curso"
+								itemValue="#{curso}" itemLabel="#{curso.nome}" />
+						</h:selectOneMenu>
+					</div>
+				</div>
 
-<ol class="breadcrumb">
-  <li><h:outputLink value="/redAmber-WebApp/home/index.xhtml">Página Inicial</h:outputLink></li>
-  <li class="active">Turmas</li>
-</ol>
+				<div class="form-group">
+					<h:outputLabel value="Turno" for="inputTurno"
+						styleClass="col-sm-2 control-label" />
+					<div class="col-sm-2">
+						<h:selectOneMenu id="inputTurno" styleClass="form-control" tabindex="2"
+							value="#{turmaMB.turno}" converter="tipoTurnoConverter">
+							<f:selectItem itemValue="#{null}" itemLabel="Escolha o Turno" />
+							<f:selectItems value="#{turmaMB.tiposTurnos}" var="turno"
+								itemValue="#{turno}" itemLabel="#{turno}" />
+							<f:selectItem itemValue="#{null}" itemLabel="Todos" />
+						</h:selectOneMenu>
+					</div>
+				</div>
 
+				<div class="form-group">
+					<div class="col-sm-offset-2 col-sm-10">
+						<h:commandLink styleClass="btn btn-info" title="Pesquisar Turmas"
+							actionListener="#{turmaMB.atualizaLista}" tabindex="3">
+							<span class="glyphicon glyphicon-search" aria-hidden="true" /> Pesquisar
+							<f:ajax execute="inputCurso inputTurno" render="table-turmas semResultado" />
+						</h:commandLink>
+						<span> </span>
+						<h:commandLink actionListener="#{turmaMB.redirectAdd}" tabindex="4"
+							styleClass="btn btn-success" title="Adicionar Turma">
+							<span class="glyphicon glyphicon-plus" aria-hidden="true" /> Adicionar
+						</h:commandLink>
+					</div>
+					<br />
+				</div>
+			</div>
+			
+			<div align="center">
+				<h:outputLabel for="tabelaVazia" class="glyphicon glyphicon-alert bigWarningSign"
+					rendered="#{empty turmaMB.listaTurmas and turmaMB.flagTabela == true}" />
+				<br />
+				<h:outputText id="tabelaVazia" class="emptyTable" 
+					rendered="#{empty turmaMB.listaTurmas and turmaMB.flagTabela == true}" 
+					value="Ainda não há turmas cadastradas.">
+				</h:outputText>
+			</div>
 
+			<div align="center">
+				<h:outputLabel for="semResultado" class="glyphicon glyphicon-alert bigWarningSign"
+					rendered="#{turmaMB.flagTabela == false}" />
+				<br />
+				<h:outputText id="semResultado" class="emptyTable"
+					rendered="#{turmaMB.flagTabela == false}"
+					value="A consulta não trouxe resultados.">
+				</h:outputText>
+			</div>
 
-<div class="areaPlus">
-	<h:commandLink actionListener="#{turmaMB.redirectAdd}" styleClass="btn btn-success">Adicionar</h:commandLink>
-</div>
+			<h:dataTable id="table-turmas" styleClass="table table-hover table-bordered"
+				value="#{turmaMB.listaTurmas}" var="turma" 
+				rendered="#{not empty turmaMB.listaTurmas and turmaMB.flagTabela == true}"
+				emptyMessage="Não há turmas cadastrados">
 
+				<h:column>
+					<f:facet name="header">Turma</f:facet>
+					<h:outputText value="#{turma.nome}" />
+				</h:column>
 
+				<h:column>
+					<f:facet name="header">Curso</f:facet>
+					<h:outputText value="#{turma.curso.nome}" />
+				</h:column>
 
-<h:dataTable id="table-turmas" styleClass="table table-hover table-bordered" value="#{turmaMB.listaTurmas}" var="turma" emptyMessage="Não há turmas cadastrados">
+				<h:column>
+					<f:facet name="header">Turno</f:facet>
+					<h:outputText value="#{turma.turno}" 
+						converter="tipoTurnoConverter" />
+				</h:column>
 
-	<h:column>	
-		<f:facet name="header">Turma</f:facet>
-		<h:outputText value="#{turma.nome}"></h:outputText>
-	</h:column>
+				<h:column>
+					<f:facet name="header">Status</f:facet>
+					<h:outputText value="#{turma.status}" 
+						converter="statusTurmaConverter" />
+				</h:column>
 
-	<h:column>	
-		<f:facet name="header">Curso</f:facet>
-		<h:outputText value="#{turma.curso.nome}"></h:outputText>
-	</h:column>
+				<h:column>
+					<f:facet name="header">Ações</f:facet>
+					<h:commandLink styleClass="btn btn-info btn-acoes" tabindex="5" 
+						actionListener="#{turmaMB.redirectEdit}" title="Editar Turma">
+						<span class="glyphicon glyphicon-pencil" aria-hidden="true" /> Editar
+						<f:setPropertyActionListener value="#{turma}"
+							target="#{turmaMB.turma}" />
+					</h:commandLink>
 
-	<h:column>	
-		<f:facet name="header">Turno</f:facet>
-		<h:outputText value="#{turma.turno}"></h:outputText>
-	</h:column>
-	
-	<h:column>	
-		<f:facet name="header">Status</f:facet>
-		<h:outputText value="#{turma.status}"></h:outputText>
-	</h:column>
-	
-	
-	<h:column>	
-		<f:facet name="header">Ações</f:facet>
-		
-		<h:commandLink styleClass="btn btn-info btn-acoes" actionListener="#{turmaMB.redirectEdit}">
-			<span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>
-			<f:setPropertyActionListener value="#{turma}" target="#{turmaMB.turma}"></f:setPropertyActionListener>
-		</h:commandLink>
-		
-
-		<h:commandLink styleClass="btn btn-info btn-acoes" actionListener="#{gradeAulaMB.redirectIndex}">
-			Grade de aulas
-			<f:setPropertyActionListener value="#{turma}" target="#{gradeAulaMB.turma}"></f:setPropertyActionListener>
-		</h:commandLink>
-		
-		
-	</h:column>
-	
-	
-</h:dataTable>
-		
-</h:form>
-    		
+					<h:commandLink styleClass="btn btn-info btn-acoes"
+						title="Grades de Horários das Aulas" tabindex="5" 
+						actionListener="#{gradeAulaMB.redirectIndex}">
+						<span class="glyphicon glyphicon-th" aria-hidden="true" /> Grade de Aulas
+						<f:setPropertyActionListener value="#{turma}" target="#{gradeAulaMB.turma}" />
+					</h:commandLink>
+				</h:column>
+				
+			</h:dataTable>
+		</h:form>
 	</ui:define>
 </ui:composition>

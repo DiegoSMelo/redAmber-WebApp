@@ -1,0 +1,184 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core" template="#{beanGeral.template}">
+	<ui:define name="body">
+		<h:form>
+
+			<ol class="breadcrumb">
+				<li>
+					<h:outputLink value="/redAmber-WebApp/home/index.xhtml">Página Inicial</h:outputLink>
+				</li>
+	  			<li class="active">Listagem das Reservas de Equipamentos</li>
+			</ol>
+			
+			<div class="form-horizontal">
+			
+				<div class="form-group">
+					<h:outputLabel value="Pesquisar por:"
+						styleClass="col-sm-2 control-label" />
+				</div>
+				
+				<div class="form-group">
+					<h:outputLabel value="Professor" for="inputProfessor"
+						styleClass="col-sm-2 control-label" />
+					<div class="col-sm-6">
+						<h:selectOneMenu id="inputProfessor" styleClass="form-control" tabindex="1" 
+							value="#{reservaEquipamentoMB.buscaReserva.idProfessor}">
+							<f:selectItem itemValue="#{null}" itemLabel="Escolha o Professor" />
+							<f:selectItems value="#{reservaEquipamentoMB.listaProfessores}"
+								var="professor" itemValue="#{professor.id}" itemLabel="#{professor.nome}" />
+							<f:selectItem itemValue="#{null}" itemLabel="Todos" />
+						</h:selectOneMenu>
+					</div>
+				</div>
+				
+				<div class="form-group">
+					<h:outputLabel value="Data da Requisição" for="inputDataRequisicao"
+						styleClass="col-sm-2 control-label" />
+					<div class="col-sm-2">
+						<h:inputText styleClass="form-control data" tabindex="2" id="inputDataRequisicao"
+							title="Informe uma data válida no formato 'dia/mês/ano'."
+							value="#{reservaEquipamentoMB.buscaReserva.dataRequisicao}"
+							converterMessage="Informe uma data válida no formato 'dia/mês/ano'.">
+							<f:convertDateTime type="date" pattern="dd/MM/yyyy" />
+						</h:inputText>
+						<h:message styleClass="text-danger" for="inputDataRequisicao" 
+							id="inputDataRequisicaoMSG" />
+					</div>
+					<h:outputLabel value="Data da Reserva" for="inputDataReserva"
+						styleClass="col-sm-2 control-label" />
+					<div class="col-sm-2">
+						<h:inputText styleClass="form-control data" tabindex="3"
+							title="Informe uma data válida no formato 'dia/mês/ano'."
+							id="inputDataReserva" value="#{reservaEquipamentoMB.buscaReserva.dataReserva}"
+							converterMessage="Informe uma data válida no formato 'dia/mês/ano'.">
+							<f:convertDateTime type="date" pattern="dd/MM/yyyy" />
+						</h:inputText>
+						<h:message styleClass="text-danger" for="inputDataReserva" 
+							id="inputDataReservaMSG" />
+					</div>
+				</div>
+
+				<div class="form-group">
+					<h:outputLabel value="Status da Reserva" for="inputStatusReserva"
+						styleClass="col-sm-2 control-label" />
+					<div class="col-sm-2">
+						<h:selectOneMenu id="inputStatusReserva" styleClass="form-control" tabindex="4"
+							value="#{reservaEquipamentoMB.buscaReserva.status}" 
+							converter="statusReservaConverter">
+							<f:selectItem itemValue="#{null}" itemLabel="Escolha o Status" />
+							<f:selectItems value="#{reservaEquipamentoMB.statusReservas}" 
+								var="status" itemValue="#{status}" itemLabel="#{status}" />
+							<f:selectItem itemValue="#{null}" itemLabel="Todos" />
+						</h:selectOneMenu>
+					</div>
+				</div>
+
+				<div class="form-group">
+					<div class="col-sm-offset-2 col-sm-10">
+						<h:commandLink styleClass="btn btn-info" title="Pesquisar Reservas de Equipamento"
+							actionListener="#{reservaEquipamentoMB.atualizaLista}" tabindex="5">
+							<span class="glyphicon glyphicon-search" aria-hidden="true" /> Pesquisar
+							<f:ajax execute="inputProfessor inputStatusReserva inputDataReserva 
+								inputDataRequisicao" render="table-reservas semResultado 
+								inputDataReservaMSG inputDataRequisicaoMSG" />
+						</h:commandLink>
+						<span> </span>
+						<h:commandLink actionListener="#{reservaEquipamentoMB.redirectAdd}"
+							styleClass="btn btn-success" title="Reservar Equipamento" tabindex="6">
+							<span class="glyphicon glyphicon-plus" aria-hidden="true" /> Adicionar
+						</h:commandLink>
+					</div>
+					<br />
+				</div>
+			</div>
+			
+			<div align="center">
+				<h:outputLabel for="tabelaVazia" class="glyphicon glyphicon-alert bigWarningSign"
+					rendered="#{empty reservaEquipamentoMB.listaReservas and reservaEquipamentoMB.flagTabela == true}" />
+				<br />
+				<h:outputText id="tabelaVazia" class="emptyTable" 
+					rendered="#{empty reservaEquipamentoMB.listaReservas and reservaEquipamentoMB.flagTabela == true}" 
+					value="Ainda não há reservas de equipamento cadastradas.">
+				</h:outputText>
+			</div>
+			
+			<div align="center">
+				<h:outputLabel for="semResultado" class="glyphicon glyphicon-alert bigWarningSign"
+					rendered="#{reservaEquipamentoMB.flagTabela == false}" />
+				<br />
+				<h:outputText id="semResultado" class="emptyTable"
+					rendered="#{reservaEquipamentoMB.flagTabela == false}"
+					value="A consulta não trouxe resultados.">
+				</h:outputText>
+			</div>
+			
+			<h:dataTable id="table-reservas" styleClass="table table-hover table-bordered"
+				value="#{reservaEquipamentoMB.listaReservas}" var="reserva"
+				rendered="#{not empty reservaEquipamentoMB.listaReservas and reservaEquipamentoMB.flagTabela == true}"
+				emptyMessage="Não há reservadas cadastradas">
+				<f:facet name="header">Reservas de Equipamentos</f:facet>
+
+				<h:column>
+					<f:facet name="header">Requisição</f:facet>
+					<h:outputText value="#{reserva.dataRequisicao.time}">
+						<f:convertDateTime type="both" timeZone="America/Recife" 
+							pattern="dd/MM/yyyy HH:mm"/>
+					</h:outputText>
+				</h:column>
+
+				<h:column>
+					<f:facet name="header">Professor</f:facet>
+					<h:outputText value="#{reserva.professor.nome}" />
+				</h:column>
+
+				<h:column>
+					<f:facet name="header">Equipamento</f:facet>
+					<h:outputText value="#{reserva.equip.descricao}" />
+				</h:column>
+				
+				<h:column>
+					<f:facet name="header">Data da Reserva</f:facet>
+					<h:outputText value="#{reserva.dataReserva.time}">
+						<f:convertDateTime type="date" timeZone="America/Recife" 
+							pattern="dd/MM/yyyy"/>
+					</h:outputText>
+				</h:column>
+				
+				<h:column>
+					<f:facet name="header">Horário</f:facet>
+					<h:outputText value="#{reserva.horarioReserva.getHoraInicioString()} às 
+						#{reserva.horarioReserva.getHoraFimString()}">
+					</h:outputText>
+				</h:column>
+				
+				<h:column>
+					<f:facet name="header">Status</f:facet>
+					<h:outputText value="#{reserva.status}" converter="statusReservaConverter" />
+				</h:column>
+
+				<h:column>
+					<f:facet name="header">Ações</f:facet>
+
+					<h:commandLink styleClass="btn btn-primary btn-acoes" 
+						title="Aprovar/Negar Reserva de Equipamento" tabindex="7"
+						actionListener="#{reservaEquipamentoMB.redirectApproval}">
+						<span class="glyphicon glyphicon-thumbs-up" aria-hidden="true" />
+						<span class="glyphicon glyphicon-thumbs-down" aria-hidden="true" />
+						<f:setPropertyActionListener value="#{reserva}"
+							target="#{reservaEquipamentoMB.reservaEquipamento}" />
+					</h:commandLink><span> </span>
+					<h:commandLink styleClass="btn btn-info btn-acoes" 
+						title="Editar Reserva de Equipamento" tabindex="7" 
+						actionListener="#{reservaEquipamentoMB.redirectEdit}">
+						<span class="glyphicon glyphicon-pencil" aria-hidden="true" /> Editar
+						<f:setPropertyActionListener value="#{reserva}"
+							target="#{reservaEquipamentoMB.reservaEquipamento}" />
+					</h:commandLink>
+				</h:column>
+
+			</h:dataTable>
+		</h:form>
+	</ui:define>
+</ui:composition>

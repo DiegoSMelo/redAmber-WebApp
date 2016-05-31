@@ -8,12 +8,15 @@ import java.util.List;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
+import javax.faces.event.ActionEvent;
 
 import org.primefaces.context.RequestContext;
 
 import com.google.gson.Gson;
 import com.sun.jersey.api.client.Client;
+import com.sun.jersey.api.client.ClientHandlerException;
 import com.sun.jersey.api.client.ClientResponse;
+import com.sun.jersey.api.client.UniformInterfaceException;
 import com.sun.jersey.api.client.WebResource;
 import com.sun.jersey.api.client.config.ClientConfig;
 import com.sun.jersey.api.client.config.DefaultClientConfig;
@@ -33,6 +36,35 @@ public class EquipamentoMB {
 	private List<Equipamento> listaEquipamentos;
 	private List<Sala> listaSalas;
 	private boolean isPagAdd;
+	private String buscaEquipamento;
+	private boolean flagTabela;
+	
+	public EquipamentoMB() {
+		this.equipamento = new Equipamento();
+		this.listaEquipamentos = new ArrayList<Equipamento>();
+		this.listaSalas = new ArrayList<Sala>();
+		this.buscaEquipamento = "";
+		this.setFlagTabela(true);
+	}
+	
+	public void atualizaLista(ActionEvent event) {
+		this.getListaEquipamentos();
+		if (this.listaEquipamentos.isEmpty()) {
+			this.setFlagTabela(false);
+			try {
+				FacesContext.getCurrentInstance().getExternalContext().redirect("/redAmber-WebApp/equipamento/index.xhtml");
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		} else {
+			this.setFlagTabela(true);
+			try {
+				FacesContext.getCurrentInstance().getExternalContext().redirect("/redAmber-WebApp/equipamento/index.xhtml");
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+	}
 	
 	public void salvar() {
 		
@@ -62,7 +94,7 @@ public class EquipamentoMB {
 					RequestContext.getCurrentInstance().execute("alert('" + Mensagens.m3 + "');");
 				}
 			} else {
-				RequestContext.getCurrentInstance().execute("alert('" + Mensagens.m18 + "');");
+				RequestContext.getCurrentInstance().execute("alert('" + Mensagens.m16 + "');");
 			}
 		} catch (Exception e) {
 			RequestContext.getCurrentInstance().execute("alert('" + Mensagens.m3 + "');");
@@ -70,6 +102,9 @@ public class EquipamentoMB {
 		}
 	}
 	
+	/**
+	 * Cria um novo objeto para a Equipamento e redireciona para a página de cadastro.
+	 */
 	public void redirectAdd() {
 		try {
 			this.setPagAdd(true);
@@ -81,6 +116,9 @@ public class EquipamentoMB {
 		}
 	}
 	
+	/**
+	 * Redireciona para a página de edição.
+	 */
 	public void redirectEdit() {
 		try {
 			this.setPagAdd(false);
@@ -91,12 +129,7 @@ public class EquipamentoMB {
 		}
 	}
 	
-	public void init() {
-		equipamento = new Equipamento();
-		listaSalas = new ArrayList<Sala>();
-	}
-	
-	/*
+	/**
 	 * Getters and setters
 	 */
 	public Equipamento getEquipamento() {
@@ -109,15 +142,37 @@ public class EquipamentoMB {
 	
 	public List<Equipamento> getListaEquipamentos() {
 		
-		Client c = new Client();
-		WebResource wr = c.resource(URLUtil.LISTAR_EQUIPAMENTOS);
-	    String jsonResult = wr.get(String.class);
-	    if (!jsonResult.equalsIgnoreCase("null")) {
-			Gson gson = new Gson();
-			
-			Equipamento[] lista = gson.fromJson(jsonResult, Equipamento[].class);
-			this.listaEquipamentos = Arrays.asList(lista);
-	    }
+		// Create Jersey client
+		ClientConfig clientConfig = new DefaultClientConfig();
+		clientConfig.getFeatures().put(JSONConfiguration.FEATURE_POJO_MAPPING, Boolean.TRUE);
+		Client client = Client.create(clientConfig);
+		
+		String jsonResult;
+		try {
+			WebResource webResourcePost = client.resource(URLUtil.LISTAR_EQUIPAMENTOS_POR_DESCRICAO);
+			ClientResponse response = webResourcePost.type("application/json").post(ClientResponse.class,
+					this.getBuscaEquipamento());
+			if (response.getStatus() != 200) {
+				RequestContext.getCurrentInstance().execute("alert('" + Mensagens.m28 + "');");
+			}
+			jsonResult = response.getEntity(String.class);
+		    if (!jsonResult.equalsIgnoreCase("null")) {
+				Gson gson = new Gson();
+				
+				Equipamento[] lista = gson.fromJson(jsonResult, Equipamento[].class);
+				this.listaEquipamentos = Arrays.asList(lista);
+				return listaEquipamentos;
+			}
+		} catch (UniformInterfaceException e1) {
+			RequestContext.getCurrentInstance().execute("alert('" + Mensagens.m28 + "');");
+			e1.printStackTrace();
+		} catch (ClientHandlerException e1) {
+			RequestContext.getCurrentInstance().execute("alert('" + Mensagens.m28 + "');");
+			e1.printStackTrace();
+		} catch (Exception e) {
+			RequestContext.getCurrentInstance().execute("alert('" + Mensagens.m28 + "');");
+			e.printStackTrace();
+		}
 		return listaEquipamentos;
 	}
 	
@@ -139,7 +194,7 @@ public class EquipamentoMB {
 		return listaSalas;
 	}
 	
-	public void setListaSala(List<Sala> listaSalas) {
+	public void setListaSalas(List<Sala> listaSalas) {
 		this.listaSalas = listaSalas;
 	}
 	
@@ -153,5 +208,21 @@ public class EquipamentoMB {
 	
 	public StatusEquipamento[] getStatusEquipamento() {
 		return StatusEquipamento.values();
+	}
+
+	public String getBuscaEquipamento() {
+		return buscaEquipamento;
+	}
+
+	public void setBuscaEquipamento(String buscaEquipamento) {
+		this.buscaEquipamento = buscaEquipamento;
+	}
+
+	public boolean isFlagTabela() {
+		return flagTabela;
+	}
+
+	public void setFlagTabela(boolean flagTabela) {
+		this.flagTabela = flagTabela;
 	}
 }
