@@ -35,6 +35,7 @@ public class Mensagens {
 	public static String m28 = "A busca não retornou resultado";
 	public static String m29 = "A senha de confirmação não confere com a primeira.";
 	public static String m30 = "Login e/ou senha vazios.";
+	public static String m31 = "Conflito de horários";
 	
 	
 	//
