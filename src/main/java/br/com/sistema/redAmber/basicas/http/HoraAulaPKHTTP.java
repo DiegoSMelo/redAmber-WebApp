@@ -1,11 +1,10 @@
 package br.com.sistema.redAmber.basicas.http;
 
-import br.com.sistema.redAmber.basicas.Turma;
 import br.com.sistema.redAmber.basicas.enums.DiasSemana;
 
 public class HoraAulaPKHTTP {
 	
-	private Turma turma;
+	
 	
 	private AulaHTTP aula;
 	
@@ -16,13 +15,6 @@ public class HoraAulaPKHTTP {
 	private String horaFim;
 	
 
-	public Turma getTurma() {
-		return turma;
-	}
-
-	public void setTurma(Turma turma) {
-		this.turma = turma;
-	}
 
 	public AulaHTTP getAula() {
 		return aula;

@@ -1,6 +1,8 @@
 package br.com.sistema.redAmber.beans;
 
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -127,30 +129,111 @@ public class GradeAulaMB {
 	
 
 	public void salvarGradeAula(){
-		
+		//AQUIIIII
 		try {
-			
-			this.removerHoraAulaPorTurmaHTTP(this.getTurma());
-			
-			for (HoraAula ha : this.listaHoraAulas) {
+			int gat = 0;
+			String alerta = "";
+			List<HoraAula> listaParaSalvar = new ArrayList<HoraAula>();
+			for (HoraAulaHTTP haHTTP : this.listaHoraAulaHTTP) {
 				
-				this.salvarHoraAulaHTTP(ha);
 				
+				HoraAulaPK haPk = new HoraAulaPK();
+				Aula a = new Aula();
+				
+				AulaPK aulaPK = new AulaPK();
+				
+				aulaPK.setSala(haHTTP.getId().getAula().getId().getSala());
+				aulaPK.setDisciplina(haHTTP.getId().getAula().getId().getDisciplina());//
+				
+				Professor p = new Professor();
+				p.setDataNascimento(haHTTP.getId().getAula().getId().getProfessor().getDataNascimento());
+				p.setEmail(haHTTP.getId().getAula().getId().getProfessor().getEmail());
+				p.setId(haHTTP.getId().getAula().getId().getProfessor().getId());
+				p.setListDisciplinas(haHTTP.getId().getAula().getId().getProfessor().getListaDisciplinas());
+				p.setNome(haHTTP.getId().getAula().getId().getProfessor().getNome());
+				p.setRg(haHTTP.getId().getAula().getId().getProfessor().getRg());
+				p.setStatus(haHTTP.getId().getAula().getId().getProfessor().getStatus());
+				p.setTelefone(haHTTP.getId().getAula().getId().getProfessor().getTelefone());
+				p.setUsuario(haHTTP.getId().getAula().getId().getProfessor().getUsuario());
+				
+				aulaPK.setProfessor(p);
+				
+				a.setId(aulaPK);
+				
+				//haPk.setTurma(haHTTP.getId().getTurma());
+				haPk.setAula(a);
+				
+				haPk.setDia(haHTTP.getId().getDia());
+				haPk.setHoraInicio(Datas.convertStringTimeToDate(haHTTP.getId().getHoraInicio()));
+				haPk.setHoraFim(Datas.convertStringTimeToDate(haHTTP.getId().getHoraFim()));
+				
+				Client c = new Client();
+				WebResource wr = c.resource(URLUtil.BUSCAR_HORAAULA_POR_HORAAULAPK + URLEncoder.encode(this.gson.toJson(haPk), java.nio.charset.StandardCharsets.UTF_8.toString()));
+
+				String jsonResult = wr.get(String.class);
+				
+				
+				if (!jsonResult.equalsIgnoreCase("null")) {
+					
+					String idTurmaRetorno = this.gson.fromJson(jsonResult, String.class);
+					
+					if (Long.parseLong(idTurmaRetorno) != this.getTurma().getId()) {
+						gat = 1;
+						alerta = "Conflito de horário: " + haPk.getDia().toString() + "(" + haPk.getHoraInicio() + " - "
+								+ haPk.getHoraFim() + ")";
+						break;
+					}
+				}else{
+					
+					HoraAula haParaSalvar = new HoraAula();
+					haParaSalvar.setId(haPk);
+					haParaSalvar.setTurma(this.getTurma());
+					haParaSalvar.setStatus(StatusHoraAula.ATIVA);
+					
+					listaParaSalvar.add(haParaSalvar);
+					
+				}
 			}
 			
-			this.listaHoraAulaHTTP = null;//para atualizar novamente
-			this.atualizaListaHorariosHTTP = true;//para atualizar novamente
-			this.atualizaListaHorariosHTTP = true;
-			this.atualiza = true;
 			
-			this.carregaResumos();
-			
-			RequestContext.getCurrentInstance().execute("alert('" + Mensagens.m20 + "');");
+			if (gat == 0) {
+				
+				if (listaParaSalvar != null && listaParaSalvar.size() > 0) {
+					
+				//	this.removerHoraAulaPorTurmaHTTP(this.getTurma());
+					
+					for (HoraAula ha : listaParaSalvar) {
+
+						this.salvarHoraAulaHTTP(ha);
+
+					} 
+				}
+				
+				/*
+				 * para atualizar novamente
+				 */
+				this.listaHoraAulaHTTP = null;
+				this.atualizaListaHorariosHTTP = true;
+				this.atualiza = true;
+				this.carregaResumos();
+				/* ****** */
+				
+				listaParaSalvar = new ArrayList<HoraAula>();
+				RequestContext.getCurrentInstance().execute("alert('" + Mensagens.m20 + "');");
+			}else{
+				RequestContext.getCurrentInstance().execute("alert('" + alerta + "');");
+				this.carregaResumos();
+			}
 		
 		} catch (UniformInterfaceException e) {
 			RequestContext.getCurrentInstance().execute("alert('" + Mensagens.m3 + "');");
+			this.carregaResumos();
 		} catch (ClientHandlerException e) {
 			RequestContext.getCurrentInstance().execute("alert('" + Mensagens.m3 + "');");
+			this.carregaResumos();
+		} catch (UnsupportedEncodingException e) {
+			RequestContext.getCurrentInstance().execute("alert('" + Mensagens.m3 + "');");
+			this.carregaResumos();
 		}
 		
 	}
@@ -171,6 +254,7 @@ public class GradeAulaMB {
 			
 		} else {
 			System.out.println("Falha ao salvar HoraAula");
+			this.carregaResumos();
 		}
 		
 	}
@@ -185,7 +269,7 @@ public class GradeAulaMB {
 		
 		this.getAula().setId(aulaPK);
 		
-		this.getHoraAula().getId().setTurma(this.getTurma());
+		this.getHoraAula().setTurma(this.getTurma());
 		this.getHoraAula().getId().setAula(this.getAula());
 		
 		
@@ -201,6 +285,7 @@ public class GradeAulaMB {
 		ProfessorHTTP pHTTP = new ProfessorHTTP();
 		
 		hah.setStatus(this.getHoraAula().getStatus());
+		hah.setTurma(this.getHoraAula().getTurma());
 		
 		aulaPKhttp.setDisciplina(this.getHoraAula().getId().getAula().getId().getDisciplina());
 		
@@ -221,7 +306,7 @@ public class GradeAulaMB {
 		aulaHTTP.setId(aulaPKhttp);
 		
 		hahPK.setAula(aulaHTTP);
-		hahPK.setTurma(this.getHoraAula().getId().getTurma());
+		//hahPK.setTurma(this.getHoraAula().getId().getTurma());
 		hahPK.setDia(this.getHoraAula().getId().getDia());
 		
 		
@@ -311,7 +396,11 @@ public class GradeAulaMB {
 	 */
 	public void redirectIndex(){
 		try {
-			this.listaHorarios = null;
+			this.listaHorarios = null; //para atualizar novamente
+			this.listaHoraAulaHTTP = null;//para atualizar novamente
+			this.atualizaListaHorariosHTTP = true;//para atualizar novamente
+			this.atualiza = true;
+			
 			FacesContext.getCurrentInstance().getExternalContext().redirect("/redAmber-WebApp/grade-aula/index.xhtml");	
 			
 		} catch (IOException e) {
@@ -508,7 +597,7 @@ public class GradeAulaMB {
 			
 			a.setId(aulaPK);
 			
-			haPk.setTurma(haHTTP.getId().getTurma());
+			//haPk.setTurma(haHTTP.getId().getTurma());
 			haPk.setAula(a);
 			
 			haPk.setDia(haHTTP.getId().getDia());
@@ -516,6 +605,7 @@ public class GradeAulaMB {
 			haPk.setHoraFim(Datas.convertStringTimeToDate(haHTTP.getId().getHoraFim()));
 			
 			ha.setId(haPk);	
+			ha.setTurma(haHTTP.getTurma());
 			
 			this.listaHoraAulas.add(ha);
 		}
