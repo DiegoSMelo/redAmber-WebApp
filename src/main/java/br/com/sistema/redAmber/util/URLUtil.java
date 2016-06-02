@@ -26,7 +26,7 @@ public abstract class URLUtil {
 		try {
 			prop = new Properties();
 			prop.load(new FileInputStream(
-					"C:/Users/acmorais/workspace/repo/redAmber-WebApp/src/main/resources/url.properties"));
+					"C:/Users/Diego Melo/workspace/redAmber-WebApp/src/main/resources/url.properties"));
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
