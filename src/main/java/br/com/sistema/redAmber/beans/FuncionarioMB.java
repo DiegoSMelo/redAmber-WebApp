@@ -108,9 +108,9 @@ public class FuncionarioMB {
 						equalsIgnoreCase("Funcionário salvo com sucesso")) {
 					this.redirectIndex();
 				} else if (mensagemResposta.trim().equalsIgnoreCase("Data de nascimento futura")) {
-					RequestContext.getCurrentInstance().execute("alert('" + Mensagens.m31 + "');");
+					RequestContext.getCurrentInstance().execute("alert('" + Mensagens.m32 + "');");
 				} else if (mensagemResposta.trim().equalsIgnoreCase("Email duplicado")) {
-					RequestContext.getCurrentInstance().execute("alert('" + Mensagens.m34 + "');");
+					RequestContext.getCurrentInstance().execute("alert('" + Mensagens.m35 + "');");
 				} else if (mensagemResposta.trim().equalsIgnoreCase("Error")) {
 					RequestContext.getCurrentInstance().execute("alert('" + Mensagens.m3 + "');");
 				}

@@ -142,9 +142,9 @@ public class ProfessorMB {
 						this.redirectIndex();
 					}
 				} else if (mensagemResposta.trim().equalsIgnoreCase("Data de nascimento futura")) {
-					RequestContext.getCurrentInstance().execute("alert('" + Mensagens.m31 + "');");
+					RequestContext.getCurrentInstance().execute("alert('" + Mensagens.m32 + "');");
 				} else if (mensagemResposta.trim().equalsIgnoreCase("Email duplicado")) {
-					RequestContext.getCurrentInstance().execute("alert('" + Mensagens.m33 + "');");
+					RequestContext.getCurrentInstance().execute("alert('" + Mensagens.m34 + "');");
 				} else if (mensagemResposta.trim().equalsIgnoreCase("Error")) {
 					RequestContext.getCurrentInstance().execute("alert('" + Mensagens.m3 + "');");
 				}

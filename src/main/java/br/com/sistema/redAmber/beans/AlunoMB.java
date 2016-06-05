@@ -108,9 +108,9 @@ public class AlunoMB {
 						equalsIgnoreCase("Aluno salvo com sucesso")) {
 					this.redirectIndex();
 				} else if (mensagemResposta.trim().equalsIgnoreCase("Data de nascimento futura")) {
-					RequestContext.getCurrentInstance().execute("alert('" + Mensagens.m31 + "');");
-				} else if (mensagemResposta.trim().equalsIgnoreCase("Email duplicado")) {
 					RequestContext.getCurrentInstance().execute("alert('" + Mensagens.m32 + "');");
+				} else if (mensagemResposta.trim().equalsIgnoreCase("Email duplicado")) {
+					RequestContext.getCurrentInstance().execute("alert('" + Mensagens.m33 + "');");
 				} else if (mensagemResposta.trim().equalsIgnoreCase("Error")) {
 					RequestContext.getCurrentInstance().execute("alert('" + Mensagens.m3 + "');");
 				}
