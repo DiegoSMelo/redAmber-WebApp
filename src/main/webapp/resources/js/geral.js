@@ -28,9 +28,13 @@ $(document).ready(function() {
 	
 	
 	
+	$(".btnSalvar").click(function(){
+		exibeImgLoad();
+	});
 	
-	$(".atualizarbtn").hide();
 	
+	//$(".atualizarbtn").hide();
+	//$(".img-load").hide("slow");
 
 });
 
@@ -70,6 +74,15 @@ function fechaModalAula(){
 function exibeResumoGradeAula(strClass, resumo){
 	
 	$("."+strClass).text(resumo);
+}
+
+function escondeImgLoad(){
+	//$(".img-load").hide("slow");
+	$(".img-load").css("display", "none");
+}
+
+function exibeImgLoad(){
+	$(".img-load").show("slow");
 }
 
 

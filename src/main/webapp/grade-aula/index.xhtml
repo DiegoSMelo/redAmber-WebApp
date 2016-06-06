@@ -241,21 +241,34 @@
 
 									<!-- Link de registro de aulas -->
 									<h:commandLink
-										styleClass="btn btn-info btn-xs btn-acoes-grade-aulas"
+										styleClass="btn btn-success btn-xs btn-acoes-grade-aulas"
 										actionListener="#{gradeAulaMB.addAula}">
 
-										<span class="glyphicon glyphicon-option-horizontal"
-											aria-hidden="true"></span>
+										<span class="glyphicon glyphicon-screenshot" aria-hidden="true"></span>
 
 										<f:param name="horarioParam" value="#{horario}" />
-										<f:param name="diaSemanaParam"
-											value="#{gradeAulaMB.colunas[i]}" />
+										<f:param name="diaSemanaParam" value="#{gradeAulaMB.colunas[i]}" />
 
 										<f:setPropertyActionListener value="#{horario}"
 											target="#{gradeAulaMB.horario2}"></f:setPropertyActionListener>
 
 										<f:ajax
-											render=":form:AreaPersonalizacaoHorarioAula :formAddAula :tituloHoraAula" />
+											render=":form:AreaPersonalizacaoHorarioAula :formAddAula :tituloHoraAula :form:imgLoad" />
+
+									</h:commandLink>
+									
+									<!-- Link de remoção de aulas -->
+									<h:commandLink
+										styleClass="btn btn-danger btn-xs btn-acoes-grade-aulas-remove"
+										actionListener="#{gradeAulaMB.removerAulaEspecial}" onclick="exibeImgLoad();">
+
+										<span class="glyphicon glyphicon-remove-circle icon-Remove" aria-hidden="true"></span>
+
+										<f:param name="horarioParamRemove" value="#{horario}" />
+										<f:param name="diaSemanaParamRemove" value="#{gradeAulaMB.colunas[i]}" />
+
+									
+										<f:ajax render=":form:AreaPersonalizacaoHorarioAula :formAddAula :tituloHoraAula :form:imgLoad" />
 
 									</h:commandLink>
 
@@ -286,19 +299,26 @@
 			</h:panelGrid>
 
 
-
+			
 
 			<div class="form-group">
-				<h:commandLink styleClass="btn btn-success" title="Salvar Grade de Horário de Aulas"
+				<h:commandLink styleClass="btn btn-success btnSalvar" title="Salvar Grade de Horário de Aulas"
 					actionListener="#{gradeAulaMB.salvarGradeAula}">
 					<span class="glyphicon glyphicon-floppy-disk" aria-hidden="true" /> Salvar
-					<f:ajax render="AreaPersonalizacaoHorarioAula" />
+					<f:ajax render="AreaPersonalizacaoHorarioAula :form:imgLoad" />
 
 				</h:commandLink>
+				
+				<div class="regiaoImgLoad">
+					<h:graphicImage  id="imgLoad" styleClass="img-load" url="http://www.omt.org.mx/Resources/ProgressIndicator.gif" height="45"></h:graphicImage>
+				</div>
+				
 			</div>
+			
+			
 
 			<div class="form-group">
-				<h:commandLink styleClass="btn btn-primary atualizarbtn"
+				<h:commandLink style="display:none" styleClass="btn btn-primary atualizarbtn"
 					value="Atualizar" actionListener="#{gradeAulaMB.carregaResumos}">
 
 					<f:ajax render="AreaPersonalizacaoHorarioAula"></f:ajax>

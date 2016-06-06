@@ -42,6 +42,7 @@ import br.com.sistema.redAmber.basicas.http.AulaPKHTTP;
 import br.com.sistema.redAmber.basicas.http.HoraAulaHTTP;
 import br.com.sistema.redAmber.basicas.http.HoraAulaPKHTTP;
 import br.com.sistema.redAmber.basicas.http.ProfessorHTTP;
+import br.com.sistema.redAmber.basicas.http.RemocaoHoraAula;
 import br.com.sistema.redAmber.util.Datas;
 import br.com.sistema.redAmber.util.Mensagens;
 import br.com.sistema.redAmber.util.URLUtil;
@@ -79,7 +80,52 @@ public class GradeAulaMB {
 	public Professor professor;
 	public List<Professor> listaProfessoresPorDisciplina;
 	
+	
+	
+	public void removerAulaEspecial() {
+		
+		
+		
+		Map<String, String> params = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap();
+		String diaSemanaParam = params.get("diaSemanaParamRemove");
+		String horarioParam = params.get("horarioParamRemove");
+		
+		RemocaoHoraAula rha = new RemocaoHoraAula();
+		rha.diaSemana = diaSemanaParam;
+		rha.horarios = horarioParam;
+		rha.idTurma = this.getTurma().getId().toString();
+
+		// Create Jersey client
+		ClientConfig clientConfig = new DefaultClientConfig();
+		clientConfig.getFeatures().put(JSONConfiguration.FEATURE_POJO_MAPPING, Boolean.TRUE);
+		Client client = Client.create(clientConfig);
+
+		WebResource webResourcePost = client.resource(URLUtil.REMOVER_HORAAULA_ESPECIAL);
+		ClientResponse response = webResourcePost.type("application/json").post(ClientResponse.class, rha);
+
+		if (response.getStatus() == 200) {
+				
+			System.out.println("HoraAula removido com sucesso");
+
+		} else {
+			System.out.println("Falha ao remover HoraAula");
+		}
+		
+		this.listaHoraAulaHTTP = null;
+		this.atualizaListaHorariosHTTP = true;
+		this.atualiza = true;
+		
+		this.carregaResumos();
+		
+		RequestContext.getCurrentInstance().execute("alert('"+Mensagens.m36+"');");
+		
+		
+		
+	}
+	
 	public void carregaResumos(){
+		
+		
 		
 		if (this.listaHoraAulaHTTP == null) {
 			this.atualizaListaHorariosHTTP = true;
@@ -104,6 +150,8 @@ public class GradeAulaMB {
 			
 		}
 		
+		
+		RequestContext.getCurrentInstance().execute("escondeImgLoad();");
 	}
 	
 	
@@ -129,7 +177,9 @@ public class GradeAulaMB {
 	
 
 	public void salvarGradeAula(){
-		//AQUIIIII
+		
+		
+		
 		try {
 			int gat = 0;
 			String alerta = "";
@@ -179,8 +229,8 @@ public class GradeAulaMB {
 					
 					if (Long.parseLong(idTurmaRetorno) != this.getTurma().getId()) {
 						gat = 1;
-						alerta = "Conflito de horário: " + haPk.getDia().toString() + "(" + haPk.getHoraInicio() + " - "
-								+ haPk.getHoraFim() + ")";
+						alerta = "Conflito de horário: " + haPk.getDia().toString() + "(" + Datas.convertDateToStringTime(haPk.getHoraInicio()) + " - "
+								+ Datas.convertDateToStringTime(haPk.getHoraFim()) + ")";
 						break;
 					}
 				}else{
@@ -235,6 +285,7 @@ public class GradeAulaMB {
 			RequestContext.getCurrentInstance().execute("alert('" + Mensagens.m3 + "');");
 			this.carregaResumos();
 		}
+		
 		
 	}
 	
@@ -731,7 +782,5 @@ public class GradeAulaMB {
 		this.horario2 = horario2;
 	}
 
-	
-	
 	
 }
