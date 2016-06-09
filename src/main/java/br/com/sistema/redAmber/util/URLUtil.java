@@ -18,14 +18,15 @@ public abstract class URLUtil {
 	// CURSO       -> LINHAS: 151 ~ 170 // AVISO DO PROFESSOR                -> LINHAS: 373 ~ 394 //
 	// DISCIPLINA  -> LINHAS: 172 ~ 197 // AVISO AO ALUNO                    -> LINHAS: 396 ~ 413 //
 	// TURMA       -> LINHAS: 199 ~ 216 // MATRÍCULA-INTEGRAÇÃO (EDUCA MAIS) -> LINHAS: 415 ~ 440 //
-	// GRADE       -> LINHAS: 218 ~ 254 // HORÁRIO DAS AULAS                 -> LINHAS: 442 ~ 477 // 
+	// GRADE       -> LINHAS: 218 ~ 254 // HORÁRIO DAS AULAS                 -> LINHAS: 442 ~ 483 // 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 	
-	private static Properties prop; //"C:/Config/properties/url.properties"
+	private static Properties prop; //"C:/Users/acmorais/workspace/repo/redAmber-WebApp/src/main/resources/url.properties"
 	static {
 		try {
 			prop = new Properties();
-			prop.load(new FileInputStream("C:/Users/Diego Melo/workspace/redAmber-WebApp/src/main/resources/url.properties"));
+			prop.load(new FileInputStream(
+					"C:/Config/properties/url.properties"));
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
@@ -450,6 +451,10 @@ public abstract class URLUtil {
 	 * param: Objeto do tipo HoraAulaPK preenchido
 	 */
 	public static final String BUSCAR_HORAAULA_POR_HORAAULAPK = BASE + prop.getProperty("url.buscar.hora-aula.por.horaaulapk");
+	/*
+	 * param: Objeto do tipo HoraAulaPK preenchido
+	 */
+	public static final String BUSCAR_HORAAULA_POR_HORAAULAPK_POST = BASE + prop.getProperty("url.buscar.hora-aula.por.horaaulapkpost");
 	/*
 	 * param HORA_AULA (POST) 
 	 */
