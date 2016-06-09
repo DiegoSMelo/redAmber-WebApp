@@ -102,12 +102,18 @@ public class FuncionarioMB {
 				ClientResponse response = webResourcePost.type("application/json").post(ClientResponse.class,
 						this.getFuncionario());
 
-				if (response.getStatus() == 200) {
+				String mensagemResposta = response.getEntity(String.class);
+				
+				if (response.getStatus() == 200 && mensagemResposta.trim().
+						equalsIgnoreCase("Funcionário salvo com sucesso")) {
 					this.redirectIndex();
-					//FacesContext.getCurrentInstance().getExternalContext().redirect("/redAmber-WebApp/funcionario/index.xhtml");
-				} else {
+				} else if (mensagemResposta.trim().equalsIgnoreCase("Data de nascimento futura")) {
+					RequestContext.getCurrentInstance().execute("alert('" + Mensagens.m32 + "');");
+				} else if (mensagemResposta.trim().equalsIgnoreCase("Email duplicado")) {
+					RequestContext.getCurrentInstance().execute("alert('" + Mensagens.m35 + "');");
+				} else if (mensagemResposta.trim().equalsIgnoreCase("Error")) {
 					RequestContext.getCurrentInstance().execute("alert('" + Mensagens.m3 + "');");
-				}			
+				}
 			} else {
 				RequestContext.getCurrentInstance().execute("alert('" + Mensagens.m6 + "');");
 			}

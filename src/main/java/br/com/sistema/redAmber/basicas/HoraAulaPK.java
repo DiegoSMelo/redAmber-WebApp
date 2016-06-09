@@ -12,7 +12,7 @@ public class HoraAulaPK implements Serializable{
 	 */
 	private static final long serialVersionUID = 1L;
 	
-	private Turma turma;
+
 	
 	private Aula aula;
 	
@@ -23,13 +23,6 @@ public class HoraAulaPK implements Serializable{
 	private Date horaFim;
 	
 
-	public Turma getTurma() {
-		return turma;
-	}
-
-	public void setTurma(Turma turma) {
-		this.turma = turma;
-	}
 
 	public Aula getAula() {
 		return aula;

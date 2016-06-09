@@ -9,6 +9,7 @@ public class HoraAula {
 
 	private HoraAulaPK id;
 	
+	private Turma turma;
 
 	
 	private StatusHoraAula status;
@@ -39,7 +40,16 @@ public class HoraAula {
 	public void setId(HoraAulaPK id) {
 		this.id = id;
 	}
+	
+	
 
+	public Turma getTurma() {
+		return turma;
+	}
+
+	public void setTurma(Turma turma) {
+		this.turma = turma;
+	}
 
 	public StatusHoraAula getStatus() {
 		return status;

@@ -16,21 +16,63 @@
 				<li class="active">Disciplinas Lecionadas por <h:outputText
 						value="#{professorMB.professor.nome}" /></li>
 			</ol>
+
+			<div class="form-horizontal">
 			
+				<div class="form-group">
+					<h:outputLabel value="Pesquisar por:"
+						styleClass="col-sm-2 control-label" />
+				</div>
+				
+				<div class="form-group">
+					<h:outputLabel value="Curso" for="inputCurso"
+						styleClass="col-sm-2 control-label" />
+					<div class="col-sm-5">
+						<h:selectOneMenu id="inputCurso" styleClass="form-control"
+							value="#{professorMB.curso}" converter="cursoConverter">
+							<f:selectItem itemValue="#{null}" itemLabel="Escolha o Curso" />
+							<f:selectItems value="#{disciplinaMB.listaCursos}" var="curso"
+								itemValue="#{curso}" itemLabel="#{curso.nome}" />
+							<f:selectItem itemValue="#{null}" itemLabel="Todos" />
+						</h:selectOneMenu>
+					</div>
+				</div>
+				
+				<div class="form-group">
+					<div class="col-sm-offset-2 col-sm-10">
+						<h:commandLink styleClass="btn btn-info" title="Pesquisar Disciplinas"
+							actionListener="#{professorMB.atualizaListaDisciplinas}">
+							<span class="glyphicon glyphicon-search" aria-hidden="true" /> Pesquisar
+							<f:ajax execute="inputCurso" render="table-disciplinas semResultado" />
+						</h:commandLink>
+					</div>
+					<br />
+				</div>
+			</div>
+
 			<div align="center">
 				<h:outputLabel for="tabelaVazia" class="glyphicon glyphicon-alert bigWarningSign"
-					rendered="#{empty disciplinaMB.listaDisciplinas}" />
+					rendered="#{empty disciplinaMB.listaDisciplinas and professorMB.flagTabela == true}" />
 				<br />
 				<h:outputText id="tabelaVazia" class="emptyTable"
-					rendered="#{empty disciplinaMB.listaDisciplinas}"
+					rendered="#{empty disciplinaMB.listaDisciplinas and professorMB.flagTabela == true}"
 					value="Ainda não há disciplinas cadastradas.">
 				</h:outputText>
 			</div>
 
-			<h:dataTable id="table-disciplinas"
-				styleClass="table table-hover table-bordered"
+			<div align="center">
+				<h:outputLabel for="semResultado" class="glyphicon glyphicon-alert bigWarningSign"
+					rendered="#{professorMB.flagTabela == false}" />
+				<br />
+				<h:outputText id="semResultado" class="emptyTable"
+					rendered="#{professorMB.flagTabela == false}"
+					value="A consulta não trouxe resultados.">
+				</h:outputText>
+			</div>
+
+			<h:dataTable id="table-disciplinas" styleClass="table table-hover table-bordered"
 				value="#{disciplinaMB.listaDisciplinas}" var="disciplina"
-				rendered="#{not empty disciplinaMB.listaDisciplinas}"
+				rendered="#{not empty disciplinaMB.listaDisciplinas and professorMB.flagTabela == true}"
 				emptyMessage="Não há disciplinas cadastradas para este professor">
 
 				<h:column>

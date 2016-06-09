@@ -25,8 +25,7 @@ public abstract class URLUtil {
 	static {
 		try {
 			prop = new Properties();
-			prop.load(new FileInputStream(
-					"C:/Users/acmorais/workspace/repo/redAmber-WebApp/src/main/resources/url.properties"));
+			prop.load(new FileInputStream("C:/Users/Diego Melo/workspace/redAmber-WebApp/src/main/resources/url.properties"));
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
@@ -440,6 +439,8 @@ public abstract class URLUtil {
 	/////////////////////////////////////////////////////////////////////
 
 	///////////////// HORÁRIO DAS AULAS /////////////////
+	
+	public static final String REMOVER_HORAAULA_ESPECIAL = BASE + prop.getProperty("url.remover.hora-aula.remover.especial");
 	
 	/*
 	 * param ID_TURMA (GET)

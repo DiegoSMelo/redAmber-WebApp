@@ -24,6 +24,7 @@ import com.sun.jersey.api.client.config.DefaultClientConfig;
 import com.sun.jersey.api.json.JSONConfiguration;
 
 import br.com.sistema.redAmber.basicas.BuscaProfessor;
+import br.com.sistema.redAmber.basicas.Curso;
 import br.com.sistema.redAmber.basicas.Disciplina;
 import br.com.sistema.redAmber.basicas.Professor;
 import br.com.sistema.redAmber.basicas.Usuario;
@@ -36,7 +37,9 @@ import br.com.sistema.redAmber.util.URLUtil;
 public class ProfessorMB {
 
 	private Professor professor;
+	private Curso curso;
 	private List<Professor> listaProfessores;
+	private List<Disciplina> listaDisciplinas;
 	private boolean isPagAdd;
 	private Disciplina disciplina;
 	private Usuario usuario;
@@ -87,6 +90,27 @@ public class ProfessorMB {
 		}
 	}
 
+	public void atualizaListaDisciplinas(ActionEvent event) {
+		this.getListaDisciplinas();
+		if (this.listaDisciplinas.isEmpty()) {
+			this.setFlagTabela(false);
+			try {
+				FacesContext.getCurrentInstance().getExternalContext()
+						.redirect("/redAmber-WebApp/professor/disciplinas.xhtml");
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		} else {
+			this.setFlagTabela(true);
+			try {
+				FacesContext.getCurrentInstance().getExternalContext()
+						.redirect("/redAmber-WebApp/professor/disciplinas.xhtml");
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+	}
+	
 	public void salvar() {
 		try {
 			Professor professorJaExiste = null;
@@ -110,12 +134,18 @@ public class ProfessorMB {
 				ClientResponse response = webResourcePost.type("application/json").post(ClientResponse.class,
 						this.getProfessor());
 
-				if (response.getStatus() == 200) {
+				String mensagemResposta = response.getEntity(String.class);
+				
+				if (response.getStatus() == 200 && mensagemResposta.trim().
+						equalsIgnoreCase("Professor salvo com sucesso")) {
 					if (!this.flagDisciplina) {
 						this.redirectIndex();
-						//FacesContext.getCurrentInstance().getExternalContext().redirect("/redAmber-WebApp/professor/index.xhtml");
 					}
-				} else {
+				} else if (mensagemResposta.trim().equalsIgnoreCase("Data de nascimento futura")) {
+					RequestContext.getCurrentInstance().execute("alert('" + Mensagens.m32 + "');");
+				} else if (mensagemResposta.trim().equalsIgnoreCase("Email duplicado")) {
+					RequestContext.getCurrentInstance().execute("alert('" + Mensagens.m34 + "');");
+				} else if (mensagemResposta.trim().equalsIgnoreCase("Error")) {
 					RequestContext.getCurrentInstance().execute("alert('" + Mensagens.m3 + "');");
 				}
 			} else {
@@ -270,6 +300,14 @@ public class ProfessorMB {
 		this.professor = professor;
 	}
 
+	public Curso getCurso() {
+		return curso;
+	}
+
+	public void setCurso(Curso curso) {
+		this.curso = curso;
+	}
+	
 	public List<Professor> getListaProfessores() {
 		// Create Jersey client
 		ClientConfig clientConfig = new DefaultClientConfig();
@@ -309,6 +347,30 @@ public class ProfessorMB {
 		this.listaProfessores = listaProfessores;
 	}
 
+	public List<Disciplina> getListaDisciplinas() {
+		String paramIdCurso = "";
+		if (this.getCurso() == null || this.getCurso().getId() == null) {
+			paramIdCurso = "null";
+		} else {
+			paramIdCurso = String.valueOf(this.getCurso().getId());
+		}
+		
+		Client c = new Client();
+		WebResource wr = c.resource(URLUtil.LISTAR_DISCIPLINAS_POR_CURSO + paramIdCurso);
+		String jsonResult = wr.get(String.class);
+		if (!jsonResult.equalsIgnoreCase("null")) {
+			Gson gson = new Gson();
+
+			Disciplina[] lista = gson.fromJson(jsonResult, Disciplina[].class);
+			this.listaDisciplinas = Arrays.asList(lista);
+		}
+		return listaDisciplinas;
+	}
+
+	public void setListaDisciplinas(List<Disciplina> listaDisciplinas) {
+		this.listaDisciplinas = listaDisciplinas;
+	}
+	
 	public boolean isPagAdd() {
 		return isPagAdd;
 	}

@@ -35,7 +35,12 @@ public class Mensagens {
 	public static String m28 = "A busca não retornou resultado";
 	public static String m29 = "A senha de confirmação não confere com a primeira.";
 	public static String m30 = "Login e/ou senha vazios.";
-	
+	public static String m31 = "Conflito de horários";
+	public static String m32 = "A data de nascimento é posterior à data atual.";
+	public static String m33 = "Já existe um aluno com este e-mail.";
+	public static String m34 = "Já existe um professor com este e-mail.";
+	public static String m35 = "Já existe um funcionário com este e-mail.";
+	public static String m36 = "Aula removida com sucesso.";
 	
 	//
 	
